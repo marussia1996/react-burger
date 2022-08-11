@@ -10,7 +10,7 @@ import {data} from '../../utils/data.js'
 function BurgerIngredients(){
     const [current, setCurrent] = React.useState('bun');
    return(
-    <section>
+    <section className='mb-10'> 
         <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
         <div style={{ display: 'flex' }} className="mb-10">
             <Tab value="bun" active={current === 'bun'} onClick={setCurrent}>
@@ -23,7 +23,7 @@ function BurgerIngredients(){
                 Начинки
             </Tab>
         </div>
-        <Scrollbars
+        <Scrollbars style={{height: 912}}
             renderTrackVertical={({style, ...props}) =>
                 <div {...props} style={{...style, cursor: 'pointer', backgroundColor: '#2F2F37', right: '2px', bottom: '2px', top: '2px', borderRadius: '1px', width: '8px'}}/>
             }
@@ -31,10 +31,50 @@ function BurgerIngredients(){
                 <div {...props} style={{...style, width: '8px', borderRadius: '3px', backgroundColor: '#8585AD'}}/>
             }>
             <div style={{ display: 'flex', flexDirection: 'column'}}>
-                <h2 className="text text_type_main-medium mb-6">Булки</h2>
-                <div className='mt-6 ml-4 mr-4 mb-10' style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: 24, alignItems: "center", justifyContent: 'center' }}>
+                <h2 style={{textAlign: 'left'}} className="text text_type_main-medium mb-6">Булки</h2>
+                <div className='mt-6 ml-4 mr-4 mb-10' style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: 24, rowGap: 32, alignItems: "center", justifyContent: 'center' }}>
                     {
                         data.filter((ingredient) => ingredient.type === 'bun').map((ingredient) => (
+                            <div  key={ingredient._id} style={{position: 'relative'}}>
+                                <Counter count={1} size="default" />
+                                <img src={ingredient.image} alt=''/>
+                                <div className='mt-2 mb-2'>
+                                    <p className="text text_type_digits-default mr-2">{ingredient.price}</p>
+                                    <CurrencyIcon type="primary" />
+                                </div>
+                                <h3 className='text text_type_main-default'>
+                                    {ingredient.name}
+                                </h3>
+                            </div>
+                        ))
+                    }
+                </div>  
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column'}}>
+                <h2 style={{textAlign: 'left'}} className="text text_type_main-medium mb-6">Соусы</h2>
+                <div className='mt-6 ml-4 mr-4 mb-10' style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: 24,rowGap: 32, alignItems: "center", justifyContent: 'center' }}>
+                    {
+                        data.filter((ingredient) => ingredient.type === 'sauce').map((ingredient) => (
+                            <div  key={ingredient._id} style={{position: 'relative'}}>
+                                <Counter count={1} size="default" />
+                                <img src={ingredient.image} alt=''/>
+                                <div className='mt-2 mb-2'>
+                                    <p className="text text_type_digits-default mr-2">{ingredient.price}</p>
+                                    <CurrencyIcon type="primary" />
+                                </div>
+                                <h3 className='text text_type_main-default'>
+                                    {ingredient.name}
+                                </h3>
+                            </div>
+                        ))
+                    }
+                </div>  
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column'}}>
+                <h2 style={{textAlign: 'left'}} className="text text_type_main-medium mb-6">Начинки</h2>
+                <div className='mt-6 ml-4 mr-4 mb-10' style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: 24, rowGap: 32, alignItems: "center", justifyContent: 'center' }}>
+                    {
+                        data.filter((ingredient) => ingredient.type === 'main').map((ingredient) => (
                             <div  key={ingredient._id} style={{position: 'relative'}}>
                                 <Counter count={1} size="default" />
                                 <img src={ingredient.image} alt=''/>
