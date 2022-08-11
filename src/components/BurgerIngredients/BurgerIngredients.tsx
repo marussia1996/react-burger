@@ -23,7 +23,8 @@ function BurgerIngredients(){
                 Начинки
             </Tab>
         </div>
-        <Scrollbars style={{height: 912}}
+        <Scrollbars autoHeight
+            autoHeightMin={`calc(100vh - 410px)`}
             renderTrackVertical={({style, ...props}) =>
                 <div {...props} style={{...style, cursor: 'pointer', backgroundColor: '#2F2F37', right: '2px', bottom: '2px', top: '2px', borderRadius: '1px', width: '8px'}}/>
             }
