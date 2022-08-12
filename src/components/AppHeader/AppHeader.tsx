@@ -5,7 +5,7 @@ import { ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 
 function AppHeader(){
     return (
-      <nav style={{ background: '#1c1c21' }} className='m-10'>
+      <nav style={{ background: '#1c1c21' }} className='mb-10'>
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: "center", justifyContent: 'center' }} className='pt-4 pb-4'>
             <div style={{display: 'flex',flexDirection: 'row',alignItems: 'center',gap: '8px'}} className='pl-5 pr-5 pt-4 pb-4 mr-2'>
                 <BurgerIcon type="primary" />

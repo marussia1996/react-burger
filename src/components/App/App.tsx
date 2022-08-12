@@ -5,9 +5,9 @@ import './App.css';
 
 function App() {
   return (
-    <div className="App">
+    <div className='App'>
       <AppHeader/>
-      <main style={{margin: '0 380px', display:'flex', flexDirection:'row', justifyContent:'center', maxWidth:'600px'}}>
+      <main style={{ display:'flex', flexDirection:'row', justifyContent:'center', columnGap: 40}}>
         <BurgerIngredients/>
         <BurgerConstructor/>
       </main>

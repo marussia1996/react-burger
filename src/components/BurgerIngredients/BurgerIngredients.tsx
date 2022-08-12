@@ -23,8 +23,8 @@ function BurgerIngredients(){
                 Начинки
             </Tab>
         </div>
-        <Scrollbars autoHeight
-            autoHeightMin={`calc(100vh - 410px)`}
+        <Scrollbars universal 
+            style={{maxHeight:'100%', minHeight:'300px'}}
             renderTrackVertical={({style, ...props}) =>
                 <div {...props} style={{...style, cursor: 'pointer', backgroundColor: '#2F2F37', right: '2px', bottom: '2px', top: '2px', borderRadius: '1px', width: '8px'}}/>
             }
@@ -33,7 +33,7 @@ function BurgerIngredients(){
             }>
             <div style={{ display: 'flex', flexDirection: 'column'}}>
                 <h2 style={{textAlign: 'left'}} className="text text_type_main-medium mb-6">Булки</h2>
-                <div className='mt-6 ml-4 mr-4 mb-10' style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: 24, rowGap: 32, alignItems: "center", justifyContent: 'center' }}>
+                <div className='mt-6 ml-4 mr-4 mb-10' style={{ display: 'grid', gridTemplateColumns: '272px 272px', columnGap: 24, rowGap: 32, alignItems: "center", justifyContent: 'start' }}>
                     {
                         data.filter((ingredient) => ingredient.type === 'bun').map((ingredient) => (
                             <div  key={ingredient._id} style={{position: 'relative'}}>
@@ -53,7 +53,7 @@ function BurgerIngredients(){
             </div>
             <div style={{ display: 'flex', flexDirection: 'column'}}>
                 <h2 style={{textAlign: 'left'}} className="text text_type_main-medium mb-6">Соусы</h2>
-                <div className='mt-6 ml-4 mr-4 mb-10' style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: 24,rowGap: 32, alignItems: "center", justifyContent: 'center' }}>
+                <div className='mt-6 ml-4 mr-4 mb-10' style={{ display: 'grid', gridTemplateColumns: '272px 272px', columnGap: 24, rowGap: 32, alignItems: "center", justifyContent: 'start' }}>
                     {
                         data.filter((ingredient) => ingredient.type === 'sauce').map((ingredient) => (
                             <div  key={ingredient._id} style={{position: 'relative'}}>
@@ -73,7 +73,7 @@ function BurgerIngredients(){
             </div>
             <div style={{ display: 'flex', flexDirection: 'column'}}>
                 <h2 style={{textAlign: 'left'}} className="text text_type_main-medium mb-6">Начинки</h2>
-                <div className='mt-6 ml-4 mr-4 mb-10' style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: 24, rowGap: 32, alignItems: "center", justifyContent: 'center' }}>
+                <div className='mt-6 ml-4 mr-4 mb-10' style={{ display: 'grid', gridTemplateColumns: '272px 272px', columnGap: 24, rowGap: 32, alignItems: "center", justifyContent: 'start' }}>
                     {
                         data.filter((ingredient) => ingredient.type === 'main').map((ingredient) => (
                             <div  key={ingredient._id} style={{position: 'relative'}}>
