@@ -1,16 +1,15 @@
 import {Button} from '@ya.praktikum/react-developer-burger-ui-components'
 import {ConstructorElement} from '@ya.praktikum/react-developer-burger-ui-components'
 import {data} from '../../utils/data.js'
-import React from 'react'
+
 import { Scrollbars } from 'react-custom-scrollbars'
-import {LockIcon} from '@ya.praktikum/react-developer-burger-ui-components'
+
 import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 
 function BurgerConstructor() {
     return (
-      <section className='mb-10 pt-25'>
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <section style={{ display: 'flex', flexDirection: 'column' }} className='mb-10 pt-25'>
             <div className='mr-4 ml-4 mb-4 pl-8'>
                 <ConstructorElement
                     type="top"
@@ -20,9 +19,11 @@ function BurgerConstructor() {
                     thumbnail={data[0].image}
                 />
             </div>
+            <div style={{ flex: "1 1 auto" }}>
+
             
-            <Scrollbars universal autoHeight
-                
+            <Scrollbars universal
+                style={{minHeight:'100%'}}
                 renderTrackVertical={({style, ...props}) =>
                     <div {...props} style={{...style, cursor: 'pointer', backgroundColor: '#2F2F37', right: '2px', bottom: '2px', top: '2px', borderRadius: '1px', width: '8px'}}/>
                 }
@@ -40,7 +41,7 @@ function BurgerConstructor() {
                                     <DragIcon type="primary" />
                                 </div>
                                 <ConstructorElement
-                                text="Краторная булка N-200i (верх)"
+                                text={ingredient.name}
                                 price={50}
                                 thumbnail={ingredient.image}
                                 />
@@ -48,6 +49,7 @@ function BurgerConstructor() {
                         ))
                     }   
             </Scrollbars>
+            </div>
             <div className='mr-4 ml-4 pl-8'>
                 <ConstructorElement
                     type="bottom"
@@ -73,7 +75,6 @@ function BurgerConstructor() {
                         Оформить заказ
                     </Button>
             </div>
-        </div>
       </section>
     );
   }
