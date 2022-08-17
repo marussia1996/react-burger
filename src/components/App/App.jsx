@@ -1,45 +1,75 @@
 import AppHeader from '../AppHeader/AppHeader';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
-import './App.css';
+import Modal from '../Modal/Modal';
+import IngredientDetails from '../IngredientDetails/IngredientDetails';
+import OrderDetails from '../OrderDetails/OrderDetailes';
+import styles from './App.module.css';
 import React from "react"
 import { apiLink } from '../../utils/constants';
-//import {data} from '../../utils/data.js'
-function App() {
-  const [data, setData] = React.useState({ 
-    ingredientData: [],
-    message: false,
-    loading: true
-  });
-  React.useEffect(() => {
-    const getIngredientData = async () => {
-      setData({...data, loading: true});
-      fetch(`${apiLink}`)
-      .then(async res =>{
-        const dataIng = await res.json();
-        if(!res.ok){
-          const error = (dataIng && dataIng.message) || res.statusText;
-                return Promise.reject(error);
-        }
-        setData({ ingredientData: dataIng, loading: false });
-      })
-      .catch(error => {
-        setData({ ...data, message: true });
-        console.error('There was an error!', error);
-      });
-    }
 
+function App() {
+  //состояние для полученных ингредиентов
+  const [ingreedients, setIngredients] = React.useState([]);
+  //состояния для модальных окон
+  const [showIngredientDetails, setShowIngredientDetails] = React.useState(false);
+  const [showOrderDetails, setShowOrderDetails] = React.useState(false);
+  //состояние для данных ингредиента
+  const [infoIngredient, setInfoIngredient] = React.useState({});
+
+  //запрос к Апи
+  function getIngredientData(){
+    fetch(`${apiLink.url}`)
+    .then((res)=>{
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(new Error(`Произошла ошибка со статус-кодом ${res.status}`));
+    })
+    .then((resData) => {
+      setIngredients(resData.data)})
+    .catch(err => {console.log(err)});     
+  }
+  //при монтировании запрашиваем данные
+  React.useEffect(() => {
     getIngredientData();
   },[]);
 
+  // Закрытие модальных окон
+  const closeModals = () => {
+    setShowIngredientDetails(false);
+    setShowOrderDetails(false);
+  };
+
+  // Клик по ингредиенту
+  const openModalIngredient = (ingredient) => {
+	setInfoIngredient (ingredient)
+    setShowIngredientDetails(true);
+  }
+
+  // Клик по кнопке Оформить заказ
+  const openModalOrder = () => {
+	setShowOrderDetails(true)
+  }
   return (
-    <div className='App'>
+    <div className={styles.app}>
       <AppHeader/>
-      <main style={{ display:'flex', flexDirection:'row', justifyContent:'center', columnGap: 40, minHeight: 'calc(100vh - 132px)'}}>
-        <BurgerIngredients data={data}/>
-        <BurgerConstructor data={data}/>
+      <main className={styles.main}>
+        <BurgerIngredients data={ingreedients} openModalIngredient={openModalIngredient}></BurgerIngredients>
+        <BurgerConstructor data={ingreedients} openModalOrder={openModalOrder}></BurgerConstructor>
       </main>
+		{showOrderDetails && (
+            <Modal handleClose={closeModals} title="Детали заказа">
+                <OrderDetails />
+            </Modal>
+        )}
+		{showIngredientDetails && (
+            <Modal title="Детали ингредиентов" handleClose={closeModals}>
+                <IngredientDetails ingredient={infoIngredient} />
+            </Modal>
+        )}
     </div>
+	
   );
 }
 

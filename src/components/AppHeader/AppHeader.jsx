@@ -3,29 +3,37 @@ import { BurgerIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { ListIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import React from 'react';
-
-const AppHeader = React.memo(() => {
+import styles from './AppHeader.module.css'
+function AppHeader() {
     return (
-      <nav style={{ background: '#1c1c21' }} className='mb-10'>
-        <div style={{ display: 'flex', flexDirection: 'row', alignItems: "center", justifyContent: 'center' }} className='pt-4 pb-4'>
-            <div style={{display: 'flex',flexDirection: 'row',alignItems: 'center',gap: '8px'}} className='pl-5 pr-5 pt-4 pb-4 mr-2'>
-                <BurgerIcon type="primary" />
-                <p style={{cursor:'pointer'}} className="text text_type_main-default">Конструктор </p>
-            </div>
-            <div style={{display: 'flex',flexDirection: 'row',alignItems: 'center',gap: '8px'}} className='pl-5 pr-5 pt-4 pb-4'>
-                <ListIcon type="secondary" />
-                <p style={{cursor:'pointer'}} className="text text_type_main-default text_color_inactive">Лента заказов</p>
-            </div>
-            <div style={{margin: '6px 280px 0 112px'}}>
+    <header className={`${styles.header} pb-4 pt-4`}>
+        <nav className={styles.navbar}>
+            <div className={styles.container}>
+                <ul className={styles.list}>
+                    <li className={`${styles.item} pl-5 pr-5`}>
+                        <a className={`${styles.link} text text_type_main-default`}>
+                            <BurgerIcon type="primary" />
+                            <p className="pl-2">Конструктор </p>
+                        </a>
+                    </li>
+                    <li className={`${styles.item} pl-5 pr-5 ml-2`}>
+                        <a className={`${styles.link} text text_type_main-default text_color_inactive`}>
+                            <ListIcon type="secondary" />
+                            <p className="pl-2 ">Лента заказов</p>
+                        </a>
+                    </li>
+                </ul>
                 <Logo/>
             </div>
-            <div style={{display: 'flex',flexDirection: 'row',alignItems: 'center',gap: '8px'}} className='pl-5 pr-5 pt-4 pb-4'>
-                <ProfileIcon type="secondary" />
-                <p style={{cursor:'pointer'}} className="text text_type_main-default text_color_inactive">Личный кабинет</p>
+            <div className='pl-5 pr-5'>
+                <a className={`${styles.link} text text_type_main-default text_color_inactive`}>
+                    <ProfileIcon type="secondary" />
+                    <p className="pl-2 ">Личный кабинет</p>
+                </a>
             </div>
-        </div>
-      </nav>
+        </nav>
+    </header>
     );
-  });
+  };
   
   export default AppHeader;

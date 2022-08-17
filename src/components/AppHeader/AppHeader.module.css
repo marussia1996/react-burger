@@ -1,1 +1,36 @@
-
+.header {
+  width: 100%;
+  background: #1c1c21;
+}
+.navbar {
+  margin: 0 auto;
+  width: calc(100% - 640px);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.container {
+  width: 785px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.list {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 383px;
+}
+.item {
+  list-style-type: none;
+}
+.link {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+}
