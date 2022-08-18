@@ -9,92 +9,92 @@ import styles from './BurgerIngredients.module.css'
 
 export const BurgerIngredients = ({data, openModalIngredient}) => {
     const [current, setCurrent] = useState('bun');
-   return(
-    <section className={`${styles.section}`}> 
-        <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
-        <div style = {{display: 'flex'}} className='mb-10'>
-            <Tab value="bun" active={current === 'bun'} onClick={setCurrent}>
-                Булки
-            </Tab>
-            <Tab value="sauce" active={current === 'sauce'} onClick={setCurrent}>
-                Соусы
-            </Tab>
-            <Tab value="main" active={current === 'main'} onClick={setCurrent}>
-                Начинки
-            </Tab>
-        </div>
-        <div className={`${styles.containerScroll}`}>
-            <Scrollbars universal 
-                renderTrackVertical={({style, ...props}) =>
-                    <div {...props} style={{...style, cursor: 'pointer', backgroundColor: '#2F2F37', right: '2px', bottom: '2px', top: '2px', borderRadius: '1px', width: '8px'}}/>
-                }
-                renderThumbVertical={({style, ...props}) =>
-                    <div {...props} style={{...style, width: '8px', borderRadius: '3px', backgroundColor: '#8585AD'}}/>
-                }> 
-                <div className={`${styles.containerTopping}`}>
-                    <h2 className={`${styles.title} text text_type_main-medium mb-6`}>Булки</h2>
-                    <div className={`${styles.ingredients} mt-6 ml-4 mr-4 mb-10`}>
-                        {
-                            data.filter((ingredient) => ingredient.type === 'bun').map((ingredient) => (
-                                <div  key={ingredient._id} className={`${styles.ingredient}`} onClick={()=>{openModalIngredient(ingredient)}}>
-                                    <Counter count={1} size="default" />
-                                    <img src={ingredient.image} alt=''/>
-                                    <div className='mt-2 mb-2'>
-                                        <p className="text text_type_digits-default mr-2">{ingredient.price}</p>
-                                        <CurrencyIcon type="primary" />
+    return(
+        <section className={`${styles.section}`}> 
+            <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
+            <div style = {{display: 'flex'}} className='mb-10'>
+                <Tab value="bun" active={current === 'bun'} onClick={setCurrent}>
+                    Булки
+                </Tab>
+                <Tab value="sauce" active={current === 'sauce'} onClick={setCurrent}>
+                    Соусы
+                </Tab>
+                <Tab value="main" active={current === 'main'} onClick={setCurrent}>
+                    Начинки
+                </Tab>
+            </div>
+            <div className={`${styles.containerScroll}`}>
+                <Scrollbars universal 
+                    renderTrackVertical={({style, ...props}) =>
+                        <div {...props} style={{...style, cursor: 'pointer', backgroundColor: '#2F2F37', right: '2px', bottom: '2px', top: '2px', borderRadius: '1px', width: '8px'}}/>
+                    }
+                    renderThumbVertical={({style, ...props}) =>
+                        <div {...props} style={{...style, width: '8px', borderRadius: '3px', backgroundColor: '#8585AD'}}/>
+                    }> 
+                    <div className={`${styles.containerTopping}`}>
+                        <h2 className={`${styles.title} text text_type_main-medium mb-6`}>Булки</h2>
+                        <div className={`${styles.ingredients} mt-6 ml-4 mr-4 mb-10`}>
+                            {
+                                data.filter((ingredient) => ingredient.type === 'bun').map((ingredient) => (
+                                    <div  key={ingredient._id} className={`${styles.ingredient}`} onClick={()=>{openModalIngredient(ingredient)}}>
+                                        <Counter count={1} size="default" />
+                                        <img src={ingredient.image} alt=''/>
+                                        <div className='mt-2 mb-2'>
+                                            <p className="text text_type_digits-default mr-2">{ingredient.price}</p>
+                                            <CurrencyIcon type="primary" />
+                                        </div>
+                                        <h3 className='text text_type_main-default'>
+                                            {ingredient.name}
+                                        </h3>
                                     </div>
-                                    <h3 className='text text_type_main-default'>
-                                        {ingredient.name}
-                                    </h3>
-                                </div>
-                            ))
-                        }
-                    </div>  
-                </div>
-                <div className={`${styles.containerTopping}`}>
-                    <h2 className={`${styles.title} text text_type_main-medium mb-6`}>Соусы</h2>
-                    <div className={`${styles.ingredients} mt-6 ml-4 mr-4 mb-10`}>
-                        {
-                            data.filter((ingredient) => ingredient.type === 'sauce').map((ingredient) => (
-                                <div  key={ingredient._id} className={`${styles.ingredient}`} onClick={()=>{openModalIngredient()}}>
-                                    <Counter count={1} size="default" />
-                                    <img src={ingredient.image} alt=''/>
-                                    <div className='mt-2 mb-2'>
-                                        <p className="text text_type_digits-default mr-2">{ingredient.price}</p>
-                                        <CurrencyIcon type="primary" />
+                                ))
+                            }
+                        </div>  
+                    </div>
+                    <div className={`${styles.containerTopping}`}>
+                        <h2 className={`${styles.title} text text_type_main-medium mb-6`}>Соусы</h2>
+                        <div className={`${styles.ingredients} mt-6 ml-4 mr-4 mb-10`}>
+                            {
+                                data.filter((ingredient) => ingredient.type === 'sauce').map((ingredient) => (
+                                    <div  key={ingredient._id} className={`${styles.ingredient}`} onClick={()=>{openModalIngredient()}}>
+                                        <Counter count={1} size="default" />
+                                        <img src={ingredient.image} alt=''/>
+                                        <div className='mt-2 mb-2'>
+                                            <p className="text text_type_digits-default mr-2">{ingredient.price}</p>
+                                            <CurrencyIcon type="primary" />
+                                        </div>
+                                        <h3 className='text text_type_main-default'>
+                                            {ingredient.name}
+                                        </h3>
                                     </div>
-                                    <h3 className='text text_type_main-default'>
-                                        {ingredient.name}
-                                    </h3>
-                                </div>
-                            ))
-                        }
-                    </div>  
-                </div>
-                <div className={`${styles.containerTopping}`}>
-                    <h2 className={`${styles.title} text text_type_main-medium mb-6`}>Начинки</h2>
-                    <div className={`${styles.ingredients} mt-6 ml-4 mr-4 mb-10`}>
-                        {
-                            data.filter((ingredient) => ingredient.type === 'main').map((ingredient) => (
-                                <div  key={ingredient._id} className={`${styles.ingredient}`} onClick={()=>{openModalIngredient()}}>
-                                    <Counter count={1} size="default" />
-                                    <img src={ingredient.image} alt=''/>
-                                    <div className='mt-2 mb-2'>
-                                        <p className="text text_type_digits-default mr-2">{ingredient.price}</p>
-                                        <CurrencyIcon type="primary" />
+                                ))
+                            }
+                        </div>  
+                    </div>
+                    <div className={`${styles.containerTopping}`}>
+                        <h2 className={`${styles.title} text text_type_main-medium mb-6`}>Начинки</h2>
+                        <div className={`${styles.ingredients} mt-6 ml-4 mr-4 mb-10`}>
+                            {
+                                data.filter((ingredient) => ingredient.type === 'main').map((ingredient) => (
+                                    <div  key={ingredient._id} className={`${styles.ingredient}`} onClick={()=>{openModalIngredient()}}>
+                                        <Counter count={1} size="default" />
+                                        <img src={ingredient.image} alt=''/>
+                                        <div className='mt-2 mb-2'>
+                                            <p className="text text_type_digits-default mr-2">{ingredient.price}</p>
+                                            <CurrencyIcon type="primary" />
+                                        </div>
+                                        <h3 className='text text_type_main-default'>
+                                            {ingredient.name}
+                                        </h3>
                                     </div>
-                                    <h3 className='text text_type_main-default'>
-                                        {ingredient.name}
-                                    </h3>
-                                </div>
-                            ))
-                        }
-                    </div>  
-                </div>
-            </Scrollbars> 
-        </div>
-    </section>
-   );
+                                ))
+                            }
+                        </div>  
+                    </div>
+                </Scrollbars> 
+            </div>
+        </section>
+    );
 }
 BurgerIngredients.propTypes = {
     data: PropTypes.arrayOf(dataType.isRequired).isRequired,
