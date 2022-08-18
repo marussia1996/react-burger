@@ -4,3 +4,4 @@ export const apiLink = {
     "Content-Type": "aplication.json",
   },
 };
+export const modalRoot = document.querySelector("#react-modals");

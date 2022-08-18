@@ -1,24 +1,25 @@
 import AppHeader from '../AppHeader/AppHeader';
-import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
-import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
-import Modal from '../Modal/Modal';
-import IngredientDetails from '../IngredientDetails/IngredientDetails';
-import OrderDetails from '../OrderDetails/OrderDetailes';
+import {BurgerConstructor} from '../BurgerConstructor/BurgerConstructor';
+import {BurgerIngredients} from '../BurgerIngredients/BurgerIngredients';
+import {Modal} from '../Modal/Modal';
+import {IngredientDetails} from '../IngredientDetails/IngredientDetails';
+import {OrderDetails} from '../OrderDetails/OrderDetailes';
 import styles from './App.module.css';
-import React from "react"
+import React, {useState, useEffect} from "react"
 import { apiLink } from '../../utils/constants';
 
-function App() {
+export const App = () => {
   //состояние для полученных ингредиентов
-  const [ingreedients, setIngredients] = React.useState([]);
+  const [ingreedients, setIngredients] = useState([]);
+  const [ingredientsError, setIngredientsError] = useState('');
   //состояния для модальных окон
-  const [showIngredientDetails, setShowIngredientDetails] = React.useState(false);
-  const [showOrderDetails, setShowOrderDetails] = React.useState(false);
+  const [showIngredientDetails, setShowIngredientDetails] = useState(false);
+  const [showOrderDetails, setShowOrderDetails] = useState(false);
   //состояние для данных ингредиента
-  const [infoIngredient, setInfoIngredient] = React.useState({});
-
+  const [infoIngredient, setInfoIngredient] = useState({});
+  
   //запрос к Апи
-  function getIngredientData(){
+  const getIngredientData = () => {
     fetch(`${apiLink.url}`)
     .then((res)=>{
         if (res.ok) {
@@ -28,26 +29,28 @@ function App() {
     })
     .then((resData) => {
       setIngredients(resData.data)})
-    .catch(err => {console.log(err)});     
+    .catch(err => {
+      setIngredientsError(err)
+    });     
   }
   //при монтировании запрашиваем данные
-  React.useEffect(() => {
+  useEffect(() => {
     getIngredientData();
   },[]);
 
-  // Закрытие модальных окон
+  //закрытие модальных окон
   const closeModals = () => {
     setShowIngredientDetails(false);
     setShowOrderDetails(false);
   };
 
-  // Клик по ингредиенту
+  //открытие модального окна ингредиента
   const openModalIngredient = (ingredient) => {
 	setInfoIngredient (ingredient)
     setShowIngredientDetails(true);
   }
 
-  // Клик по кнопке Оформить заказ
+  //открытие модального окна заказа
   const openModalOrder = () => {
 	setShowOrderDetails(true)
   }
@@ -56,15 +59,20 @@ function App() {
       <AppHeader/>
       <main className={styles.main}>
         <BurgerIngredients data={ingreedients} openModalIngredient={openModalIngredient}></BurgerIngredients>
-        <BurgerConstructor data={ingreedients} openModalOrder={openModalOrder}></BurgerConstructor>
+        { (ingreedients.length && !ingredientsError) &&
+          <BurgerConstructor data={ingreedients} openModalOrder={openModalOrder}></BurgerConstructor>
+        }
+        {ingredientsError &&
+          <p>Ошибка получения данных с сервера</p>
+        }
       </main>
 		{showOrderDetails && (
-            <Modal handleClose={closeModals} title="Детали заказа">
+            <Modal handleClose={closeModals} title="">
                 <OrderDetails />
             </Modal>
         )}
 		{showIngredientDetails && (
-            <Modal title="Детали ингредиентов" handleClose={closeModals}>
+            <Modal title="Детали ингредиента" handleClose={closeModals}>
                 <IngredientDetails ingredient={infoIngredient} />
             </Modal>
         )}
@@ -73,4 +81,3 @@ function App() {
   );
 }
 
-export default App;

@@ -1,7 +1,26 @@
-.track-vertical {
-  background: #8585ad;
-  border: 3px solid #8585ad;
-  height: 100%;
-  top: 0;
-  right: 0;
+.section {
+  display: flex;
+  flex-direction: column;
+}
+.containerScroll {
+  flex: 1 1 auto;
+}
+.containerTopping {
+  display: flex;
+  flex-direction: column;
+}
+.title {
+  text-align: left;
+}
+.ingredients {
+  display: grid;
+  grid-template-columns: 272px 272px;
+  column-gap: 24px;
+  row-gap: 32px;
+  align-items: center;
+  justify-content: start;
+}
+.ingredient {
+  position: relative;
+  cursor: pointer;
 }

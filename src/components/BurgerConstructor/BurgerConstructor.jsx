@@ -5,21 +5,21 @@ import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import PropTypes from "prop-types";
 import dataType from '../../utils/types.js'
+import styles from './BurgerConstructor.module.css'
 
-function BurgerConstructor({data, openModalOrder}){
-   
+export const BurgerConstructor = ({data, openModalOrder}) => {
     return (
-      <section style={{ display: 'flex', flexDirection: 'column' }} className='pt-25'>
+      <section className={`${styles.section} pt-25`}>
         <div className='mr-4 ml-4 mb-4 pl-8'>
             <ConstructorElement
                 type="top"
                 isLocked={true}
-                text="Краторная булка N-200i (верх)"
-                price={200}
-                 thumbnail={'https://code.s3.yandex.net/react/code/bun-02-mobile.png'}
+                text={`${data[0].name} (верх)`}
+                price={data[0].price}
+                thumbnail={data[0].image}
             />
         </div>    
-        <div style={{ flex: "1 1 auto" }}>
+        <div className={`${styles.containerScroll}`}>
             <Scrollbars universal
                 renderTrackVertical={({style, ...props}) =>
                     <div {...props} style={{...style, cursor: 'pointer', backgroundColor: '#2F2F37', right: '2px', bottom: '2px', top: '2px', borderRadius: '1px', width: '8px'}}/>
@@ -30,8 +30,8 @@ function BurgerConstructor({data, openModalOrder}){
             
                     {
                         data.filter((ingredient) => ingredient.type !== 'bun').map((ingredient) => (
-                            <div  className=' pl-4 pr-4 pb-4' key={ingredient._id} style={{ display: 'flex', flexDirection: 'row', columnGap:'9.5px' }}>
-                                <div style={{alignSelf:'center'}}>
+                            <div  className={`${styles.ingredient} pl-4 pr-4 pb-4`} key={ingredient._id}>
+                                <div className={`${styles.icon}`}>
                                     <DragIcon type="primary" />
                                 </div>
                                 <ConstructorElement
@@ -48,14 +48,14 @@ function BurgerConstructor({data, openModalOrder}){
             <ConstructorElement
                 type="bottom"
                 isLocked={true}
-                text="Краторная булка N-200i (низ)"
-                price={200}
-                thumbnail={'https://code.s3.yandex.net/react/code/bun-02-mobile.png'}
+                text={`${data[0].name} (низ)`}
+                price={data[0].price}
+                thumbnail={data[0].image}
                 />
         </div>
-        <div style={{display:'flex', flexDirection:"row", justifyContent:'end', marginBottom: 52}} className='mt-10 mr-4'>
-            <div className={'mr-10'} style={{display:'flex', flexDirection:"row", justifyContent:'center', alignItems:'center', columnGap:"9.5px"}}>
-                <p className={'text text_type_digits-medium'}>
+        <div className={`${styles.wrapperPrice} mt-10 mr-4`}>
+            <div className={`${styles.containePrice} mr-10`}>
+                <p className='text text_type_digits-medium'>
                     {
                         data.reduce((acc, topping) => {
                             const totalPrice = acc + (topping.type !== "bun" ? topping.price : 0);
@@ -65,15 +65,15 @@ function BurgerConstructor({data, openModalOrder}){
                 </p>
                 <CurrencyIcon type="primary" />
             </div>
-            <Button type="primary" size="large" onClick={()=>{openModalOrder()}}>
+            <Button type="primary" size="large" onClick={openModalOrder}>
                 Оформить заказ
             </Button>
         </div>
       </section>
     );
   };
-  BurgerConstructor.propTypes = {
+BurgerConstructor.propTypes = {
     data: PropTypes.arrayOf(dataType.isRequired).isRequired,
+    openModalOrder: PropTypes.func.isRequired,
 };
-  export default BurgerConstructor;
 
