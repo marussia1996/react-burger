@@ -1,11 +1,11 @@
-import AppHeader from '../AppHeader/AppHeader';
+import {AppHeader} from '../AppHeader/AppHeader';
 import {BurgerConstructor} from '../BurgerConstructor/BurgerConstructor';
 import {BurgerIngredients} from '../BurgerIngredients/BurgerIngredients';
 import {Modal} from '../Modal/Modal';
 import {IngredientDetails} from '../IngredientDetails/IngredientDetails';
 import {OrderDetails} from '../OrderDetails/OrderDetailes';
 import styles from './App.module.css';
-import React, {useState, useEffect} from "react"
+import {useState, useEffect} from "react"
 import { apiLink } from '../../utils/constants';
 
 export const App = () => {
