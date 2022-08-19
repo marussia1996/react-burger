@@ -29,9 +29,8 @@ export const App = () => {
     	})
     	.then((resData) => {
       		setIngredients(resData.data)})
-    		.catch(err => {
-      		setIngredientsError(err)
-    	});     
+    	.catch(err => {
+      		setIngredientsError(err)});     
   	}	
   	//при монтировании запрашиваем данные
   	useEffect(() => {
