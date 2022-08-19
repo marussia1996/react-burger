@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  margin: 0 100px;
+  min-width: 520px;
+}
+.list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+.item {
+  list-style-type: none;
+  text-align: center;
+}
+.number {
+  max-height: 120px;
+}
+.paragrath {
+  margin: 0;
+}

@@ -1,0 +1,26 @@
+.section {
+  display: flex;
+  flex-direction: column;
+}
+.containerScroll {
+  flex: 1 1 auto;
+}
+.containerTopping {
+  display: flex;
+  flex-direction: column;
+}
+.title {
+  text-align: left;
+}
+.ingredients {
+  display: grid;
+  grid-template-columns: 272px 272px;
+  column-gap: 24px;
+  row-gap: 32px;
+  align-items: center;
+  justify-content: start;
+}
+.ingredient {
+  position: relative;
+  cursor: pointer;
+}

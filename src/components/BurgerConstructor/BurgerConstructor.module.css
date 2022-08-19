@@ -1,0 +1,28 @@
+.section {
+  display: flex;
+  flex-direction: column;
+}
+.containerScroll {
+  flex: 1 1 auto;
+}
+.ingredient {
+  display: flex;
+  flex-direction: row;
+  column-gap: 9.5px;
+}
+.icon {
+  align-self: center;
+}
+.wrapperPrice {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-bottom: 52px;
+}
+.containePrice {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  column-gap: 9.5px;
+}
