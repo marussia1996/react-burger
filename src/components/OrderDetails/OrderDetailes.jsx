@@ -15,7 +15,7 @@ export const OrderDetails = () => {
                     </p>
                 </li>
                 <li className={`${styles.item} pb-15 pt-15`}>
-                    <img src={`${image}`}/>
+                    <img src={`${image}`} alt='готово'/>
                 </li>
                 <li className={`${styles.item} pb-2`}>
                     <p className={`${styles.paragrath} text text_type_main-default`}>
