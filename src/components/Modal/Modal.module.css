@@ -13,7 +13,8 @@
   border-radius: 40px;
 }
 .content {
-  width: calc(100% - 80px);
+  min-width: calc(100% - 80px);
+  min-height: 64px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
