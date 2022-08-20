@@ -25,12 +25,8 @@ export const BurgerIngredients = ({data, openModalIngredient}) => {
             </div>
             <div className={`${styles.containerScroll}`}>
                 <Scrollbars universal 
-                    renderTrackVertical={({style, ...props}) =>
-                        <div {...props} style={{...style, cursor: 'pointer', backgroundColor: '#2F2F37', right: '2px', bottom: '2px', top: '2px', borderRadius: '1px', width: '8px'}}/>
-                    }
-                    renderThumbVertical={({style, ...props}) =>
-                        <div {...props} style={{...style, width: '8px', borderRadius: '3px', backgroundColor: '#8585AD'}}/>
-                    }> 
+                     renderTrackVertical={props => <div {...props} className={styles.scrollTrack}/>}
+                     renderThumbVertical={props => <div {...props} className={styles.scrollThumb}/>}> 
                     <div className={`${styles.containerTopping}`}>
                         <h2 className={`${styles.title} text text_type_main-medium mb-6`}>Булки</h2>
                         <div className={`${styles.ingredients} mt-6 ml-4 mr-4 mb-10`}>
@@ -38,7 +34,7 @@ export const BurgerIngredients = ({data, openModalIngredient}) => {
                                 data.filter((ingredient) => ingredient.type === 'bun').map((ingredient) => (
                                     <div  key={ingredient._id} className={`${styles.ingredient}`} onClick={()=>{openModalIngredient(ingredient)}}>
                                         <Counter count={1} size="default" />
-                                        <img src={ingredient.image} alt=''/>
+                                        <img src={ingredient.image} alt={ingredient.name}/>
                                         <div className='mt-2 mb-2'>
                                             <p className="text text_type_digits-default mr-2">{ingredient.price}</p>
                                             <CurrencyIcon type="primary" />
@@ -56,9 +52,9 @@ export const BurgerIngredients = ({data, openModalIngredient}) => {
                         <div className={`${styles.ingredients} mt-6 ml-4 mr-4 mb-10`}>
                             {
                                 data.filter((ingredient) => ingredient.type === 'sauce').map((ingredient) => (
-                                    <div  key={ingredient._id} className={`${styles.ingredient}`} onClick={()=>{openModalIngredient()}}>
+                                    <div  key={ingredient._id} className={`${styles.ingredient}`} onClick={()=>{openModalIngredient(ingredient)}}>
                                         <Counter count={1} size="default" />
-                                        <img src={ingredient.image} alt=''/>
+                                        <img src={ingredient.image} alt={ingredient.name}/>
                                         <div className='mt-2 mb-2'>
                                             <p className="text text_type_digits-default mr-2">{ingredient.price}</p>
                                             <CurrencyIcon type="primary" />
@@ -76,9 +72,9 @@ export const BurgerIngredients = ({data, openModalIngredient}) => {
                         <div className={`${styles.ingredients} mt-6 ml-4 mr-4 mb-10`}>
                             {
                                 data.filter((ingredient) => ingredient.type === 'main').map((ingredient) => (
-                                    <div  key={ingredient._id} className={`${styles.ingredient}`} onClick={()=>{openModalIngredient()}}>
+                                    <div  key={ingredient._id} className={`${styles.ingredient}`} onClick={()=>{openModalIngredient(ingredient)}}>
                                         <Counter count={1} size="default" />
-                                        <img src={ingredient.image} alt=''/>
+                                        <img src={ingredient.image} alt={ingredient.name}/>
                                         <div className='mt-2 mb-2'>
                                             <p className="text text_type_digits-default mr-2">{ingredient.price}</p>
                                             <CurrencyIcon type="primary" />

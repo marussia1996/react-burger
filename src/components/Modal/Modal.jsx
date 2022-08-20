@@ -7,12 +7,12 @@ import {modalRoot} from '../../utils/constants';
 import PropTypes from 'prop-types';
 
 export const Modal = ({handleClose, title, children }) =>{
-    const handleEsc = (e) => {
-        if(e.key === "Escape"){
-            handleClose();
-        }
-    };
     useEffect(() => {
+        const handleEsc = (e) => {
+            if(e.key === "Escape"){
+                handleClose();
+            }
+        };
         document.addEventListener('keydown', handleEsc);
         return () => {
             document.removeEventListener('keydown', handleEsc);
