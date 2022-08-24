@@ -1,0 +1,35 @@
+.containerModal {
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  background-color: #1c1c21;
+  border-radius: 40px;
+}
+.content {
+  min-width: calc(100% - 80px);
+  min-height: 64px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.closeButton {
+  padding: 0;
+  background-color: transparent;
+  width: 24px;
+  height: 24px;
+  border: none;
+  cursor: pointer;
+  opacity: 1;
+}
+
+.closeButton:hover {
+  opacity: 0.6;
+}
