@@ -7,11 +7,14 @@ import {OrderDetails} from '../OrderDetails/OrderDetailes';
 import styles from './App.module.css';
 import {useState, useEffect} from "react"
 import { apiLink } from '../../utils/constants';
+import { DataContext } from '../../services/dataContext';
+import { BunContext } from '../../services/bunContext'
 
 export const App = () => {
 	//состояние для полученных ингредиентов
   	const [ingreedients, setIngredients] = useState([]);
   	const [ingredientsError, setIngredientsError] = useState('');
+	const [bun, setBun] = useState({});
   	//состояния для модальных окон
   	const [showIngredientDetails, setShowIngredientDetails] = useState(false);
   	const [showOrderDetails, setShowOrderDetails] = useState(false);
@@ -53,22 +56,32 @@ export const App = () => {
   	const openModalOrder = () => {
 	  	setShowOrderDetails(true)
   	}
+	console.log(bun);
   	return (
 		<div className={styles.app}>
 		<AppHeader/>
 		<main className={styles.main}>
-			{ (ingreedients.length && !ingredientsError) &&
-				<BurgerIngredients data={ingreedients} openModalIngredient={openModalIngredient}></BurgerIngredients>
-			}
-			{ingredientsError &&
-				<p>Ошибка получения данных с сервера</p>
-			}
-			{ (ingreedients.length && !ingredientsError) &&
-				<BurgerConstructor data={ingreedients} openModalOrder={openModalOrder}></BurgerConstructor>
-			}
-			{ingredientsError &&
-				<p>Ошибка получения данных с сервера</p>
-			}
+		{ (ingreedients.length && !ingredientsError) &&
+			<DataContext.Provider value={{ingreedients}}>
+				<BunContext.Provider value={{bun, setBun}}>
+				{/* { (ingreedients.length && !ingredientsError) && */}
+					<BurgerIngredients data={ingreedients} openModalIngredient={openModalIngredient}></BurgerIngredients>
+				{/* } */}
+				{/* {ingredientsError &&
+					<p>Ошибка получения данных с сервера</p>
+				} */}
+				{/* { (ingreedients.length && !ingredientsError) && */}
+					<BurgerConstructor openModalOrder={openModalOrder}></BurgerConstructor>
+				{/* } */}
+				{/* {ingredientsError &&
+					<p>Ошибка получения данных с сервера</p>
+				} */}
+				</BunContext.Provider>
+			</DataContext.Provider>
+		}
+		{ingredientsError &&
+					<p>Ошибка получения данных с сервера</p>
+				}
 		</main>
 			{showOrderDetails && (
 				<Modal handleClose={closeModals} title="">
