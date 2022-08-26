@@ -5,16 +5,29 @@ import {Modal} from '../Modal/Modal';
 import {IngredientDetails} from '../IngredientDetails/IngredientDetails';
 import {OrderDetails} from '../OrderDetails/OrderDetailes';
 import styles from './App.module.css';
-import {useState, useEffect} from "react"
+import {useState, useEffect, useReducer} from "react"
 import { apiLink } from '../../utils/constants';
 import { DataContext } from '../../services/dataContext';
 import { BunContext } from '../../services/bunContext'
+import { PriceContext } from '../../services/priceContext';
 
+const priceInitialState = { price: null };
+function reducer(state, action){
+  switch(action.type){
+    case 'counting':
+      	return {price: action.payload};
+	case 'reset':
+		return priceInitialState;
+    default:
+      throw new Error(`Wrong type of action: ${action.type}`);
+  }
+}
 export const App = () => {
 	//состояние для полученных ингредиентов
   	const [ingreedients, setIngredients] = useState([]);
   	const [ingredientsError, setIngredientsError] = useState('');
 	const [bun, setBun] = useState({});
+	const [priceState, priceDispatcher] = useReducer(reducer, priceInitialState, undefined);
   	//состояния для модальных окон
   	const [showIngredientDetails, setShowIngredientDetails] = useState(false);
   	const [showOrderDetails, setShowOrderDetails] = useState(false);
@@ -56,7 +69,6 @@ export const App = () => {
   	const openModalOrder = () => {
 	  	setShowOrderDetails(true)
   	}
-	console.log(bun);
   	return (
 		<div className={styles.app}>
 		<AppHeader/>
@@ -64,6 +76,7 @@ export const App = () => {
 		{ (ingreedients.length && !ingredientsError) &&
 			<DataContext.Provider value={{ingreedients}}>
 				<BunContext.Provider value={{bun, setBun}}>
+					<PriceContext.Provider value={{priceState, priceDispatcher}}>
 				{/* { (ingreedients.length && !ingredientsError) && */}
 					<BurgerIngredients data={ingreedients} openModalIngredient={openModalIngredient}></BurgerIngredients>
 				{/* } */}
@@ -76,6 +89,7 @@ export const App = () => {
 				{/* {ingredientsError &&
 					<p>Ошибка получения данных с сервера</p>
 				} */}
+					</PriceContext.Provider>
 				</BunContext.Provider>
 			</DataContext.Provider>
 		}

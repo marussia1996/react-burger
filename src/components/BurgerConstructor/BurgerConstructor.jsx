@@ -4,20 +4,33 @@ import { Scrollbars } from 'react-custom-scrollbars'
 import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import PropTypes from "prop-types";
-import dataType from '../../utils/types.js'
 import styles from './BurgerConstructor.module.css'
-import { useContext, useState, useEffect } from 'react'
+import { useContext, useEffect, useCallback } from 'react'
 import { DataContext } from '../../services/dataContext.js'
 import { BunContext } from '../../services/bunContext.js'
+import { PriceContext } from '../../services/priceContext.js'
 
 export const BurgerConstructor = ({openModalOrder}) => {
     const {ingreedients} = useContext(DataContext);
     const {bun, setBun} = useContext(BunContext);
+    const {priceState, priceDispatcher} = useContext(PriceContext);
     useEffect(() => {
         const currentBun = ingreedients.find((ingreedient) => {return ingreedient.type === 'bun'});
         setBun(currentBun);
-  	},[]);
-
+  	},[ingreedients,setBun]);
+    const priceCounting = useCallback(()=>{
+        if(bun.price){
+            const price = ingreedients.reduce((acc, topping) => {
+                const totalPrice = acc + (topping.type !== "bun" ? topping.price : 0);
+                return totalPrice + bun.price*2;
+            }, 0)
+            priceDispatcher({type: 'counting', payload: price})
+        }
+    },[ingreedients,bun.price, priceDispatcher]);
+    useEffect(()=>{
+        priceCounting();
+    }, [bun.price, ingreedients, priceCounting, priceState.price])
+    
     const bunRender = (position) =>{
         let currentType = '';
         if(position === '(низ)'){
@@ -74,12 +87,7 @@ export const BurgerConstructor = ({openModalOrder}) => {
         <div className={`${styles.wrapperPrice} mt-10 mr-4`}>
             <div className={`${styles.containePrice} mr-10`}>
                 <p className='text text_type_digits-medium'>
-                    { bun.price &&
-                        ingreedients.reduce((acc, topping) => {
-                            const totalPrice = acc + (topping.type !== "bun" ? topping.price : 0);
-                            return totalPrice + bun.price*2;
-                        }, 0)
-                    }
+                    {`${priceState.price}`}
                 </p>
                 <CurrencyIcon type="primary" />
             </div>
