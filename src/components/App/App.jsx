@@ -27,8 +27,11 @@ export const App = () => {
 	//состояние для полученных ингредиентов
   	const [ingreedients, setIngredients] = useState([]);
   	const [ingredientsError, setIngredientsError] = useState('');
+	//состояние для булки
 	const [bun, setBun] = useState({});
+	//состояние для цены
 	const [priceState, priceDispatcher] = useReducer(reducer, priceInitialState, undefined);
+	//состояние для заказа
 	const [order, setOrder] = useState(null);
 	const [orderError, setOrderError] = useState('');
   	//состояния для модальных окон
