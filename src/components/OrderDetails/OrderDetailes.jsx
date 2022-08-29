@@ -1,12 +1,15 @@
 import styles from './OrderDetails.module.css'
 import image from '../../images/done.png'
+import { OrderContext } from '../../services/orderContext'
+import {useContext} from 'react'
 export const OrderDetails = () => {
+    const {order} = useContext(OrderContext);
     return (
         <div className={`${styles.container} pb-30 pt-4`}>
             <ul className={`${styles.list}`}>
                 <li className={`${styles.item} ${styles.number} pb-8`}>
                     <h2 className='text text_type_digits-large'>
-                        034536
+                        {`${order}`}
                     </h2>
                 </li>
                 <li className={`${styles.item}`}>

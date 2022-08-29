@@ -10,6 +10,7 @@ import { apiLink } from '../../utils/constants';
 import { DataContext } from '../../services/dataContext';
 import { BunContext } from '../../services/bunContext'
 import { PriceContext } from '../../services/priceContext';
+import { OrderContext } from '../../services/orderContext';
 
 const priceInitialState = { price: null };
 function reducer(state, action){
@@ -28,18 +29,20 @@ export const App = () => {
   	const [ingredientsError, setIngredientsError] = useState('');
 	const [bun, setBun] = useState({});
 	const [priceState, priceDispatcher] = useReducer(reducer, priceInitialState, undefined);
+	const [order, setOrder] = useState(null);
+	const [orderError, setOrderError] = useState('');
   	//состояния для модальных окон
   	const [showIngredientDetails, setShowIngredientDetails] = useState(false);
   	const [showOrderDetails, setShowOrderDetails] = useState(false);
   	//состояние для данных ингредиента
   	const [infoIngredient, setInfoIngredient] = useState({});
   
-  	//запрос к Апи
+  	//запрос получения ингредиентов
   	const getIngredientData = () => {
 		fetch(`${apiLink.url}`)
     	.then((res)=>{
         	if (res.ok) {
-          	return res.json();
+          		return res.json();
         	}
         	return Promise.reject(new Error(`Произошла ошибка со статус-кодом ${res.status}`));
     	})
@@ -47,7 +50,27 @@ export const App = () => {
       		setIngredients(resData.data)})
     	.catch(err => {
       		setIngredientsError(err)});     
-  	}	
+  	}
+	//запрос получение номера заказа
+	const postOrderDetails = (ingridientsIdArray) => {
+		fetch('https://norma.nomoreparties.space/api/orders', {
+			method: 'POST',
+    		headers: { 'Content-Type': 'application/json' },
+    		body: JSON.stringify({
+      			ingredients: ingridientsIdArray,
+    		}),
+		})
+		.then((res)=>{
+        	if (res.ok) {
+          		return res.json();
+        	}
+        	return Promise.reject(new Error(`Произошла ошибка со статус-кодом ${res.status}`));
+    	})
+    	.then((resData) => {
+      		setOrder(resData.order.number)})
+    	.catch(err => {
+      		setOrderError(err)});
+	}	
   	//при монтировании запрашиваем данные
   	useEffect(() => {
     	getIngredientData();
@@ -67,7 +90,8 @@ export const App = () => {
 
   	//открытие модального окна заказа
   	const openModalOrder = () => {
-	  	setShowOrderDetails(true)
+		postOrderDetails(ingreedients.map((ingredient)=> ingredient._id));
+	  	setShowOrderDetails(true);
   	}
   	return (
 		<div className={styles.app}>
@@ -77,18 +101,8 @@ export const App = () => {
 			<DataContext.Provider value={{ingreedients}}>
 				<BunContext.Provider value={{bun, setBun}}>
 					<PriceContext.Provider value={{priceState, priceDispatcher}}>
-				{/* { (ingreedients.length && !ingredientsError) && */}
-					<BurgerIngredients data={ingreedients} openModalIngredient={openModalIngredient}></BurgerIngredients>
-				{/* } */}
-				{/* {ingredientsError &&
-					<p>Ошибка получения данных с сервера</p>
-				} */}
-				{/* { (ingreedients.length && !ingredientsError) && */}
-					<BurgerConstructor openModalOrder={openModalOrder}></BurgerConstructor>
-				{/* } */}
-				{/* {ingredientsError &&
-					<p>Ошибка получения данных с сервера</p>
-				} */}
+						<BurgerIngredients data={ingreedients} openModalIngredient={openModalIngredient}></BurgerIngredients>
+						<BurgerConstructor openModalOrder={openModalOrder}></BurgerConstructor>
 					</PriceContext.Provider>
 				</BunContext.Provider>
 			</DataContext.Provider>
@@ -97,9 +111,12 @@ export const App = () => {
 					<p>Ошибка получения данных с сервера</p>
 				}
 		</main>
-			{showOrderDetails && (
+			{ (showOrderDetails && !orderError) && (
+				
 				<Modal handleClose={closeModals} title="">
-					<OrderDetails />
+					<OrderContext.Provider value={{order}}>
+						<OrderDetails/>
+					</OrderContext.Provider>
 				</Modal>
 			)}
 			{showIngredientDetails && (
