@@ -64,7 +64,7 @@ export const BurgerConstructor = ({openModalOrder}) => {
                 renderThumbVertical={props => <div {...props} className={styles.scrollThumb}/>}> 
             
                     {
-                        ingreedients.filter((ingredient, index) => (ingredient.type !== 'bun')).map((ingredient) => (
+                        ingreedients.filter((ingredient) => (ingredient.type !== 'bun')).map((ingredient) => (
                             <div  className={`${styles.ingredient} pl-4 pr-4 pb-4`} key={ingredient._id}>
                                 <div className={`${styles.icon}`}>
                                     <DragIcon type="primary" />
