@@ -5,12 +5,12 @@ import {Modal} from '../Modal/Modal';
 import {IngredientDetails} from '../IngredientDetails/IngredientDetails';
 import {OrderDetails} from '../OrderDetails/OrderDetailes';
 import styles from './App.module.css';
-import {useState, useEffect, useReducer} from "react"
-import { apiLink } from '../../utils/constants';
+import {useState, useEffect, useReducer, useMemo} from "react"
+import { baseUrl } from '../../utils/constants';
 import { DataContext } from '../../services/dataContext';
 import { BunContext } from '../../services/bunContext'
 import { PriceContext } from '../../services/priceContext';
-import { OrderContext } from '../../services/orderContext';
+
 
 const priceInitialState = { price: null };
 function reducer(state, action){
@@ -39,16 +39,17 @@ export const App = () => {
   	const [showOrderDetails, setShowOrderDetails] = useState(false);
   	//состояние для данных ингредиента
   	const [infoIngredient, setInfoIngredient] = useState({});
-  
+	//проверка ответа от сервера
+	const checkResponse = (res) =>{
+		if (res.ok) {
+			return res.json();
+	  	}
+	  	return Promise.reject(new Error(`Произошла ошибка со статус-кодом ${res.status}`));
+	}
   	//запрос получения ингредиентов
   	const getIngredientData = () => {
-		fetch(`${apiLink.url}`)
-    	.then((res)=>{
-        	if (res.ok) {
-          		return res.json();
-        	}
-        	return Promise.reject(new Error(`Произошла ошибка со статус-кодом ${res.status}`));
-    	})
+		fetch(`${baseUrl}/ingredients`)
+    	.then((res)=>checkResponse(res))
     	.then((resData) => {
       		setIngredients(resData.data)})
     	.catch(err => {
@@ -56,19 +57,14 @@ export const App = () => {
   	}
 	//запрос получение номера заказа
 	const postOrderDetails = (ingridientsIdArray) => {
-		fetch('https://norma.nomoreparties.space/api/orders', {
+		fetch(`${baseUrl}/orders`, {
 			method: 'POST',
     		headers: { 'Content-Type': 'application/json' },
     		body: JSON.stringify({
       			ingredients: ingridientsIdArray,
     		}),
 		})
-		.then((res)=>{
-        	if (res.ok) {
-          		return res.json();
-        	}
-        	return Promise.reject(new Error(`Произошла ошибка со статус-кодом ${res.status}`));
-    	})
+		.then((res)=>checkResponse(res))
     	.then((resData) => {
       		setOrder(resData.order.number)})
     	.catch(err => {
@@ -90,12 +86,13 @@ export const App = () => {
 		setInfoIngredient (ingredient)
     	setShowIngredientDetails(true);
   	}
-
+	const listIngredientId = useMemo(() => ingreedients.map((ingredient)=> ingredient._id), [ingreedients]);
   	//открытие модального окна заказа
   	const openModalOrder = () => {
-		postOrderDetails(ingreedients.map((ingredient)=> ingredient._id));
+		postOrderDetails(listIngredientId);
 	  	setShowOrderDetails(true);
   	}
+
   	return (
 		<div className={styles.app}>
 		<AppHeader/>
@@ -104,7 +101,7 @@ export const App = () => {
 			<DataContext.Provider value={{ingreedients}}>
 				<BunContext.Provider value={{bun, setBun}}>
 					<PriceContext.Provider value={{priceState, priceDispatcher}}>
-						<BurgerIngredients data={ingreedients} openModalIngredient={openModalIngredient}></BurgerIngredients>
+						<BurgerIngredients openModalIngredient={openModalIngredient}></BurgerIngredients>
 						<BurgerConstructor openModalOrder={openModalOrder}></BurgerConstructor>
 					</PriceContext.Provider>
 				</BunContext.Provider>
@@ -114,12 +111,14 @@ export const App = () => {
 					<p>Ошибка получения данных с сервера</p>
 				}
 		</main>
-			{ (showOrderDetails && !orderError) && (
-				
+			{ (showOrderDetails && order) && (
 				<Modal handleClose={closeModals} title="">
-					<OrderContext.Provider value={{order}}>
-						<OrderDetails/>
-					</OrderContext.Provider>
+					<OrderDetails order={order}/>
+				</Modal>
+			)}
+			{ (showOrderDetails && orderError) && (
+				<Modal handleClose={closeModals} title="">
+					<p>Ошибка получения номера заказа</p>
 				</Modal>
 			)}
 			{showIngredientDetails && (
