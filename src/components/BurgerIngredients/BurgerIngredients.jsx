@@ -1,7 +1,7 @@
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
 import {Counter} from '@ya.praktikum/react-developer-burger-ui-components'
 import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
-import {useState, useContext, useRef} from "react"
+import {useState, useContext, useRef, useMemo} from "react"
 import { Scrollbars } from 'react-custom-scrollbars'
 import PropTypes from "prop-types";
 import styles from './BurgerIngredients.module.css'
@@ -37,7 +37,7 @@ export const BurgerIngredients = ({openModalIngredient}) => {
                     <div ref={bunRef} className={`${styles.containerTopping}`}>
                         <h2 className={`${styles.title} text text_type_main-medium mb-6`}>Булки</h2>
                         <div className={`${styles.ingredients} mt-6 ml-4 mr-4 mb-10`}>
-                            {
+                            {   useMemo(()=>
                                 ingreedients.filter((ingredient) => ingredient.type === 'bun').map((ingredient) => (
                                     <div  key={ingredient._id} className={`${styles.ingredient}`} onClick={()=>{openModalIngredient(ingredient)}}>
                                         <Counter count={1} size="default" />
@@ -51,13 +51,14 @@ export const BurgerIngredients = ({openModalIngredient}) => {
                                         </h3>
                                     </div>
                                 ))
+                                ,[ingreedients, openModalIngredient])
                             }
                         </div>  
                     </div>
                     <div ref={sauceRef} className={`${styles.containerTopping}`}>
                         <h2 className={`${styles.title} text text_type_main-medium mb-6`}>Соусы</h2>
                         <div className={`${styles.ingredients} mt-6 ml-4 mr-4 mb-10`}>
-                            {
+                            {   useMemo(()=>
                                 ingreedients.filter((ingredient) => ingredient.type === 'sauce').map((ingredient) => (
                                     <div  key={ingredient._id} className={`${styles.ingredient}`} onClick={()=>{openModalIngredient(ingredient)}}>
                                         <Counter count={1} size="default" />
@@ -71,13 +72,14 @@ export const BurgerIngredients = ({openModalIngredient}) => {
                                         </h3>
                                     </div>
                                 ))
+                                ,[ingreedients, openModalIngredient])
                             }
                         </div>  
                     </div>
                     <div ref={mainRef} className={`${styles.containerTopping}`}>
                         <h2 className={`${styles.title} text text_type_main-medium mb-6`}>Начинки</h2>
                         <div className={`${styles.ingredients} mt-6 ml-4 mr-4 mb-10`}>
-                            {
+                            {   useMemo(()=>
                                 ingreedients.filter((ingredient) => ingredient.type === 'main').map((ingredient) => (
                                     <div  key={ingredient._id} className={`${styles.ingredient}`} onClick={()=>{openModalIngredient(ingredient)}}>
                                         <Counter count={1} size="default" />
@@ -91,6 +93,7 @@ export const BurgerIngredients = ({openModalIngredient}) => {
                                         </h3>
                                     </div>
                                 ))
+                                ,[ingreedients, openModalIngredient])
                             }
                         </div>  
                     </div>

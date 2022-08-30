@@ -5,7 +5,7 @@ import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import PropTypes from "prop-types";
 import styles from './BurgerConstructor.module.css'
-import { useContext, useEffect, useCallback } from 'react'
+import { useContext, useEffect, useCallback, useMemo } from 'react'
 import { DataContext } from '../../services/dataContext.js'
 import { BunContext } from '../../services/bunContext.js'
 import { PriceContext } from '../../services/priceContext.js'
@@ -63,7 +63,7 @@ export const BurgerConstructor = ({openModalOrder}) => {
                 renderTrackVertical={props => <div {...props} className={styles.scrollTrack}/>}
                 renderThumbVertical={props => <div {...props} className={styles.scrollThumb}/>}> 
             
-                    {
+                    {   useMemo(()=>
                         ingreedients.filter((ingredient) => (ingredient.type !== 'bun')).map((ingredient) => (
                             <div  className={`${styles.ingredient} pl-4 pr-4 pb-4`} key={ingredient._id}>
                                 <div className={`${styles.icon}`}>
@@ -76,6 +76,7 @@ export const BurgerConstructor = ({openModalOrder}) => {
                                 />
                             </div>
                         ))
+                        ,[ingreedients])
                     }   
             </Scrollbars>
         </div>
