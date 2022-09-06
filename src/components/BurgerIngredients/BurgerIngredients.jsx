@@ -1,25 +1,32 @@
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
 import {Counter} from '@ya.praktikum/react-developer-burger-ui-components'
 import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
-import {useState} from "react"
+import {useState, useContext, useRef, useMemo} from "react"
 import { Scrollbars } from 'react-custom-scrollbars'
 import PropTypes from "prop-types";
-import dataType from '../../utils/types.js'
 import styles from './BurgerIngredients.module.css'
+import { DataContext } from '../../services/dataContext.js'
 
-export const BurgerIngredients = ({data, openModalIngredient}) => {
+export const BurgerIngredients = ({openModalIngredient}) => {
+    const {ingreedients} = useContext(DataContext);
     const [current, setCurrent] = useState('bun');
+    const bunRef = useRef(null);
+    const sauceRef = useRef(null);
+    const mainRef = useRef(null);
+    const tabClick = (ref) => {
+        ref.current.scrollIntoView({ behavior: "smooth"});
+    }
     return(
         <section className={`${styles.section}`}> 
             <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
             <div style = {{display: 'flex'}} className='mb-10'>
-                <Tab value="bun" active={current === 'bun'} onClick={setCurrent}>
+                <Tab value="bun" active={current === 'bun'} onClick={()=>{setCurrent('bun'); tabClick(bunRef);}}>
                     Булки
                 </Tab>
-                <Tab value="sauce" active={current === 'sauce'} onClick={setCurrent}>
+                <Tab value="sauce" active={current === 'sauce'} onClick={()=>{setCurrent('sauce'); tabClick(sauceRef);}}>
                     Соусы
                 </Tab>
-                <Tab value="main" active={current === 'main'} onClick={setCurrent}>
+                <Tab value="main" active={current === 'main'} onClick={()=>{setCurrent('main'); tabClick(mainRef);}}>
                     Начинки
                 </Tab>
             </div>
@@ -27,11 +34,11 @@ export const BurgerIngredients = ({data, openModalIngredient}) => {
                 <Scrollbars universal 
                      renderTrackVertical={props => <div {...props} className={styles.scrollTrack}/>}
                      renderThumbVertical={props => <div {...props} className={styles.scrollThumb}/>}> 
-                    <div className={`${styles.containerTopping}`}>
+                    <div ref={bunRef} className={`${styles.containerTopping}`}>
                         <h2 className={`${styles.title} text text_type_main-medium mb-6`}>Булки</h2>
                         <div className={`${styles.ingredients} mt-6 ml-4 mr-4 mb-10`}>
-                            {
-                                data.filter((ingredient) => ingredient.type === 'bun').map((ingredient) => (
+                            {   useMemo(()=>
+                                ingreedients.filter((ingredient) => ingredient.type === 'bun').map((ingredient) => (
                                     <div  key={ingredient._id} className={`${styles.ingredient}`} onClick={()=>{openModalIngredient(ingredient)}}>
                                         <Counter count={1} size="default" />
                                         <img src={ingredient.image} alt={ingredient.name}/>
@@ -44,14 +51,15 @@ export const BurgerIngredients = ({data, openModalIngredient}) => {
                                         </h3>
                                     </div>
                                 ))
+                                ,[ingreedients, openModalIngredient])
                             }
                         </div>  
                     </div>
-                    <div className={`${styles.containerTopping}`}>
+                    <div ref={sauceRef} className={`${styles.containerTopping}`}>
                         <h2 className={`${styles.title} text text_type_main-medium mb-6`}>Соусы</h2>
                         <div className={`${styles.ingredients} mt-6 ml-4 mr-4 mb-10`}>
-                            {
-                                data.filter((ingredient) => ingredient.type === 'sauce').map((ingredient) => (
+                            {   useMemo(()=>
+                                ingreedients.filter((ingredient) => ingredient.type === 'sauce').map((ingredient) => (
                                     <div  key={ingredient._id} className={`${styles.ingredient}`} onClick={()=>{openModalIngredient(ingredient)}}>
                                         <Counter count={1} size="default" />
                                         <img src={ingredient.image} alt={ingredient.name}/>
@@ -64,14 +72,15 @@ export const BurgerIngredients = ({data, openModalIngredient}) => {
                                         </h3>
                                     </div>
                                 ))
+                                ,[ingreedients, openModalIngredient])
                             }
                         </div>  
                     </div>
-                    <div className={`${styles.containerTopping}`}>
+                    <div ref={mainRef} className={`${styles.containerTopping}`}>
                         <h2 className={`${styles.title} text text_type_main-medium mb-6`}>Начинки</h2>
                         <div className={`${styles.ingredients} mt-6 ml-4 mr-4 mb-10`}>
-                            {
-                                data.filter((ingredient) => ingredient.type === 'main').map((ingredient) => (
+                            {   useMemo(()=>
+                                ingreedients.filter((ingredient) => ingredient.type === 'main').map((ingredient) => (
                                     <div  key={ingredient._id} className={`${styles.ingredient}`} onClick={()=>{openModalIngredient(ingredient)}}>
                                         <Counter count={1} size="default" />
                                         <img src={ingredient.image} alt={ingredient.name}/>
@@ -84,6 +93,7 @@ export const BurgerIngredients = ({data, openModalIngredient}) => {
                                         </h3>
                                     </div>
                                 ))
+                                ,[ingreedients, openModalIngredient])
                             }
                         </div>  
                     </div>
@@ -93,6 +103,5 @@ export const BurgerIngredients = ({data, openModalIngredient}) => {
     );
 }
 BurgerIngredients.propTypes = {
-    data: PropTypes.arrayOf(dataType.isRequired).isRequired,
     openModalIngredient: PropTypes.func.isRequired,
 };
