@@ -9,27 +9,28 @@ import { useContext, useEffect, useCallback, useMemo } from 'react'
 import { DataContext } from '../../services/dataContext.js'
 import { BunContext } from '../../services/bunContext.js'
 import { PriceContext } from '../../services/priceContext.js'
+import { useSelector } from 'react-redux';
 
 export const BurgerConstructor = ({openModalOrder}) => {
-    const {ingreedients} = useContext(DataContext);
+    const ingredients = useSelector(store=>store.data.ingredients);
     const {bun, setBun} = useContext(BunContext);
     const {priceState, priceDispatcher} = useContext(PriceContext);
     useEffect(() => {
-        const currentBun = ingreedients.find((ingreedient) => {return ingreedient.type === 'bun'});
+        const currentBun = ingredients.find((ingreedient) => {return ingreedient.type === 'bun'});
         setBun(currentBun);
-  	},[ingreedients,setBun]);
+  	},[ingredients,setBun]);
     const priceCounting = useCallback(()=>{
         if(bun.price){
-            const price = ingreedients.reduce((acc, topping) => {
+            const price = ingredients.reduce((acc, topping) => {
                 const totalPrice = acc + (topping.type !== "bun" ? topping.price : 0);
                 return totalPrice + bun.price*2;
             }, 0)
             priceDispatcher({type: 'counting', payload: price})
         }
-    },[ingreedients,bun.price, priceDispatcher]);
+    },[ingredients,bun.price, priceDispatcher]);
     useEffect(()=>{
         priceCounting();
-    }, [bun.price, ingreedients, priceCounting, priceState.price])
+    }, [bun.price, ingredients, priceCounting, priceState.price])
     
     const bunRender = (position) =>{
         let currentType = '';
@@ -64,7 +65,7 @@ export const BurgerConstructor = ({openModalOrder}) => {
                 renderThumbVertical={props => <div {...props} className={styles.scrollThumb}/>}> 
             
                     {   useMemo(()=>
-                        ingreedients.filter((ingredient) => (ingredient.type !== 'bun')).map((ingredient) => (
+                        ingredients.filter((ingredient) => (ingredient.type !== 'bun')).map((ingredient) => (
                             <div  className={`${styles.ingredient} pl-4 pr-4 pb-4`} key={ingredient._id}>
                                 <div className={`${styles.icon}`}>
                                     <DragIcon type="primary" />
@@ -76,7 +77,7 @@ export const BurgerConstructor = ({openModalOrder}) => {
                                 />
                             </div>
                         ))
-                        ,[ingreedients])
+                        ,[ingredients])
                     }   
             </Scrollbars>
         </div>

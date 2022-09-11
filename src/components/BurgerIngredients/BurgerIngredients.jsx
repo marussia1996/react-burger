@@ -5,10 +5,10 @@ import {useState, useContext, useRef, useMemo} from "react"
 import { Scrollbars } from 'react-custom-scrollbars'
 import PropTypes from "prop-types";
 import styles from './BurgerIngredients.module.css'
-import { DataContext } from '../../services/dataContext.js'
+import { useSelector } from 'react-redux';
 
 export const BurgerIngredients = ({openModalIngredient}) => {
-    const {ingreedients} = useContext(DataContext);
+    const ingredients = useSelector(store=>store.data.ingredients);
     const [current, setCurrent] = useState('bun');
     const bunRef = useRef(null);
     const sauceRef = useRef(null);
@@ -38,7 +38,7 @@ export const BurgerIngredients = ({openModalIngredient}) => {
                         <h2 className={`${styles.title} text text_type_main-medium mb-6`}>Булки</h2>
                         <div className={`${styles.ingredients} mt-6 ml-4 mr-4 mb-10`}>
                             {   useMemo(()=>
-                                ingreedients.filter((ingredient) => ingredient.type === 'bun').map((ingredient) => (
+                                ingredients.filter((ingredient) => ingredient.type === 'bun').map((ingredient) => (
                                     <div  key={ingredient._id} className={`${styles.ingredient}`} onClick={()=>{openModalIngredient(ingredient)}}>
                                         <Counter count={1} size="default" />
                                         <img src={ingredient.image} alt={ingredient.name}/>
@@ -51,7 +51,7 @@ export const BurgerIngredients = ({openModalIngredient}) => {
                                         </h3>
                                     </div>
                                 ))
-                                ,[ingreedients, openModalIngredient])
+                                ,[ingredients, openModalIngredient])
                             }
                         </div>  
                     </div>
@@ -59,7 +59,7 @@ export const BurgerIngredients = ({openModalIngredient}) => {
                         <h2 className={`${styles.title} text text_type_main-medium mb-6`}>Соусы</h2>
                         <div className={`${styles.ingredients} mt-6 ml-4 mr-4 mb-10`}>
                             {   useMemo(()=>
-                                ingreedients.filter((ingredient) => ingredient.type === 'sauce').map((ingredient) => (
+                                ingredients.filter((ingredient) => ingredient.type === 'sauce').map((ingredient) => (
                                     <div  key={ingredient._id} className={`${styles.ingredient}`} onClick={()=>{openModalIngredient(ingredient)}}>
                                         <Counter count={1} size="default" />
                                         <img src={ingredient.image} alt={ingredient.name}/>
@@ -72,7 +72,7 @@ export const BurgerIngredients = ({openModalIngredient}) => {
                                         </h3>
                                     </div>
                                 ))
-                                ,[ingreedients, openModalIngredient])
+                                ,[ingredients, openModalIngredient])
                             }
                         </div>  
                     </div>
@@ -80,7 +80,7 @@ export const BurgerIngredients = ({openModalIngredient}) => {
                         <h2 className={`${styles.title} text text_type_main-medium mb-6`}>Начинки</h2>
                         <div className={`${styles.ingredients} mt-6 ml-4 mr-4 mb-10`}>
                             {   useMemo(()=>
-                                ingreedients.filter((ingredient) => ingredient.type === 'main').map((ingredient) => (
+                                ingredients.filter((ingredient) => ingredient.type === 'main').map((ingredient) => (
                                     <div  key={ingredient._id} className={`${styles.ingredient}`} onClick={()=>{openModalIngredient(ingredient)}}>
                                         <Counter count={1} size="default" />
                                         <img src={ingredient.image} alt={ingredient.name}/>
@@ -93,7 +93,7 @@ export const BurgerIngredients = ({openModalIngredient}) => {
                                         </h3>
                                     </div>
                                 ))
-                                ,[ingreedients, openModalIngredient])
+                                ,[ingredients, openModalIngredient])
                             }
                         </div>  
                     </div>

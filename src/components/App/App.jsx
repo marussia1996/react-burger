@@ -7,11 +7,10 @@ import {OrderDetails} from '../OrderDetails/OrderDetailes';
 import styles from './App.module.css';
 import {useState, useEffect, useReducer, useMemo} from "react"
 import { baseUrl } from '../../utils/constants';
-import { DataContext } from '../../services/dataContext';
 import { BunContext } from '../../services/bunContext'
 import { PriceContext } from '../../services/priceContext';
-
-
+import { useSelector, useDispatch } from 'react-redux';
+import { getIngreedients } from '../../services/actions/data'
 const priceInitialState = { price: null };
 function reducer(state, action){
   switch(action.type){
@@ -24,9 +23,9 @@ function reducer(state, action){
   }
 }
 export const App = () => {
-	//состояние для полученных ингредиентов
-  	const [ingreedients, setIngredients] = useState([]);
-  	const [ingredientsError, setIngredientsError] = useState('');
+	//значения о данных из хранилища 
+	const ingredientsRequest = useSelector(store=>store.data.ingredientsRequest);
+	const ingredientsFailed = useSelector(store=>store.data.ingredientsFailed);
 	//состояние для булки
 	const [bun, setBun] = useState({});
 	//состояние для цены
@@ -46,15 +45,6 @@ export const App = () => {
 	  	}
 	  	return Promise.reject(new Error(`Произошла ошибка со статус-кодом ${res.status}`));
 	}
-  	//запрос получения ингредиентов
-  	const getIngredientData = () => {
-		fetch(`${baseUrl}/ingredients`)
-    	.then((res)=>checkResponse(res))
-    	.then((resData) => {
-      		setIngredients(resData.data)})
-    	.catch(err => {
-      		setIngredientsError(err)});     
-  	}
 	//запрос получение номера заказа
 	const postOrderDetails = (ingridientsIdArray) => {
 		fetch(`${baseUrl}/orders`, {
@@ -69,12 +59,16 @@ export const App = () => {
       		setOrder(resData.order.number)})
     	.catch(err => {
       		setOrderError(err)});
-	}	
-  	//при монтировании запрашиваем данные
-  	useEffect(() => {
-    	getIngredientData();
-  	},[]);
-
+	}
+	//при монтировании запрашиваем данные
+	const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getIngreedients());
+    }, [dispatch]);	
+	console.log('ingredientsRequest');
+	console.log(ingredientsRequest);
+	console.log('ingredientsFailed');
+	console.log(ingredientsFailed);
   	//закрытие модальных окон
   	const closeModals = () => {
     	setShowIngredientDetails(false);
@@ -86,10 +80,10 @@ export const App = () => {
 		setInfoIngredient (ingredient)
     	setShowIngredientDetails(true);
   	}
-	const listIngredientId = useMemo(() => ingreedients.map((ingredient)=> ingredient._id), [ingreedients]);
+	//const listIngredientId = useMemo(() => ingredients.map((ingredient)=> ingredient._id), [ingredients]);
   	//открытие модального окна заказа
   	const openModalOrder = () => {
-		postOrderDetails(listIngredientId);
+		//postOrderDetails(listIngredientId);
 	  	setShowOrderDetails(true);
   	}
 
@@ -97,17 +91,17 @@ export const App = () => {
 		<div className={styles.app}>
 		<AppHeader/>
 		<main className={styles.main}>
-		{ (ingreedients.length && !ingredientsError) &&
-			<DataContext.Provider value={{ingreedients}}>
+		{ (!ingredientsRequest && !ingredientsFailed) &&
+			
 				<BunContext.Provider value={{bun, setBun}}>
 					<PriceContext.Provider value={{priceState, priceDispatcher}}>
 						<BurgerIngredients openModalIngredient={openModalIngredient}></BurgerIngredients>
 						<BurgerConstructor openModalOrder={openModalOrder}></BurgerConstructor>
 					</PriceContext.Provider>
 				</BunContext.Provider>
-			</DataContext.Provider>
+			
 		}
-		{ingredientsError &&
+		{ingredientsFailed &&
 					<p>Ошибка получения данных с сервера</p>
 				}
 		</main>
