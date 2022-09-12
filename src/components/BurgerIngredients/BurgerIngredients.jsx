@@ -7,7 +7,7 @@ import { useInView } from "react-intersection-observer";
 import PropTypes from "prop-types";
 import styles from './BurgerIngredients.module.css'
 import { useDispatch, useSelector } from 'react-redux';
-import {GET_CURRENT_TAB} from '../../services/actions/data'
+import {SET_CURRENT_TAB} from '../../services/actions/data'
 
 export const BurgerIngredients = ({openModalIngredient}) => {
     const ingredients = useSelector(store=>store.data.ingredients);
@@ -25,13 +25,13 @@ export const BurgerIngredients = ({openModalIngredient}) => {
     
     useEffect(()=>{
         if(inViewBun){
-            dispatch({type: GET_CURRENT_TAB, currentTab: 'bun'});
+            dispatch({type: SET_CURRENT_TAB, currentTab: 'bun'});
         }
         else if(inViewSauce){
-            dispatch({type: GET_CURRENT_TAB, currentTab: 'sauce'});
+            dispatch({type: SET_CURRENT_TAB, currentTab: 'sauce'});
         }
         else if(inViewMain){
-            dispatch({type: GET_CURRENT_TAB, currentTab: 'main'});
+            dispatch({type: SET_CURRENT_TAB, currentTab: 'main'});
         }
     }, [inViewBun,inViewSauce,inViewMain]);
     const tabClick = (value) => {
@@ -41,13 +41,13 @@ export const BurgerIngredients = ({openModalIngredient}) => {
         <section className={`${styles.section}`}> 
             <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
             <div style = {{display: 'flex'}} className='mb-10'>
-                <Tab value="bun" active={currentTab === 'bun'} inViewBun={inViewBun} onClick={(value)=>{dispatch({type: GET_CURRENT_TAB, currentTab: value}); tabClick(value)}}>
+                <Tab value="bun" active={currentTab === 'bun'} inViewBun={inViewBun} onClick={(value)=>{dispatch({type: SET_CURRENT_TAB, currentTab: value}); tabClick(value)}}>
                     Булки
                 </Tab>
-                <Tab value="sauce" active={currentTab === 'sauce'} inViewSauce={inViewSauce} onClick={(value)=>{dispatch({type: GET_CURRENT_TAB, currentTab: value}); tabClick(value)}}>
+                <Tab value="sauce" active={currentTab === 'sauce'} inViewSauce={inViewSauce} onClick={(value)=>{dispatch({type: SET_CURRENT_TAB, currentTab: value}); tabClick(value)}}>
                     Соусы
                 </Tab>
-                <Tab value="main" active={currentTab === 'main'} inViewMain={inViewMain} onClick={(value)=>{dispatch({type: GET_CURRENT_TAB, currentTab: value}); tabClick(value)}}>
+                <Tab value="main" active={currentTab === 'main'} inViewMain={inViewMain} onClick={(value)=>{dispatch({type: SET_CURRENT_TAB, currentTab: value}); tabClick(value)}}>
                     Начинки
                 </Tab>
             </div>

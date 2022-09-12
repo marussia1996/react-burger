@@ -2,7 +2,7 @@ import {
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_SUCCESS,
   GET_INGREDIENTS_FAILED,
-  GET_CURRENT_TAB,
+  SET_CURRENT_TAB,
   GET_ORDER_REQUEST,
   GET_ORDER_SUCCESS,
   GET_ORDER_FAILED,
@@ -26,7 +26,7 @@ const initialState = {
 };
 export const dataReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_CURRENT_TAB: {
+    case SET_CURRENT_TAB: {
       return {
         ...state,
         currentTab: action.currentTab,
