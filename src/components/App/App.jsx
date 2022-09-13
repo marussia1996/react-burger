@@ -9,6 +9,7 @@ import {useState, useEffect} from "react"
 import { useSelector, useDispatch } from 'react-redux';
 import { getIngreedients } from '../../services/actions/listIngredients'
 import { CLOSE_MODAL, OPEN_MODAL } from '../../services/actions/ingredient';
+import { getOrder } from '../../services/actions/order';
 
 export const App = () => {
 	//значения из хранилища 
@@ -16,34 +17,31 @@ export const App = () => {
 	const ingredientsFailed = useSelector(store=>store.listIngredients.ingredientsFailed);
 	const order = useSelector(store=>store.order.order);
 	const currentIngredient = useSelector(store=>store.ingredient.currentIngredient);
-
+	const listIngredientId = useSelector(store=>store.currentIngredients.currentIngredients);
   	//состояния для модальных окон
   	const [showOrderDetails, setShowOrderDetails] = useState(false);
 
-	
 	//при монтировании запрашиваем данные
 	const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getIngreedients());
     }, [dispatch]);	
-
-  	//закрытие модальных окон //разделить на две функции
-  	const closeModals = () => {
+  	//закрытие модальных окон 
+  	const closeModalIngredient = () => {
     	dispatch({type: CLOSE_MODAL});
-    	setShowOrderDetails(false);
   	};
-
+	const closeModalOrder = () => {
+		setShowOrderDetails(false);
+	}
   	//открытие модального окна ингредиента
   	const openModalIngredient = (ingredient) => {
 		dispatch({type: OPEN_MODAL, payload: ingredient})
   	}
-	//const listIngredientId = useMemo(() => ingredients.map((ingredient)=> ingredient._id), [ingredients]);
   	//открытие модального окна заказа
   	const openModalOrder = () => {
-		//postOrderDetails(listIngredientId);
+		dispatch(getOrder(listIngredientId));
 	  	setShowOrderDetails(true);
   	}
-
   	return (
 		<div className={styles.app}>
 		<AppHeader/>
@@ -57,17 +55,17 @@ export const App = () => {
 					<p>Ошибка получения данных с сервера</p>
 		}
 			{ (showOrderDetails && order) && (
-				<Modal handleClose={closeModals} title="">
+				<Modal handleClose={closeModalOrder} title="">
 					<OrderDetails order={order}/>
 				</Modal>
 			)}
 			{ (showOrderDetails && !order) && (
-				<Modal handleClose={closeModals} title="">
+				<Modal handleClose={closeModalOrder} title="">
 					<p>Ошибка получения номера заказа</p>
 				</Modal>
 			)}
 			{currentIngredient && (
-				<Modal title="Детали ингредиента" handleClose={closeModals}>
+				<Modal title="Детали ингредиента" handleClose={closeModalIngredient}>
 					<IngredientDetails ingredient={currentIngredient} />
 				</Modal>
 			)}
