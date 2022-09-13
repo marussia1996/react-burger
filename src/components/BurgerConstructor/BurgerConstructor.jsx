@@ -9,8 +9,8 @@ import { useCallback, useMemo } from 'react'
 import { useSelector } from 'react-redux';
 
 export const BurgerConstructor = ({openModalOrder}) => {
-    const ingredients = useSelector(store=>store.data.currentIngredients);
-    const bun = useSelector(store=>store.data.currentBun);
+    const ingredients = useSelector(store=>store.currentIngredients.currentIngredients);
+    const bun = useSelector(store=>store.currentIngredients.currentBun);
     const priceCounting = useCallback(()=>{
         return ( (bun ? bun.price * 2 : 0) +
             ingredients.reduce((acc, topping) =>  acc +  topping.price , 0));
@@ -61,7 +61,7 @@ export const BurgerConstructor = ({openModalOrder}) => {
                 renderThumbVertical={props => <div {...props} className={styles.scrollThumb}/>}> 
             
                     {   useMemo(()=>
-                        ingredients.filter((ingredient) => (ingredient.type !== 'bun')).map((ingredient) => (
+                        ingredients?.filter((ingredient) => (ingredient.type !== 'bun')).map((ingredient) => (
                             <div  className={`${styles.ingredient} pl-4 pr-4 pb-4`} key={ingredient._id}>
                                 <div className={`${styles.icon}`}>
                                     <DragIcon type="primary" />

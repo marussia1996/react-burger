@@ -7,19 +7,18 @@ import {OrderDetails} from '../OrderDetails/OrderDetailes';
 import styles from './App.module.css';
 import {useState, useEffect} from "react"
 import { useSelector, useDispatch } from 'react-redux';
-import { getIngreedients, getOrder } from '../../services/actions/data'
+import { getIngreedients } from '../../services/actions/listIngredients'
+import { CLOSE_MODAL, OPEN_MODAL } from '../../services/actions/ingredient';
 
 export const App = () => {
 	//значения из хранилища 
-	const ingredientsRequest = useSelector(store=>store.data.ingredientsRequest);
-	const ingredientsFailed = useSelector(store=>store.data.ingredientsFailed);
-	const order = useSelector(store=>store.data.order);
+	const ingredientsRequest = useSelector(store=>store.listIngredients.ingredientsRequest);
+	const ingredientsFailed = useSelector(store=>store.listIngredients.ingredientsFailed);
+	const order = useSelector(store=>store.order.order);
+	const currentIngredient = useSelector(store=>store.ingredient.currentIngredient);
 
   	//состояния для модальных окон
-  	const [showIngredientDetails, setShowIngredientDetails] = useState(false);
   	const [showOrderDetails, setShowOrderDetails] = useState(false);
-  	//состояние для данных ингредиента
-  	const [infoIngredient, setInfoIngredient] = useState({});
 
 	
 	//при монтировании запрашиваем данные
@@ -28,16 +27,15 @@ export const App = () => {
         dispatch(getIngreedients());
     }, [dispatch]);	
 
-  	//закрытие модальных окон
+  	//закрытие модальных окон //разделить на две функции
   	const closeModals = () => {
-    	setShowIngredientDetails(false);
+    	dispatch({type: CLOSE_MODAL});
     	setShowOrderDetails(false);
   	};
 
   	//открытие модального окна ингредиента
   	const openModalIngredient = (ingredient) => {
-		setInfoIngredient (ingredient)
-    	setShowIngredientDetails(true);
+		dispatch({type: OPEN_MODAL, payload: ingredient})
   	}
 	//const listIngredientId = useMemo(() => ingredients.map((ingredient)=> ingredient._id), [ingredients]);
   	//открытие модального окна заказа
@@ -68,9 +66,9 @@ export const App = () => {
 					<p>Ошибка получения номера заказа</p>
 				</Modal>
 			)}
-			{showIngredientDetails && (
+			{currentIngredient && (
 				<Modal title="Детали ингредиента" handleClose={closeModals}>
-					<IngredientDetails ingredient={infoIngredient} />
+					<IngredientDetails ingredient={currentIngredient} />
 				</Modal>
 			)}
 		</div>

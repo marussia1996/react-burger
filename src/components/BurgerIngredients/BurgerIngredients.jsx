@@ -1,17 +1,17 @@
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
 import {Counter} from '@ya.praktikum/react-developer-burger-ui-components'
 import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
-import {useState, useEffect, useMemo, useRef} from "react"
+import { useEffect, useMemo} from "react"
 import { Scrollbars } from 'react-custom-scrollbars'
 import { useInView } from "react-intersection-observer";
 import PropTypes from "prop-types";
 import styles from './BurgerIngredients.module.css'
 import { useDispatch, useSelector } from 'react-redux';
-import {SET_CURRENT_TAB} from '../../services/actions/data'
+import {SET_CURRENT_TAB} from '../../services/actions/listIngredients'
 
 export const BurgerIngredients = ({openModalIngredient}) => {
-    const ingredients = useSelector(store=>store.data.ingredients);
-    const currentTab = useSelector(store=>store.data.currentTab);
+    const ingredients = useSelector(store=>store.listIngredients.ingredients);
+    const currentTab = useSelector(store=>store.listIngredients.currentTab);
     const dispatch = useDispatch();
     const [ bun, inViewBun ] = useInView({
         threshold: 0.5

@@ -1,5 +1,11 @@
 import { combineReducers } from "redux";
-import { dataReducer } from "./data";
+import { listIngredientsReducer } from "./listIngregients";
+import { orderReducer } from "./order";
+import { currentIngredientsReducer } from "./currentIngredients";
+import { ingredientReducer } from "./ingredient";
 export const rootReducer = combineReducers({
-  data: dataReducer,
+  listIngredients: listIngredientsReducer,
+  currentIngredients: currentIngredientsReducer,
+  ingredient: ingredientReducer,
+  order: orderReducer,
 });

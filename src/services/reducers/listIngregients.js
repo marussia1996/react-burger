@@ -3,10 +3,7 @@ import {
   GET_INGREDIENTS_SUCCESS,
   GET_INGREDIENTS_FAILED,
   SET_CURRENT_TAB,
-  GET_ORDER_REQUEST,
-  GET_ORDER_SUCCESS,
-  GET_ORDER_FAILED,
-} from "../actions/data";
+} from "../actions/listIngredients";
 // Исходное состояние
 const initialState = {
   ingredients: [],
@@ -14,17 +11,9 @@ const initialState = {
   ingredientsFailed: false,
 
   currentTab: "bun",
-
-  currentIngredients: [],
-  currentBun: null,
-  currentIdIngredients: [],
-
-  currentIngredient: {},
-  order: null,
-  orderRequest: false,
-  orderFailed: false,
 };
-export const dataReducer = (state = initialState, action) => {
+
+export const listIngredientsReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_CURRENT_TAB: {
       return {
@@ -51,27 +40,6 @@ export const dataReducer = (state = initialState, action) => {
         ...state,
         ingredientsFailed: true,
         ingredientsRequest: false,
-      };
-    }
-    case GET_ORDER_REQUEST: {
-      return {
-        ...state,
-        orderRequest: true,
-      };
-    }
-    case GET_ORDER_SUCCESS: {
-      return {
-        ...state,
-        orderRequest: false,
-        orderFailed: false,
-        order: action.order,
-      };
-    }
-    case GET_ORDER_FAILED: {
-      return {
-        ...state,
-        orderRequest: false,
-        orderFailed: true,
       };
     }
     default: {
