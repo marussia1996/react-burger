@@ -16,7 +16,7 @@ export const BurgerIngredient = ({ingredient, openModalIngredient}) => {
     })
     return(
         <div draggable ref={dragRef} style={{isDrag}} className={`${styles.ingredient}`} onClick={()=>{openModalIngredient(ingredient)}}>
-            <Counter count={1} size="default" />
+            <Counter count={0} size="default" />
             <img src={ingredient.image} alt={ingredient.name}/>
                 <div className='mt-2 mb-2'>
                     <p className="text text_type_digits-default mr-2">{ingredient.price}</p>

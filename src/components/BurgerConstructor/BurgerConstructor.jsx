@@ -9,12 +9,13 @@ import { useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
 import {ADD_BUN, ADD_INGREDIENT} from '../../services/actions/currentIngredients'
+import uuid from 'react-uuid';
+
 export const BurgerConstructor = ({openModalOrder}) => {
     const ingredients = useSelector(store=>store.currentIngredients.currentIngredients);
     const bun = useSelector(store=>store.currentIngredients.currentBun);
     const dispatch = useDispatch();
     const priceCounting = useCallback(()=>{
-        console.log(bun);
         return ( (bun ? bun.price * 2 : 0) +
             ingredients.reduce((acc, topping) =>  acc +  topping.price , 0));
         },[ingredients,bun]);
@@ -84,7 +85,7 @@ export const BurgerConstructor = ({openModalOrder}) => {
             
                     {   useMemo(()=>
                         ingredients.filter((ingredient) => (ingredient.type !== 'bun')).map((ingredient) => (
-                            <div  className={`${styles.ingredient} pl-4 pr-4 pb-4`} key={ingredient._id}>
+                            <div  className={`${styles.ingredient} pl-4 pr-4 pb-4`} key={uuid()}>
                                 <div className={`${styles.icon}`}>
                                     <DragIcon type="primary" />
                                 </div>
