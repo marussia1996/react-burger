@@ -8,6 +8,8 @@ import PropTypes from "prop-types";
 import styles from './BurgerIngredients.module.css'
 import { useDispatch, useSelector } from 'react-redux';
 import {SET_CURRENT_TAB} from '../../services/actions/listIngredients'
+import { useDrag } from "react-dnd";
+import { BurgerIngredient } from '../BurgerIngredient/BurgerIngredient'
 
 export const BurgerIngredients = ({openModalIngredient}) => {
     const ingredients = useSelector(store=>store.listIngredients.ingredients);
@@ -33,10 +35,17 @@ export const BurgerIngredients = ({openModalIngredient}) => {
         else if(inViewMain){
             dispatch({type: SET_CURRENT_TAB, currentTab: 'main'});
         }
-    }, [inViewBun,inViewSauce,inViewMain]);
+    }, [inViewBun,inViewSauce,inViewMain, dispatch]);
     const tabClick = (value) => {
         document.querySelector(`.${value}`).scrollIntoView({ behavior: "smooth"});
     }
+    const [{isDrag},dragRef] = useDrag({
+        type: 'ingredient',
+        item: {ingredients},
+        collect: (monitor) => ({
+            isDrag: monitor.isDragging(),
+        }),
+    })
     return(
         <section className={`${styles.section}`}> 
             <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
@@ -60,17 +69,7 @@ export const BurgerIngredients = ({openModalIngredient}) => {
                         <div className={`${styles.ingredients} mt-6 ml-4 mr-4 mb-10`}>
                             {   useMemo(()=>
                                 ingredients.filter((ingredient) => ingredient.type === 'bun').map((ingredient) => (
-                                    <div  key={ingredient._id} className={`${styles.ingredient}`} onClick={()=>{openModalIngredient(ingredient)}}>
-                                        <Counter count={1} size="default" />
-                                        <img src={ingredient.image} alt={ingredient.name}/>
-                                        <div className='mt-2 mb-2'>
-                                            <p className="text text_type_digits-default mr-2">{ingredient.price}</p>
-                                            <CurrencyIcon type="primary" />
-                                        </div>
-                                        <h3 className='text text_type_main-default'>
-                                            {ingredient.name}
-                                        </h3>
-                                    </div>
+                                    <BurgerIngredient key={ingredient._id} ingredient={ingredient} openModalIngredient={openModalIngredient}/>
                                 ))
                                 ,[ingredients, openModalIngredient])
                             }
@@ -81,7 +80,7 @@ export const BurgerIngredients = ({openModalIngredient}) => {
                         <div className={`${styles.ingredients} mt-6 ml-4 mr-4 mb-10`}>
                             {   useMemo(()=>
                                 ingredients.filter((ingredient) => ingredient.type === 'sauce').map((ingredient) => (
-                                    <div  key={ingredient._id} className={`${styles.ingredient}`} onClick={()=>{openModalIngredient(ingredient)}}>
+                                    <div draggable ref={dragRef} style={{isDrag}} key={ingredient._id} className={`${styles.ingredient}`} onClick={()=>{openModalIngredient(ingredient)}}>
                                         <Counter count={1} size="default" />
                                         <img src={ingredient.image} alt={ingredient.name}/>
                                         <div className='mt-2 mb-2'>
@@ -93,7 +92,7 @@ export const BurgerIngredients = ({openModalIngredient}) => {
                                         </h3>
                                     </div>
                                 ))
-                                ,[ingredients, openModalIngredient])
+                                ,[ingredients, openModalIngredient, dragRef, isDrag])
                             }
                         </div>  
                     </div>
@@ -102,7 +101,7 @@ export const BurgerIngredients = ({openModalIngredient}) => {
                         <div className={`${styles.ingredients} mt-6 ml-4 mr-4 mb-10`}>
                             {   useMemo(()=>
                                 ingredients.filter((ingredient) => ingredient.type === 'main').map((ingredient) => (
-                                    <div  key={ingredient._id} className={`${styles.ingredient}`} onClick={()=>{openModalIngredient(ingredient)}}>
+                                    <div draggable ref={dragRef} style={{isDrag}} key={ingredient._id} className={`${styles.ingredient}`} onClick={()=>{openModalIngredient(ingredient)}}>
                                         <Counter count={1} size="default" />
                                         <img src={ingredient.image} alt={ingredient.name}/>
                                         <div className='mt-2 mb-2'>
@@ -114,7 +113,7 @@ export const BurgerIngredients = ({openModalIngredient}) => {
                                         </h3>
                                     </div>
                                 ))
-                                ,[ingredients, openModalIngredient])
+                                ,[ingredients, openModalIngredient, dragRef, isDrag])
                             }
                         </div>  
                     </div>

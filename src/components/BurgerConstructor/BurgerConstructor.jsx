@@ -6,11 +6,13 @@ import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import PropTypes from "prop-types";
 import styles from './BurgerConstructor.module.css'
 import { useCallback, useMemo } from 'react'
-import { useSelector } from 'react-redux';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { useDrop } from 'react-dnd';
+import {addBun, ADD_BUN, ADD_INGREDIENT} from '../../services/actions/currentIngredients'
 export const BurgerConstructor = ({openModalOrder}) => {
     const ingredients = useSelector(store=>store.currentIngredients.currentIngredients);
     const bun = useSelector(store=>store.currentIngredients.currentBun);
+    const dispatch = useDispatch();
     const priceCounting = useCallback(()=>{
         return ( (bun ? bun.price * 2 : 0) +
             ingredients.reduce((acc, topping) =>  acc +  topping.price , 0));
@@ -47,21 +49,36 @@ export const BurgerConstructor = ({openModalOrder}) => {
                 )
             }
     };
-    
+    const addBun = (item) => {
+        console.log('addBun');
+        dispatch({type: ADD_BUN, payload:item });
+    }
+    const [{ isHover }, dropTarget] = useDrop({
+        accept: 'ingredient',
+        collect: monitor => ({
+            isHover: monitor.isOver()
+          }),
+        drop(item){
+            console.log('drop');
+            if(item.type === 'bun'){
+                addBun(item);
+            }
+        }
+    })
     return (
-      <section className={`${styles.section} pt-25`}>
+      <section className={`${styles.section} pt-25`} ref={dropTarget}>
         <div className='mr-4 ml-4 mb-4 pl-8'>
             {
                 bunRender('(верх)')
             } 
         </div>    
-        <div className={`${styles.containerScroll}`}>
+        <div className={`${styles.containerScroll} `} >
             <Scrollbars universal
                 renderTrackVertical={props => <div {...props} className={styles.scrollTrack}/>}
                 renderThumbVertical={props => <div {...props} className={styles.scrollThumb}/>}> 
             
                     {   useMemo(()=>
-                        ingredients?.filter((ingredient) => (ingredient.type !== 'bun')).map((ingredient) => (
+                        ingredients.filter((ingredient) => (ingredient.type !== 'bun')).map((ingredient) => (
                             <div  className={`${styles.ingredient} pl-4 pr-4 pb-4`} key={ingredient._id}>
                                 <div className={`${styles.icon}`}>
                                     <DragIcon type="primary" />

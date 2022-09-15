@@ -2,6 +2,9 @@
   display: flex;
   flex-direction: column;
 }
+.onHover {
+  box-shadow: inset 0px -2px 0px #3c39ec;
+}
 .containerScroll {
   flex: 1 1 auto;
 }

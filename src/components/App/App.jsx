@@ -10,6 +10,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getIngreedients } from '../../services/actions/listIngredients'
 import { CLOSE_MODAL, OPEN_MODAL } from '../../services/actions/ingredient';
 import { getOrder } from '../../services/actions/order';
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 export const App = () => {
 	//значения из хранилища 
@@ -47,8 +49,10 @@ export const App = () => {
 		<AppHeader/>
 		{ (!ingredientsRequest && !ingredientsFailed) &&
 			<main className={styles.main}>
-				<BurgerIngredients openModalIngredient={openModalIngredient}></BurgerIngredients>
-				<BurgerConstructor openModalOrder={openModalOrder}></BurgerConstructor>
+				<DndProvider backend={HTML5Backend}>
+					<BurgerIngredients openModalIngredient={openModalIngredient}></BurgerIngredients>
+					<BurgerConstructor openModalOrder={openModalOrder}></BurgerConstructor>
+				</DndProvider>
 			</main>
 		}
 		{ingredientsFailed &&

@@ -1,7 +1,7 @@
 import {
+  ADD_BUN,
   ADD_INGREDIENT,
   SET_BUN,
-  DELETE_INGREDIENT,
 } from "../actions/currentIngredients";
 // Исходное состояние
 const initialState = {
@@ -11,6 +11,26 @@ const initialState = {
 };
 export const currentIngredientsReducer = (state = initialState, action) => {
   switch (action.type) {
+    case ADD_BUN: {
+      // if (state.currentBun) {
+      return {
+        ...state,
+        currentBun: action.payload,
+        // currentIdIngredients: state.currentIdIngredients
+        //   .filter((id) => state.currentBun._id !== id)
+        //   .push(action.payload._id),
+      };
+      // } else {
+      //   return {
+      //     ...state,
+      //     currentBun: action.payload,
+      //     // currentIdIngredients: [
+      //     //   ...state.currentIdIngredients,
+      //     //   action.payload._id,
+      //     // ],
+      //   };
+      // }
+    }
     case ADD_INGREDIENT: {
       return {
         ...state,
@@ -22,8 +42,6 @@ export const currentIngredientsReducer = (state = initialState, action) => {
         ...state,
         currentBun: action.payload,
       };
-    }
-    case DELETE_INGREDIENT: {
     }
     default: {
       return state;
