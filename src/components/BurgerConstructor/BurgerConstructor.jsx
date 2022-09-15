@@ -8,7 +8,7 @@ import styles from './BurgerConstructor.module.css'
 import { useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
-import {ADD_BUN, ADD_INGREDIENT} from '../../services/actions/currentIngredients'
+import {ADD_BUN, ADD_INGREDIENT, DELETE_INGREDIENT} from '../../services/actions/currentIngredients'
 import uuid from 'react-uuid';
 import image from '../../images/bun.png'
 
@@ -18,7 +18,7 @@ export const BurgerConstructor = ({openModalOrder}) => {
     const dispatch = useDispatch();
     const priceCounting = useCallback(()=>{
         return ( (bun ? bun.price * 2 : 0) +
-            ingredients.reduce((acc, topping) =>  acc +  topping.price , 0));
+            ingredients.reduce((acc, topping) =>  acc +  topping.data.price , 0));
         },[ingredients,bun]);
     
     const bunRender = (position) =>{
@@ -72,6 +72,9 @@ export const BurgerConstructor = ({openModalOrder}) => {
             }
         }
     })
+    const deleteIngredient = (uid) =>{
+        dispatch({type: DELETE_INGREDIENT, payload: uid});
+    }
     return (
       <section className={`${styles.section} ${isHover ? styles.section : ''} pt-25`} ref={dropTarget}>
         <div className='mr-4 ml-4 mb-4 pl-8'>
@@ -84,15 +87,16 @@ export const BurgerConstructor = ({openModalOrder}) => {
                 renderTrackVertical={props => <div {...props} className={styles.scrollTrack}/>}
                 renderThumbVertical={props => <div {...props} className={styles.scrollThumb}/>}> 
                     {   useMemo(()=>
-                        ingredients.filter((ingredient) => (ingredient.type !== 'bun')).map((ingredient) => (
+                        ingredients.filter((ingredient) => (ingredient.data.type !== 'bun')).map((ingredient) => (
                             <div  className={`${styles.ingredient} pl-4 pr-4 pb-4`} key={uuid()}>
                                 <div className={`${styles.icon}`}>
                                     <DragIcon type="primary" />
                                 </div>
                                 <ConstructorElement
-                                text={ingredient.name}
-                                price={ingredient.price}
-                                thumbnail={ingredient.image}
+                                text={ingredient.data.name}
+                                price={ingredient.data.price}
+                                thumbnail={ingredient.data.image}
+                                handleClose={()=>{deleteIngredient(ingredient.uid)}}
                                 />
                             </div>
                         ))
