@@ -59,8 +59,7 @@ export const BurgerConstructor = ({openModalOrder}) => {
             isHover: monitor.isOver()
           }),
         drop(item){
-            console.log('drop');
-            if(item.type === 'bun'){
+            if(item.ingredient.type === 'bun'){
                 addBun(item);
             }
         }

@@ -6,7 +6,7 @@ import { useDrag } from "react-dnd";
 import dataType from '../../utils/types'
 
 export const BurgerIngredient = ({ingredient, openModalIngredient}) => {
-    
+
     const [{isDrag},dragRef] = useDrag({
         type: 'ingredient',
         item: {ingredient},
