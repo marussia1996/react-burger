@@ -44,7 +44,7 @@ export const BurgerConstructor = ({openModalOrder}) => {
                     <ConstructorElement
                     type={`${currentType}`}
                     isLocked={true}
-                    text='булка не выбрана'
+                    text='Булка не выбрана'
                     price={0}
                     thumbnail=''
                     />
@@ -82,7 +82,6 @@ export const BurgerConstructor = ({openModalOrder}) => {
             <Scrollbars universal
                 renderTrackVertical={props => <div {...props} className={styles.scrollTrack}/>}
                 renderThumbVertical={props => <div {...props} className={styles.scrollThumb}/>}> 
-            
                     {   useMemo(()=>
                         ingredients.filter((ingredient) => (ingredient.type !== 'bun')).map((ingredient) => (
                             <div  className={`${styles.ingredient} pl-4 pr-4 pb-4`} key={uuid()}>
@@ -97,7 +96,13 @@ export const BurgerConstructor = ({openModalOrder}) => {
                             </div>
                         ))
                         ,[ingredients])
-                    }   
+                    } 
+                    {
+                        ingredients.length === 0 &&
+                        <div  className={`${styles.ingredient} pl-4 pr-4 pb-4`}>
+                            <p className='text text_type_main-default pl-10'>Выберите ингредиенты</p>
+                        </div>
+                    }  
             </Scrollbars>
         </div>
         <div className='mr-4 ml-4 mt-4 pl-8'>
