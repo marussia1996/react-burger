@@ -12,7 +12,7 @@ export const getOrder = (ingridientsIdArray) => {
       .then((res) => {
         dispatch({
           type: GET_ORDER_SUCCESS,
-          order: res.order.number,
+          payload: res.order.number,
         });
       })
       .catch((err) => {

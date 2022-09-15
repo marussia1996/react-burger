@@ -46,7 +46,6 @@ export const App = () => {
 	}, [currentBun, currentIngredients]);
   	//открытие модального окна заказа
   	const openModalOrder = () => {
-		console.log(getIdIngredients());
 		dispatch(getOrder(getIdIngredients()));
 	  	setShowOrderDetails(true);
   	}
