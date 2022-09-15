@@ -8,7 +8,7 @@ import styles from './BurgerConstructor.module.css'
 import { useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
-import {addBun, ADD_BUN, ADD_INGREDIENT} from '../../services/actions/currentIngredients'
+import {ADD_BUN, ADD_INGREDIENT} from '../../services/actions/currentIngredients'
 export const BurgerConstructor = ({openModalOrder}) => {
     const ingredients = useSelector(store=>store.currentIngredients.currentIngredients);
     const bun = useSelector(store=>store.currentIngredients.currentBun);
@@ -53,6 +53,9 @@ export const BurgerConstructor = ({openModalOrder}) => {
     const addBun = (item) => {
         dispatch({type: ADD_BUN, payload:item });
     }
+    const addIngredient = (item) =>{
+        dispatch({type:ADD_INGREDIENT, payload:item})
+    }
     const [{ isHover }, dropTarget] = useDrop({
         accept: 'ingredient',
         collect: monitor => ({
@@ -62,10 +65,13 @@ export const BurgerConstructor = ({openModalOrder}) => {
             if(item.ingredient.type === 'bun'){
                 addBun(item.ingredient);
             }
+            else{
+                addIngredient(item.ingredient);
+            }
         }
     })
     return (
-      <section className={`${styles.section} pt-25`} ref={dropTarget}>
+      <section className={`${styles.section} ${isHover ? styles.section : ''} pt-25`} ref={dropTarget}>
         <div className='mr-4 ml-4 mb-4 pl-8'>
             {
                 bunRender('(верх)')
