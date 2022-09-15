@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
 import {ADD_BUN, ADD_INGREDIENT} from '../../services/actions/currentIngredients'
 import uuid from 'react-uuid';
+import image from '../../images/bun.png'
 
 export const BurgerConstructor = ({openModalOrder}) => {
     const ingredients = useSelector(store=>store.currentIngredients.currentIngredients);
@@ -44,15 +45,15 @@ export const BurgerConstructor = ({openModalOrder}) => {
                     <ConstructorElement
                     type={`${currentType}`}
                     isLocked={true}
-                    text='Булка не выбрана'
+                    text='Булка не выбрана, выберите ее из списка'
                     price={0}
-                    thumbnail=''
+                    thumbnail={image}
                     />
                 )
             }
     };
     const addBun = (item) => {
-        dispatch({type: ADD_BUN, payload:item });
+        dispatch({type: ADD_BUN, payload: item });
     }
     const addIngredient = (item) =>{
         dispatch({type:ADD_INGREDIENT, payload:item})

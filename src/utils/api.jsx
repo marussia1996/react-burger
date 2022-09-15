@@ -17,7 +17,7 @@ export const getData = async() => {
 };
 //запрос получение номера заказа
 export const postOrderDetails = async(ingridientsIdArray) => {
-  fetch(`${baseUrl}/orders`, {
+  return fetch(`${baseUrl}/orders`, {
     method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

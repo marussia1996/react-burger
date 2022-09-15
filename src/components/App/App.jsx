@@ -5,7 +5,7 @@ import {Modal} from '../Modal/Modal';
 import {IngredientDetails} from '../IngredientDetails/IngredientDetails';
 import {OrderDetails} from '../OrderDetails/OrderDetailes';
 import styles from './App.module.css';
-import {useState, useEffect} from "react"
+import {useState, useEffect, useCallback} from "react"
 import { useSelector, useDispatch } from 'react-redux';
 import { getIngreedients } from '../../services/actions/listIngredients'
 import { CLOSE_MODAL, OPEN_MODAL } from '../../services/actions/ingredient';
@@ -19,7 +19,8 @@ export const App = () => {
 	const ingredientsFailed = useSelector(store=>store.listIngredients.ingredientsFailed);
 	const order = useSelector(store=>store.order.order);
 	const currentIngredient = useSelector(store=>store.ingredient.currentIngredient);
-	const listIngredientId = useSelector(store=>store.currentIngredients.currentIngredients);
+	const currentIngredients = useSelector(store=>store.currentIngredients.currentIngredients);
+	const currentBun = useSelector(store=>store.currentIngredients.currentBun);
   	//состояния для модальных окон
   	const [showOrderDetails, setShowOrderDetails] = useState(false);
 
@@ -39,9 +40,14 @@ export const App = () => {
   	const openModalIngredient = (ingredient) => {
 		dispatch({type: OPEN_MODAL, payload: ingredient})
   	}
+	//взятие всех Id выбранных ингредиентов
+	const getIdIngredients = useCallback(() =>{
+		return currentIngredients.map((ingredient)=>ingredient._id).concat(currentBun._id)
+	}, [currentBun, currentIngredients]);
   	//открытие модального окна заказа
   	const openModalOrder = () => {
-		dispatch(getOrder(listIngredientId));
+		console.log(getIdIngredients());
+		dispatch(getOrder(getIdIngredients()));
 	  	setShowOrderDetails(true);
   	}
   	return (
