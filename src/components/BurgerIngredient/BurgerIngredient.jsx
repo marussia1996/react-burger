@@ -14,7 +14,6 @@ export const BurgerIngredient = ({ingredient, openModalIngredient}) => {
             isDrag: monitor.isDragging(),
         }),
     })
-    console.log(`isDrag ${isDrag}`);
     return(
         <div draggable ref={dragRef} style={{isDrag}} className={`${styles.ingredient}`} onClick={()=>{openModalIngredient(ingredient)}}>
             <Counter count={1} size="default" />

@@ -14,6 +14,7 @@ export const BurgerConstructor = ({openModalOrder}) => {
     const bun = useSelector(store=>store.currentIngredients.currentBun);
     const dispatch = useDispatch();
     const priceCounting = useCallback(()=>{
+        console.log(bun);
         return ( (bun ? bun.price * 2 : 0) +
             ingredients.reduce((acc, topping) =>  acc +  topping.price , 0));
         },[ingredients,bun]);
@@ -50,7 +51,6 @@ export const BurgerConstructor = ({openModalOrder}) => {
             }
     };
     const addBun = (item) => {
-        console.log('addBun');
         dispatch({type: ADD_BUN, payload:item });
     }
     const [{ isHover }, dropTarget] = useDrop({
@@ -60,7 +60,7 @@ export const BurgerConstructor = ({openModalOrder}) => {
           }),
         drop(item){
             if(item.ingredient.type === 'bun'){
-                addBun(item);
+                addBun(item.ingredient);
             }
         }
     })
