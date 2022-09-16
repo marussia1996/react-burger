@@ -22,7 +22,7 @@ export const BurgerIngredient = ({ingredient, openModalIngredient}) => {
             return bun && ingredient._id === bun._id ? 2 : 0;
         }
         else{
-            return ingredients.length > 0 && ingredients.filter((element) => element._id === ingredient._id).length;
+            return ingredients.length > 0 && ingredients.filter((element) => element.data._id === ingredient._id).length;
         }
     }, [bun, ingredients, ingredient._id, ingredient.type]);
     return(

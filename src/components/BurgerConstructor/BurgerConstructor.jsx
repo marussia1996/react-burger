@@ -1,16 +1,16 @@
 import {Button} from '@ya.praktikum/react-developer-burger-ui-components'
 import {ConstructorElement} from '@ya.praktikum/react-developer-burger-ui-components'
 import { Scrollbars } from 'react-custom-scrollbars'
-import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import PropTypes from "prop-types";
 import styles from './BurgerConstructor.module.css'
 import { useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
-import {ADD_BUN, ADD_INGREDIENT, DELETE_INGREDIENT} from '../../services/actions/currentIngredients'
+import {ADD_BUN, ADD_INGREDIENT} from '../../services/actions/currentIngredients'
 import uuid from 'react-uuid';
 import image from '../../images/bun.png'
+import {ConstructorIngredient} from '../ConstructorIngredient/ConstructorIngredient'
 
 export const BurgerConstructor = ({openModalOrder}) => {
     const ingredients = useSelector(store=>store.currentIngredients.currentIngredients);
@@ -52,6 +52,14 @@ export const BurgerConstructor = ({openModalOrder}) => {
                 )
             }
     };
+    const isDisabledButton = useMemo(()=>{
+        if(ingredients.length > 0 && bun)
+            return false;
+        else return true;
+    }, [ingredients, bun]);
+
+    let isDisabled = (ingredients.length === 0 || !bun );
+    console.log(isDisabled);
     const addBun = (item) => {
         dispatch({type: ADD_BUN, payload: item });
     }
@@ -72,11 +80,9 @@ export const BurgerConstructor = ({openModalOrder}) => {
             }
         }
     })
-    const deleteIngredient = (uid) =>{
-        dispatch({type: DELETE_INGREDIENT, payload: uid});
-    }
+
     return (
-      <section className={`${styles.section} ${isHover ? styles.section : ''} pt-25`} ref={dropTarget}>
+      <section className={`${styles.section} ${isHover ? styles.onHover : ''} pt-25`} ref={dropTarget}>
         <div className='mr-4 ml-4 mb-4 pl-8'>
             {
                 bunRender('(верх)')
@@ -88,17 +94,7 @@ export const BurgerConstructor = ({openModalOrder}) => {
                 renderThumbVertical={props => <div {...props} className={styles.scrollThumb}/>}> 
                     {   useMemo(()=>
                         ingredients.filter((ingredient) => (ingredient.data.type !== 'bun')).map((ingredient) => (
-                            <div  className={`${styles.ingredient} pl-4 pr-4 pb-4`} key={uuid()}>
-                                <div className={`${styles.icon}`}>
-                                    <DragIcon type="primary" />
-                                </div>
-                                <ConstructorElement
-                                text={ingredient.data.name}
-                                price={ingredient.data.price}
-                                thumbnail={ingredient.data.image}
-                                handleClose={()=>{deleteIngredient(ingredient.uid)}}
-                                />
-                            </div>
+                            <ConstructorIngredient key={uuid()} ingredient={ingredient.data} uid={ingredient.uid}/>
                         ))
                         ,[ingredients])
                     } 
@@ -122,9 +118,9 @@ export const BurgerConstructor = ({openModalOrder}) => {
                 </p>
                 <CurrencyIcon type="primary" />
             </div>
-            <Button type="primary" size="large" onClick={openModalOrder}>
-                Оформить заказ
-            </Button>
+                <Button type="primary" disabled={isDisabledButton} size="large" onClick={openModalOrder}>
+                    Оформить заказ
+                </Button>          
         </div>
       </section>
     );
