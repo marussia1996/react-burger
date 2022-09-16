@@ -57,12 +57,15 @@ export const BurgerConstructor = ({openModalOrder}) => {
             return false;
         else return true;
     }, [ingredients, bun]);
-    
+
     const addBun = (item) => {
         dispatch({type: ADD_BUN, payload: item });
     }
     const addIngredient = (item) =>{
         dispatch({type:ADD_INGREDIENT, payload:item})
+    }
+    const sortIngredient = () => {
+        console.log('sort')
     }
     const [{ isHover }, dropTarget] = useDrop({
         accept: 'ingredient',
@@ -78,7 +81,15 @@ export const BurgerConstructor = ({openModalOrder}) => {
             }
         }
     })
-
+    const [{}, dropIngredient] = useDrop ({
+        accept: 'sortIngredient',
+        collect:monitor => ({
+            isHover: monitor.isOver()
+          }),
+        drop(item){
+            sortIngredient();
+        }
+    })
     return (
       <section className={`${styles.section} ${isHover ? styles.onHover : ''} pt-25`} ref={dropTarget}>
         <div className='mr-4 ml-4 mb-4 pl-8'>
@@ -86,7 +97,7 @@ export const BurgerConstructor = ({openModalOrder}) => {
                 bunRender('(верх)')
             } 
         </div>    
-        <div className={`${styles.containerScroll} `} >
+        <div className={`${styles.containerScroll} `} ref={dropIngredient}>
             <Scrollbars universal
                 renderTrackVertical={props => <div {...props} className={styles.scrollTrack}/>}
                 renderThumbVertical={props => <div {...props} className={styles.scrollThumb}/>}> 

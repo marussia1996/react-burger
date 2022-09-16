@@ -5,15 +5,22 @@ import { useDrag } from "react-dnd";
 import PropTypes from "prop-types";
 import dataType from '../../utils/types'
 import {DELETE_INGREDIENT} from '../../services/actions/currentIngredients'
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 export const ConstructorIngredient = ({ingredient, uid}) =>{
     const dispatch = useDispatch();
+    const [{isDrag},dragRef] = useDrag({
+        type: 'sortIngredient',
+        item: {ingredient},
+        collect: (monitor) => ({
+            isDrag: monitor.isDragging(),
+        }),
+    })
     const deleteIngredient = (uid) =>{
         dispatch({type: DELETE_INGREDIENT, payload: uid});
     }
     return (
-        <div  className={`${styles.ingredient} pl-4 pr-4 pb-4`}>
+        <div draggable ref={dragRef} style={{isDrag}} className={`${styles.ingredient} pl-4 pr-4 pb-4`}>
             <div className={`${styles.icon}`}>
                 <DragIcon type="primary" />
             </div>
