@@ -57,9 +57,7 @@ export const BurgerConstructor = ({openModalOrder}) => {
             return false;
         else return true;
     }, [ingredients, bun]);
-
-    let isDisabled = (ingredients.length === 0 || !bun );
-    console.log(isDisabled);
+    
     const addBun = (item) => {
         dispatch({type: ADD_BUN, payload: item });
     }

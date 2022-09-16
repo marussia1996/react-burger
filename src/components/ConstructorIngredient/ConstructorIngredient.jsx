@@ -2,6 +2,7 @@ import {DragIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import {ConstructorElement} from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './ConstructorIngredient.module.css'
 import { useDrag } from "react-dnd";
+import PropTypes from "prop-types";
 import dataType from '../../utils/types'
 import {DELETE_INGREDIENT} from '../../services/actions/currentIngredients'
 import { useSelector, useDispatch } from 'react-redux';
@@ -27,4 +28,5 @@ export const ConstructorIngredient = ({ingredient, uid}) =>{
 }
 ConstructorIngredient.propTypes = {
     ingredient: dataType.isRequired,
+    uid:PropTypes.string,
 };
