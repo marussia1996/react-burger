@@ -64,9 +64,7 @@ export const BurgerConstructor = ({openModalOrder}) => {
     const addIngredient = (item) =>{
         dispatch({type:ADD_INGREDIENT, payload:item})
     }
-    const sortIngredient = () => {
-        console.log('sort')
-    }
+
     const [{ isHover }, dropTarget] = useDrop({
         accept: 'ingredient',
         collect: monitor => ({
@@ -81,15 +79,7 @@ export const BurgerConstructor = ({openModalOrder}) => {
             }
         }
     })
-    const [{}, dropIngredient] = useDrop ({
-        accept: 'sortIngredient',
-        collect:monitor => ({
-            isHover: monitor.isOver()
-          }),
-        drop(item){
-            sortIngredient();
-        }
-    })
+
     return (
       <section className={`${styles.section} ${isHover ? styles.onHover : ''} pt-25`} ref={dropTarget}>
         <div className='mr-4 ml-4 mb-4 pl-8'>
@@ -97,15 +87,16 @@ export const BurgerConstructor = ({openModalOrder}) => {
                 bunRender('(верх)')
             } 
         </div>    
-        <div className={`${styles.containerScroll} `} ref={dropIngredient}>
+        <div className={`${styles.containerScroll} `}>
             <Scrollbars universal
                 renderTrackVertical={props => <div {...props} className={styles.scrollTrack}/>}
                 renderThumbVertical={props => <div {...props} className={styles.scrollThumb}/>}> 
                     {   useMemo(()=>
-                        ingredients.filter((ingredient) => (ingredient.data.type !== 'bun')).map((ingredient) => (
-                            <ConstructorIngredient key={uuid()} ingredient={ingredient.data} uid={ingredient.uid}/>
+                        ingredients.filter((ingredient) => (ingredient.data.type !== 'bun')).map((ingredient,index) => (                        
+                            <ConstructorIngredient key={uuid()} ingredient={ingredient.data} index={index} uid={ingredient.uid}/>
                         ))
                         ,[ingredients])
+                        
                     } 
                     {
                         ingredients.length === 0 &&

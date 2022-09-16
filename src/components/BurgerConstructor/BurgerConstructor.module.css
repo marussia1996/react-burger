@@ -3,7 +3,9 @@
   flex-direction: column;
 }
 .onHover {
-  box-shadow: inset 0px -2px 0px #3c39ec;
+  border-radius: 10%;
+  border: 1px solid #8585ad;
+  box-sizing: content-box;
 }
 .containerScroll {
   flex: 1 1 auto;

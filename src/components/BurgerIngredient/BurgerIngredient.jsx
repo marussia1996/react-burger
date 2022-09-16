@@ -10,11 +10,11 @@ import { useSelector } from 'react-redux';
 export const BurgerIngredient = ({ingredient, openModalIngredient}) => {
     const ingredients = useSelector(store=>store.currentIngredients.currentIngredients);
     const bun = useSelector(store=>store.currentIngredients.currentBun);
-    const [{isDrag},dragRef] = useDrag({
+    const [{opacity},dragRef] = useDrag({
         type: 'ingredient',
         item: {ingredient},
         collect: (monitor) => ({
-            isDrag: monitor.isDragging(),
+            opacity: monitor.isDragging() ? 0.5 : 1
         }),
     })
     const setCounter = useMemo(() =>{
@@ -26,7 +26,7 @@ export const BurgerIngredient = ({ingredient, openModalIngredient}) => {
         }
     }, [bun, ingredients, ingredient._id, ingredient.type]);
     return(
-        <div draggable ref={dragRef} style={{isDrag}} className={`${styles.ingredient}`} onClick={()=>{openModalIngredient(ingredient)}}>
+        <div draggable ref={dragRef} style={{opacity}} className={`${styles.ingredient}`} onClick={()=>{openModalIngredient(ingredient)}}>
             {setCounter > 0 && <Counter count={setCounter} size="default" />}
             <img src={ingredient.image} alt={ingredient.name}/>
                 <div className='mt-2 mb-2'>

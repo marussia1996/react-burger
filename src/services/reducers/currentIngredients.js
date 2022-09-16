@@ -1,8 +1,10 @@
 import uuid from "react-uuid";
+import update from "immutability-helper";
 import {
   ADD_BUN,
   ADD_INGREDIENT,
   DELETE_INGREDIENT,
+  SWAP_INGREDIENT,
 } from "../actions/currentIngredients";
 // Исходное состояние
 const initialState = {
@@ -34,8 +36,23 @@ export const currentIngredientsReducer = (state = initialState, action) => {
         ),
       };
     }
+    case SWAP_INGREDIENT: {
+      return {
+        ...state,
+        currentIngredients: swap(
+          ...state.currentIngredients,
+          action.dragIndex,
+          action.hoverIndex
+        ),
+      };
+    }
     default: {
       return state;
     }
   }
+};
+const swap = (arr, x, y) => {
+  const z = arr[x];
+  arr[x] = arr[y];
+  arr[y] = z;
 };
