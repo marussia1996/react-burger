@@ -38,7 +38,6 @@ export const ConstructorIngredient = ({ingredient, index}) =>{
             // наведение при перетаскивании вверх выше середины по оси y
             if (dragIndex > hoverIndex && hoverActualY > hoverMiddleY) return
 
-            console.log('make you shit');
             swapIngredient(dragIndex, hoverIndex);
             item.index = hoverIndex;
         },

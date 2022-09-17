@@ -1,5 +1,4 @@
 import uuid from "react-uuid";
-import update from "immutability-helper";
 import {
   ADD_BUN,
   ADD_INGREDIENT,
@@ -39,7 +38,7 @@ export const currentIngredientsReducer = (state = initialState, action) => {
     case SWAP_INGREDIENT: {
       return {
         ...state,
-        currentIngredients: swap(
+        currentIngredients: arrayMove(
           [...state.currentIngredients],
           action.hoverIndex,
           action.dragIndex
@@ -51,9 +50,13 @@ export const currentIngredientsReducer = (state = initialState, action) => {
     }
   }
 };
-const swap = (arr, x, y) => {
-  const tmp = arr[x];
-  arr[x] = arr[y];
-  arr[y] = tmp;
+const arrayMove = (arr, newIndex, oldIndex) => {
+  if (arr.length <= newIndex) {
+    let c = newIndex - arr.length + 1;
+    while (c--) {
+      arr.push(undefined);
+    }
+  }
+  arr.splice(newIndex, 0, arr.splice(oldIndex, 1)[0]);
   return arr;
 };
