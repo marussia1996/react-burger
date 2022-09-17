@@ -40,9 +40,9 @@ export const currentIngredientsReducer = (state = initialState, action) => {
       return {
         ...state,
         currentIngredients: swap(
-          ...state.currentIngredients,
-          action.dragIndex,
-          action.hoverIndex
+          [...state.currentIngredients],
+          action.hoverIndex,
+          action.dragIndex
         ),
       };
     }
@@ -52,7 +52,8 @@ export const currentIngredientsReducer = (state = initialState, action) => {
   }
 };
 const swap = (arr, x, y) => {
-  const z = arr[x];
+  const tmp = arr[x];
   arr[x] = arr[y];
-  arr[y] = z;
+  arr[y] = tmp;
+  return arr;
 };

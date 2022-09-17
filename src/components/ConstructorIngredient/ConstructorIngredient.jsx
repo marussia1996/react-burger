@@ -9,14 +9,15 @@ import { useDrop, useDrag } from 'react-dnd';
 import {useRef} from 'react'
 
 
-export const ConstructorIngredient = ({ingredient, index, uid}) =>{
+export const ConstructorIngredient = ({ingredient, index}) =>{
     const dispatch = useDispatch();
     const [{opacity},dragRef] = useDrag({
         type: 'selectedIngredient',
-        item: {ingredient},
+        item: {ingredient, index},
         collect: (monitor) => ({
             opacity: monitor.isDragging() ? 0.5 : 1
         }),
+        
     });
     const [{isSwap}, dropRef] = useDrop ({
         accept: 'selectedIngredient',
@@ -24,8 +25,10 @@ export const ConstructorIngredient = ({ingredient, index, uid}) =>{
             isSwap: monitor.isOver()
           }),
           hover: (item, monitor) => {
+
             const dragIndex = item.index;
-            const hoverIndex = index
+            const hoverIndex = index;
+
             const hoverBoundingRect = ref.current?.getBoundingClientRect()
             const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
             const hoverActualY = monitor.getClientOffset().y - hoverBoundingRect.top
@@ -35,8 +38,9 @@ export const ConstructorIngredient = ({ingredient, index, uid}) =>{
             // наведение при перетаскивании вверх выше середины по оси y
             if (dragIndex > hoverIndex && hoverActualY > hoverMiddleY) return
 
-            swapIngredient(dragIndex, hoverIndex)
-            item.index = hoverIndex
+            console.log('make you shit');
+            swapIngredient(dragIndex, hoverIndex);
+            item.index = hoverIndex;
         },
     })
     const ref = useRef(null);
@@ -53,10 +57,10 @@ export const ConstructorIngredient = ({ingredient, index, uid}) =>{
                 <DragIcon type="primary" />
             </div>
             <ConstructorElement
-            text={ingredient.name}
-            price={ingredient.price}
-            thumbnail={ingredient.image}
-            handleClose={()=>{deleteIngredient(uid)}}
+            text={ingredient.data.name}
+            price={ingredient.data.price}
+            thumbnail={ingredient.data.image}
+            handleClose={()=>{deleteIngredient(ingredient.uid)}}
             />
         </div>
     );
@@ -64,5 +68,4 @@ export const ConstructorIngredient = ({ingredient, index, uid}) =>{
 ConstructorIngredient.propTypes = {
     ingredient: dataType.isRequired,
     index: PropTypes.number,
-    uid:PropTypes.string,
 };

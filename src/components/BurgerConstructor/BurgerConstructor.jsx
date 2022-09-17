@@ -93,7 +93,7 @@ export const BurgerConstructor = ({openModalOrder}) => {
                 renderThumbVertical={props => <div {...props} className={styles.scrollThumb}/>}> 
                     {   useMemo(()=>
                         ingredients.filter((ingredient) => (ingredient.data.type !== 'bun')).map((ingredient,index) => (                        
-                            <ConstructorIngredient key={uuid()} ingredient={ingredient.data} index={index} uid={ingredient.uid}/>
+                            <ConstructorIngredient key={uuid()} ingredient={ingredient} index={index}/>
                         ))
                         ,[ingredients])
                         
