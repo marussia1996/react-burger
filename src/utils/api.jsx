@@ -13,7 +13,7 @@ export const getData = async() => {
   return fetch(`${baseUrl}/ingredients`, {
     headers: { "Content-Type": "application/json" },
     method: "GET",
-  }).then((res) => {console.log(res.data); checkResponse(res)});
+  }).then((res) => {return checkResponse(res)});
 };
 //запрос получение номера заказа
 export const postOrderDetails = async(ingridientsIdArray) => {
