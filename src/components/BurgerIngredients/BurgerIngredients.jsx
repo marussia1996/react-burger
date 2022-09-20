@@ -17,7 +17,7 @@ export const BurgerIngredients = ({openModalIngredient}) => {
         threshold: 0.5
       });
       const [sauce, inViewSauce ] = useInView({
-        threshold: 0.3
+        threshold: 0.8
       });
       const [ main, inViewMain ] = useInView({
         threshold: 0.2
