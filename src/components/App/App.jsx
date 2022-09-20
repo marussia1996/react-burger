@@ -18,6 +18,7 @@ export const App = () => {
 	const ingredientsRequest = useSelector(store=>store.listIngredients.ingredientsRequest);
 	const ingredientsFailed = useSelector(store=>store.listIngredients.ingredientsFailed);
 	const order = useSelector(store=>store.order.order);
+	const orderRequest = useSelector(store=>store.order.orderRequest);
 	const currentIngredient = useSelector(store=>store.ingredient.currentIngredient);
 	const currentIngredients = useSelector(store=>store.currentIngredients.currentIngredients);
 	const currentBun = useSelector(store=>store.currentIngredients.currentBun);
@@ -63,12 +64,12 @@ export const App = () => {
 		{ingredientsFailed &&
 					<p>Ошибка получения данных с сервера</p>
 		}
-			{ (showOrderDetails && order) && (
+			{ (showOrderDetails && order && !orderRequest) && (
 				<Modal handleClose={closeModalOrder} title="">
 					<OrderDetails order={order}/>
 				</Modal>
 			)}
-			{ (showOrderDetails && !order) && (
+			{ (showOrderDetails && !order && !orderRequest) && (
 				<Modal handleClose={closeModalOrder} title="">
 					<p>Ошибка получения номера заказа</p>
 				</Modal>
