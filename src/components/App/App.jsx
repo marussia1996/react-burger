@@ -5,125 +5,78 @@ import {Modal} from '../Modal/Modal';
 import {IngredientDetails} from '../IngredientDetails/IngredientDetails';
 import {OrderDetails} from '../OrderDetails/OrderDetailes';
 import styles from './App.module.css';
-import {useState, useEffect, useReducer, useMemo} from "react"
-import { baseUrl } from '../../utils/constants';
-import { DataContext } from '../../services/dataContext';
-import { BunContext } from '../../services/bunContext'
-import { PriceContext } from '../../services/priceContext';
+import {useState, useEffect, useCallback} from "react"
+import { useSelector, useDispatch } from 'react-redux';
+import { getIngreedients } from '../../services/actions/listIngredients'
+import { CLOSE_MODAL, OPEN_MODAL } from '../../services/actions/ingredient';
+import { getOrder } from '../../services/actions/order';
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
-
-const priceInitialState = { price: null };
-function reducer(state, action){
-  switch(action.type){
-    case 'counting':
-      	return {price: action.payload};
-	case 'reset':
-		return priceInitialState;
-    default:
-      throw new Error(`Wrong type of action: ${action.type}`);
-  }
-}
 export const App = () => {
-	//состояние для полученных ингредиентов
-  	const [ingreedients, setIngredients] = useState([]);
-  	const [ingredientsError, setIngredientsError] = useState('');
-	//состояние для булки
-	const [bun, setBun] = useState({});
-	//состояние для цены
-	const [priceState, priceDispatcher] = useReducer(reducer, priceInitialState, undefined);
-	//состояние для заказа
-	const [order, setOrder] = useState(null);
-	const [orderError, setOrderError] = useState('');
+	//значения из хранилища 
+	const ingredientsRequest = useSelector(store=>store.listIngredients.ingredientsRequest);
+	const ingredientsFailed = useSelector(store=>store.listIngredients.ingredientsFailed);
+	const order = useSelector(store=>store.order.order);
+	const orderRequest = useSelector(store=>store.order.orderRequest);
+	const currentIngredient = useSelector(store=>store.ingredient.currentIngredient);
+	const currentIngredients = useSelector(store=>store.currentIngredients.currentIngredients);
+	const currentBun = useSelector(store=>store.currentIngredients.currentBun);
   	//состояния для модальных окон
-  	const [showIngredientDetails, setShowIngredientDetails] = useState(false);
   	const [showOrderDetails, setShowOrderDetails] = useState(false);
-  	//состояние для данных ингредиента
-  	const [infoIngredient, setInfoIngredient] = useState({});
-	//проверка ответа от сервера
-	const checkResponse = (res) =>{
-		if (res.ok) {
-			return res.json();
-	  	}
-	  	return Promise.reject(new Error(`Произошла ошибка со статус-кодом ${res.status}`));
-	}
-  	//запрос получения ингредиентов
-  	const getIngredientData = () => {
-		fetch(`${baseUrl}/ingredients`)
-    	.then((res)=>checkResponse(res))
-    	.then((resData) => {
-      		setIngredients(resData.data)})
-    	.catch(err => {
-      		setIngredientsError(err)});     
-  	}
-	//запрос получение номера заказа
-	const postOrderDetails = (ingridientsIdArray) => {
-		fetch(`${baseUrl}/orders`, {
-			method: 'POST',
-    		headers: { 'Content-Type': 'application/json' },
-    		body: JSON.stringify({
-      			ingredients: ingridientsIdArray,
-    		}),
-		})
-		.then((res)=>checkResponse(res))
-    	.then((resData) => {
-      		setOrder(resData.order.number)})
-    	.catch(err => {
-      		setOrderError(err)});
-	}	
-  	//при монтировании запрашиваем данные
-  	useEffect(() => {
-    	getIngredientData();
-  	},[]);
 
-  	//закрытие модальных окон
-  	const closeModals = () => {
-    	setShowIngredientDetails(false);
-    	setShowOrderDetails(false);
+	//при монтировании запрашиваем данные
+	const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getIngreedients());
+    }, [dispatch]);	
+  	//закрытие модальных окон 
+  	const closeModalIngredient = () => {
+    	dispatch({type: CLOSE_MODAL});
   	};
-
+	const closeModalOrder = () => {
+		setShowOrderDetails(false);
+	}
   	//открытие модального окна ингредиента
   	const openModalIngredient = (ingredient) => {
-		setInfoIngredient (ingredient)
-    	setShowIngredientDetails(true);
+		dispatch({type: OPEN_MODAL, payload: ingredient})
   	}
-	const listIngredientId = useMemo(() => ingreedients.map((ingredient)=> ingredient._id), [ingreedients]);
+	//взятие всех Id выбранных ингредиентов
+	const getIdIngredients = useCallback(() =>{
+		return currentIngredients.map((ingredient)=>ingredient._id).concat(currentBun._id)
+	}, [currentBun, currentIngredients]);
   	//открытие модального окна заказа
   	const openModalOrder = () => {
-		postOrderDetails(listIngredientId);
+		dispatch(getOrder(getIdIngredients()));
 	  	setShowOrderDetails(true);
   	}
-
   	return (
 		<div className={styles.app}>
 		<AppHeader/>
-		<main className={styles.main}>
-		{ (ingreedients.length && !ingredientsError) &&
-			<DataContext.Provider value={{ingreedients}}>
-				<BunContext.Provider value={{bun, setBun}}>
-					<PriceContext.Provider value={{priceState, priceDispatcher}}>
-						<BurgerIngredients openModalIngredient={openModalIngredient}></BurgerIngredients>
-						<BurgerConstructor openModalOrder={openModalOrder}></BurgerConstructor>
-					</PriceContext.Provider>
-				</BunContext.Provider>
-			</DataContext.Provider>
+		{ (!ingredientsRequest && !ingredientsFailed) &&
+			<main className={styles.main}>
+				<DndProvider backend={HTML5Backend}>
+					<BurgerIngredients openModalIngredient={openModalIngredient}></BurgerIngredients>
+					<BurgerConstructor openModalOrder={openModalOrder}></BurgerConstructor>
+				</DndProvider>
+			</main>
 		}
-		{ingredientsError &&
+		{ingredientsFailed &&
 					<p>Ошибка получения данных с сервера</p>
-				}
-		</main>
-			{ (showOrderDetails && order) && (
-				<Modal handleClose={closeModals} title="">
+		}
+			{ (showOrderDetails && order && !orderRequest) && (
+				<Modal handleClose={closeModalOrder} title="">
 					<OrderDetails order={order}/>
 				</Modal>
 			)}
-			{ (showOrderDetails && orderError) && (
-				<Modal handleClose={closeModals} title="">
+			{ (showOrderDetails && !order && !orderRequest) && (
+				<Modal handleClose={closeModalOrder} title="">
 					<p>Ошибка получения номера заказа</p>
 				</Modal>
 			)}
-			{showIngredientDetails && (
-				<Modal title="Детали ингредиента" handleClose={closeModals}>
-					<IngredientDetails ingredient={infoIngredient} />
+			{currentIngredient && (
+				<Modal title="Детали ингредиента" handleClose={closeModalIngredient}>
+					<IngredientDetails ingredient={currentIngredient} />
 				</Modal>
 			)}
 		</div>
