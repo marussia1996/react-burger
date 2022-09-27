@@ -4,6 +4,7 @@ import styles from './App.module.css';
 import { HomePage } from '../../pages/HomePage'; 
 import { LoginPage } from '../../pages/LoginPage';
 import {RegisterPage} from '../../pages/RegisterPage';
+import { ForgotPassword } from '../ForgotPassword/ForgotPassword';
 
 export const App = () => {
 	return (
@@ -17,6 +18,12 @@ export const App = () => {
 				</Route>
 				<Route path='/register'>
 					<RegisterPage />
+				</Route>
+				<Route path='/forgot-password'>
+					<ForgotPassword />
+				</Route>
+				<Route path='/reset-password'>
+					<></>
 				</Route>
 				<Route path="/">
 					<HomePage />

@@ -49,7 +49,7 @@ export const Register = () =>{
                 </div>
                 <Button disabled={!(state.email && state.password)} type="primary" size="medium">Зарегистрироваться</Button>
             </form>
-            <p className={`text text_type_main-default text_color_inactive mt-20 mb-4`}>Уже зарегистрированы? <a className={`${styles.link}`}>Войти</a></p>
+            <p className={`text text_type_main-default text_color_inactive mt-20`}>Уже зарегистрированы? <a className={`${styles.link}`}>Войти</a></p>
         </div>
     )
 }

@@ -21,7 +21,7 @@
   width: 480px;
 }
 button {
-  max-width: 253px;
+  max-width: max-content;
   margin: auto;
 }
 .link {
