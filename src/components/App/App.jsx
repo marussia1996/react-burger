@@ -4,8 +4,8 @@ import styles from './App.module.css';
 import { HomePage } from '../../pages/HomePage'; 
 import { LoginPage } from '../../pages/LoginPage';
 import {RegisterPage} from '../../pages/RegisterPage';
-import { ForgotPassword } from '../ForgotPassword/ForgotPassword';
-
+import { RepairPasswordPage } from '../../pages/RepairPasswordPage'
+import { ResetPasswordPage } from '../../pages/ResetPasswordPage';
 export const App = () => {
 	return (
 		<div className={styles.app}>
@@ -20,10 +20,10 @@ export const App = () => {
 					<RegisterPage />
 				</Route>
 				<Route path='/forgot-password'>
-					<ForgotPassword />
+					<RepairPasswordPage />
 				</Route>
 				<Route path='/reset-password'>
-					<></>
+					<ResetPasswordPage/>
 				</Route>
 				<Route path="/">
 					<HomePage />
