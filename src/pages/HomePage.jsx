@@ -10,6 +10,7 @@ import { CLOSE_MODAL, OPEN_MODAL } from '../services/actions/ingredient';
 import { getOrder } from '../services/actions/order';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import {Link, Redirect} from 'react-router-dom';
 
 export function HomePage() {
     //значения из хранилища 
@@ -20,6 +21,7 @@ export function HomePage() {
 	const currentIngredient = useSelector(store=>store.ingredient.currentIngredient);
 	const currentIngredients = useSelector(store=>store.currentIngredients.currentIngredients);
 	const currentBun = useSelector(store=>store.currentIngredients.currentBun);
+	const user = useSelector(store=>store.user.user);
   	//состояния для модальных окон
   	const [showOrderDetails, setShowOrderDetails] = useState(false);
 
@@ -48,6 +50,11 @@ export function HomePage() {
 		dispatch(getOrder(getIdIngredients()));
 	  	setShowOrderDetails(true);
   	}
+	if(!user){
+		return (
+            <Redirect to={'/login'} />
+        );
+	}
   	return (
         <>
 		{ (!ingredientsRequest && !ingredientsFailed) &&

@@ -1,14 +1,25 @@
 import styles from './ForgotPassword.module.css'
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useState } from "react"
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { forgotPswUser } from '../../services/actions/user';
+import { useSelector } from 'react-redux';
 export const ForgotPassword = () =>{
     const [email, setEmail] = useState('');
+    const dispatch = useDispatch();
+    const forgotSuccess = useSelector(store=>store.user.forgotPswSuccess);
     const onChange = e =>{
         setEmail(e.target.value);
     }
     const handleSubmit = (e) => {
         e.preventDefault();
+        dispatch(forgotPswUser(email));
+    }
+    if(forgotSuccess){
+        return (
+            <Redirect to={'/reset-password'} />
+        );
     }
     return (
         <div className={`${styles.container}`}>

@@ -2,12 +2,26 @@ import {
   REGISTRATION_FAILED,
   REGISTRATION_REQUEST,
   REGISTRATION_SUCCESS,
+  FORGOT_PASSWORD_REQUEST,
+  FORGOT_PASSWORD_SUCCESS,
+  FORGOT_PASSWORD_FAILED,
+  RESET_PASSWORD_REQUEST,
+  RESET_PASSWORD_SUCCESS,
+  RESET_PASSWORD_FAILED,
 } from "../actions/user";
 // Исходное состояние
 const initialState = {
   user: null,
   registerRequest: false,
   registerFailed: false,
+
+  forgotPswRequest: false,
+  forgotPswFailed: false,
+  forgotPswSuccess: false,
+
+  resetPswRequest: false,
+  resetPswFailed: false,
+  resetPswSuccess: false,
 };
 export const userReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -30,6 +44,48 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         registerRequest: false,
         registerFailed: true,
+      };
+    }
+    case FORGOT_PASSWORD_REQUEST: {
+      return {
+        ...state,
+        forgotPswRequest: true,
+      };
+    }
+    case FORGOT_PASSWORD_SUCCESS: {
+      return {
+        ...state,
+        forgotPswFailed: false,
+        forgotPswRequest: false,
+        forgotPswSuccess: action.payload,
+      };
+    }
+    case FORGOT_PASSWORD_FAILED: {
+      return {
+        ...state,
+        forgotPswFailed: true,
+        forgotPswRequest: false,
+      };
+    }
+    case RESET_PASSWORD_REQUEST: {
+      return {
+        ...state,
+        resetPswRequest: true,
+      };
+    }
+    case RESET_PASSWORD_SUCCESS: {
+      return {
+        ...state,
+        resetPswFailed: false,
+        resetPswRequest: false,
+        resetPswSuccess: action.payload,
+      };
+    }
+    case RESET_PASSWORD_FAILED: {
+      return {
+        ...state,
+        resetPswFailed: true,
+        resetPswRequest: false,
       };
     }
     default: {
