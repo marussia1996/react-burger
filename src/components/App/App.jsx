@@ -6,6 +6,7 @@ import { LoginPage } from '../../pages/LoginPage';
 import {RegisterPage} from '../../pages/RegisterPage';
 import { RepairPasswordPage } from '../../pages/RepairPasswordPage'
 import { ResetPasswordPage } from '../../pages/ResetPasswordPage';
+import { ProfilePage } from '../../pages/ProfilePage';
 export const App = () => {
 	return (
 		<div className={styles.app}>
@@ -24,6 +25,9 @@ export const App = () => {
 				</Route>
 				<Route path='/reset-password'>
 					<ResetPasswordPage/>
+				</Route>
+				<Route path='/profile'>
+					<ProfilePage/>
 				</Route>
 				<Route path="/">
 					<HomePage />

@@ -50,11 +50,7 @@ export function HomePage() {
 		dispatch(getOrder(getIdIngredients()));
 	  	setShowOrderDetails(true);
   	}
-	if(!user){
-		return (
-            <Redirect to={'/login'} />
-        );
-	}
+
   	return (
         <>
 		{ (!ingredientsRequest && !ingredientsFailed) &&
