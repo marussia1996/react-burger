@@ -1,13 +1,18 @@
 import styles from './Register.module.css'
 import { Button, PasswordInput, Input } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useState } from "react"
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { registerUser } from '../../services/actions/user';
+import { useSelector } from 'react-redux';
 export const Register = () =>{
     const [state, setState] = useState({
         name: '',
         email: '',
         password: '',
       });
+    const user = useSelector(store=>store.user.user);
+    const dispatch = useDispatch();
     const onChangeInputs = e => {
         const value = e.target.value;
         const name = e.target.name;
@@ -19,6 +24,13 @@ export const Register = () =>{
     }
     const handleSubmit = (e) => {
         e.preventDefault();
+        dispatch(registerUser(state.email, state.password, state.name));
+    }
+    console.log(user);
+    if(user){
+        return (
+            <Redirect to={'/'} />
+        );
     }
     return (
         <div className={`${styles.container}`}>
