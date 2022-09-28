@@ -1,6 +1,7 @@
 import styles from './Register.module.css'
 import { Button, PasswordInput, Input } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useState } from "react"
+import {Link} from 'react-router-dom';
 export const Register = () =>{
     const [state, setState] = useState({
         name: '',
@@ -16,10 +17,13 @@ export const Register = () =>{
         [name]: value,
         });
     }
+    const handleSubmit = (e) => {
+        e.preventDefault();
+    }
     return (
         <div className={`${styles.container}`}>
             <h1 className={`${styles.title} text text_type_main-medium`}>Регистрация</h1>
-            <form className={`${styles.form}`}>
+            <form className={`${styles.form}`} onSubmit={handleSubmit}>
                 <div className={`${styles.input} mt-6`}>
                     <Input
                         placeholder="Имя"
@@ -49,7 +53,7 @@ export const Register = () =>{
                 </div>
                 <Button disabled={!(state.email && state.password)} type="primary" size="medium">Зарегистрироваться</Button>
             </form>
-            <p className={`text text_type_main-default text_color_inactive mt-20`}>Уже зарегистрированы? <a className={`${styles.link}`}>Войти</a></p>
+            <p className={`text text_type_main-default text_color_inactive mt-20`}>Уже зарегистрированы? <Link to='/login' className={`${styles.link}`}>Войти</Link></p>
         </div>
     )
 }

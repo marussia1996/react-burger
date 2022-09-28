@@ -1,6 +1,7 @@
 import styles from './Login.module.css'
 import { Button, PasswordInput, Input } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useState } from "react"
+import {Link} from 'react-router-dom';
 export const Login = () =>{
     const [state, setState] = useState({
         email: "",
@@ -15,10 +16,13 @@ export const Login = () =>{
         [name]: value,
         });
     }
+    const handleSubmit = (e) => {
+        e.preventDefault();
+    }
     return (
         <div className={`${styles.container}`}>
             <h1 className={`${styles.title} text text_type_main-medium`}>Вход</h1>
-            <form className={`${styles.form}`}>
+            <form className={`${styles.form}`} onSubmit={handleSubmit}>
                 <div className={`${styles.input} mt-6`}>
                     <Input
                         placeholder="Email"
@@ -36,8 +40,8 @@ export const Login = () =>{
                 </div>
                 <Button disabled={!(state.email && state.password)} type="primary" size="medium">Войти</Button>
             </form>
-            <p className={`text text_type_main-default text_color_inactive mt-20 mb-4`}>Вы — новый пользователь? <a className={`${styles.link}`}>Зарегистрироваться</a></p>
-            <p className={`text text_type_main-default text_color_inactive`}>Забыли пароль? <a className={`${styles.link}`}>Восстановить пароль</a></p>
+            <p className={`text text_type_main-default text_color_inactive mt-20 mb-4`}>Вы — новый пользователь? <Link to='/register' className={`${styles.link}`}>Зарегистрироваться</Link></p>
+            <p className={`text text_type_main-default text_color_inactive`}>Забыли пароль? <Link to='/forgot-password' className={`${styles.link}`}>Восстановить пароль</Link></p>
         </div>
     )
 }

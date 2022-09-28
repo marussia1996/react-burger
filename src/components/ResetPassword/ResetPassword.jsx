@@ -1,6 +1,7 @@
 import styles from './ResetPassword.module.css'
 import { Button, PasswordInput, Input } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useState } from "react"
+import {Link} from 'react-router-dom';
 export const ResetPassword = () =>{
     const [state, setState] = useState({
         password: '',
@@ -15,10 +16,13 @@ export const ResetPassword = () =>{
         [name]: value,
         });
     }
+    const handleSubmit = (e) => {
+        e.preventDefault();
+      }
     return (
         <div className={`${styles.container}`}>
             <h1 className={`${styles.title} text text_type_main-medium`}>Восстановление пароля</h1>
-            <form className={`${styles.form}`}>
+            <form className={`${styles.form}`} onSubmit={handleSubmit}>
                 <div className={`${styles.input} mt-6`}>
                     <PasswordInput  placeholder="Введите новый пароль" type={'password'} onChange={onChangeInputs} value={state.password} name={'password'} />
                 </div>
@@ -36,7 +40,7 @@ export const ResetPassword = () =>{
                 </div>
                 <Button disabled={!(state.code && state.password)} type="primary" size="medium">Сохранить</Button>
             </form>
-            <p className={`text text_type_main-default text_color_inactive mt-20`}>Вспомнили пароль? <a className={`${styles.link}`}>Войти</a></p>
+            <p className={`text text_type_main-default text_color_inactive mt-20`}>Вспомнили пароль? <Link to='/login' className={`${styles.link}`}>Войти</Link></p>
         </div>
     )
 }
