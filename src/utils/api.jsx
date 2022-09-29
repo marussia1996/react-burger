@@ -86,6 +86,28 @@ export const resetPassword = async(password, token) =>{
     })
     .then((res)=>checkResponse(res))
 }
+//запрос получения данных пользователя
+export const getUserData = async() =>{
+  return fetch (`${baseUrl}/auth/user`, {
+    method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+      Authorization: 'Bearer ' + getCookie('authToken')
+    })
+    .then((res)=>checkResponse(res))
+}
+//запрос обновления данных пользователя
+export const updateUserData = async(email,password) =>{
+  return fetch (`${baseUrl}/auth/user`, {
+    method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      Authorization: 'Bearer ' + getCookie('authToken'),
+      body: JSON.stringify({
+        'email': email,
+        'password': password,
+    }),
+    })
+    .then((res)=>checkResponse(res))
+}
 //запрос выхода из системы
 export const logOut = async() => {
   return fetch(`${baseUrl}/auth/logout`, {

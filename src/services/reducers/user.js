@@ -17,6 +17,9 @@ import {
   EXIT_REQUEST,
   EXIT_SUCCESS,
   EXIT_FAILED,
+  GET_USER_REQUEST,
+  GET_USER_SUCCESS,
+  GET_USER_FAILED,
 } from "../actions/user";
 // Исходное состояние
 const initialState = {
@@ -29,6 +32,14 @@ const initialState = {
   registerRequest: false,
   registerSuccess: false,
   registerFailed: false,
+
+  userRequest: false,
+  userSuccess: false,
+  userFailed: false,
+
+  updateRequest: false,
+  updateSuccess: false,
+  updateFailed: false,
 
   tokenRequest: false,
   tokenSuccess: false,
@@ -90,6 +101,50 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         registerRequest: false,
         registerFailed: true,
+      };
+    }
+    case GET_USER_REQUEST: {
+      return {
+        ...state,
+        registerRequest: true,
+      };
+    }
+    case GET_USER_SUCCESS: {
+      return {
+        ...state,
+        registerRequest: false,
+        registerSuccess: true,
+        registerFailed: false,
+        user: action.payload,
+      };
+    }
+    case GET_USER_FAILED: {
+      return {
+        ...state,
+        registerRequest: false,
+        registerFailed: true,
+      };
+    }
+    case UPDATE_TOKEN_REQUEST: {
+      return {
+        ...state,
+        updateRequest: true,
+      };
+    }
+    case UPDATE_TOKEN_SUCCESS: {
+      return {
+        ...state,
+        updateRequest: false,
+        updateSuccess: true,
+        updateFailed: false,
+        user: action.payload,
+      };
+    }
+    case UPDATE_TOKEN_FAILED: {
+      return {
+        ...state,
+        updateRequest: false,
+        updateFailed: true,
       };
     }
     case UPDATE_TOKEN_REQUEST: {

@@ -5,6 +5,8 @@ import {
   autorizationUser,
   getAuthToken,
   logOut,
+  getUserData,
+  updateUserData,
 } from "../../utils/api";
 import { setCookie } from "../../utils/cookie";
 export const AUTH_REQUEST = "AUTH_REQUEST";
@@ -85,6 +87,46 @@ export const registerUser = (email, password, name) => {
       .catch((err) => {
         dispatch({
           type: REGISTRATION_FAILED,
+        });
+        console.log(err);
+      });
+  };
+};
+export const getUser = () => {
+  return function (dispatch) {
+    dispatch({
+      type: GET_USER_REQUEST,
+    });
+    getUserData()
+      .then((res) => {
+        dispatch({
+          type: GET_USER_SUCCESS,
+          payload: res.user,
+        });
+      })
+      .catch((err) => {
+        dispatch({
+          type: GET_USER_FAILED,
+        });
+        console.log(err);
+      });
+  };
+};
+export const updateUser = () => {
+  return function (dispatch) {
+    dispatch({
+      type: UPDATE_TOKEN_REQUEST,
+    });
+    updateUserData()
+      .then((res) => {
+        dispatch({
+          type: UPDATE_TOKEN_SUCCESS,
+          payload: res.user,
+        });
+      })
+      .catch((err) => {
+        dispatch({
+          type: UPDATE_TOKEN_FAILED,
         });
         console.log(err);
       });
