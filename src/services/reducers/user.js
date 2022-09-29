@@ -20,6 +20,9 @@ import {
   GET_USER_REQUEST,
   GET_USER_SUCCESS,
   GET_USER_FAILED,
+  UPDATE_USER_REQUEST,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_FAILED,
 } from "../actions/user";
 // Исходное состояние
 const initialState = {
@@ -125,13 +128,13 @@ export const userReducer = (state = initialState, action) => {
         registerFailed: true,
       };
     }
-    case UPDATE_TOKEN_REQUEST: {
+    case UPDATE_USER_REQUEST: {
       return {
         ...state,
         updateRequest: true,
       };
     }
-    case UPDATE_TOKEN_SUCCESS: {
+    case UPDATE_USER_SUCCESS: {
       return {
         ...state,
         updateRequest: false,
@@ -140,7 +143,7 @@ export const userReducer = (state = initialState, action) => {
         user: action.payload,
       };
     }
-    case UPDATE_TOKEN_FAILED: {
+    case UPDATE_USER_FAILED: {
       return {
         ...state,
         updateRequest: false,

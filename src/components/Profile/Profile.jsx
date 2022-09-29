@@ -1,5 +1,5 @@
 import styles from './Profile.module.css';
-import { Input } from '@ya.praktikum/react-developer-burger-ui-components'
+import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useState, useRef } from "react"
 import { NavLink } from 'react-router-dom';
 export const Profile = () =>{
@@ -86,6 +86,10 @@ export const Profile = () =>{
                         errorText="Ошибка"
                         size="default" 
                     />
+                </div>
+                <div className={`${styles.buttons}`}>
+                    <Button type="secondary" size="medium">Отмена</Button>
+                    <Button type="primary" size="medium" >Сохранить</Button>
                 </div>
             </form>
         </div>

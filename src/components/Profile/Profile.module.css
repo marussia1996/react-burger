@@ -37,3 +37,7 @@
 .input > div > div > input {
   color: #8585ad;
 }
+.buttons {
+  margin-top: 24px;
+  margin-left: 175px;
+}
