@@ -1,5 +1,5 @@
 import {AppHeader} from '../AppHeader/AppHeader';
-import { BrowserRouter as Router,Switch, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import styles from './App.module.css';
 import { HomePage } from '../../pages/HomePage'; 
 import { LoginPage } from '../../pages/LoginPage';
@@ -12,8 +12,7 @@ export const App = () => {
 		<div className={styles.app}>
 			<AppHeader/>
 			<main className={styles.main}>
-			<Router>
-				<Switch>
+			<Switch>
 				<Route path="/login">
 					<LoginPage />
 				</Route>
@@ -26,14 +25,13 @@ export const App = () => {
 				<Route path='/reset-password'>
 					<ResetPasswordPage/>
 				</Route>
-				<Route path='/profile'>
+				<Route exact path='/profile'>
 					<ProfilePage/>
 				</Route>
 				<Route path="/">
 					<HomePage />
 				</Route>
-				</Switch>
-			</Router>
+			</Switch>
 		</main>
 	</div>
 	)

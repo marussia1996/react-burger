@@ -1,6 +1,7 @@
 import styles from './Profile.module.css';
 import { Input } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useState, useRef } from "react"
+import { NavLink } from 'react-router-dom';
 export const Profile = () =>{
     const [state, setState] = useState({
         name: 'name',
@@ -35,14 +36,13 @@ export const Profile = () =>{
     return (
         <div className={`${styles.container}`}>
             <nav className={`${styles.navigation}`}>
-                <a className={`${styles.link}`}>Профиль</a>
-                <a className={`${styles.link}`}>История заказов</a>
-                <a className={`${styles.link}`}>Выход</a>
-                <p className={`${styles.caption}`}>В этом разделе вы можете изменить свои персональные данные</p>
+                <NavLink exact to='/profile' activeClassName={`${styles.activeLink}`} className={`${styles.link} text text_type_main-medium `}>Профиль</NavLink>
+                <NavLink exact to='/profile/orders' activeClassName={`${styles.activeLink}`} className={`${styles.link} text text_type_main-medium `}>История заказов</NavLink>
+                <NavLink exact to='/profile/orders/:id' activeClassName={`${styles.activeLink}`} className={`${styles.link} text text_type_main-medium `}>Выход</NavLink>
+                <p className={`${styles.caption} text text_type_main-default mt-20`}>В этом разделе вы можете изменить свои персональные данные</p>
             </nav>
-            <div>
             <form className={`${styles.form}`} onSubmit={handleSubmit}>
-                <div className={`${styles.input} mt-6`}>
+                <div className={`${styles.input}`}>
                     <Input
                         placeholder="Имя"
                         name="name"
@@ -60,7 +60,8 @@ export const Profile = () =>{
                 <div className={`${styles.input} mt-6`}>
                     <Input 
                         placeholder='Логин'
-                        name='password'
+                        name='email'
+                        type="email"
                         icon='EditIcon'
                         onChange={onChangeInputs} 
                         value={state.email}
@@ -75,6 +76,7 @@ export const Profile = () =>{
                     <Input 
                         placeholder='Пароль'
                         name='password'
+                        type="password"
                         icon='EditIcon'
                         onChange={onChangeInputs} 
                         value={state.password}
@@ -86,7 +88,6 @@ export const Profile = () =>{
                     />
                 </div>
             </form>
-            </div>
         </div>
     )
 }
