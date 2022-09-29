@@ -8,10 +8,18 @@ import {
   RESET_PASSWORD_REQUEST,
   RESET_PASSWORD_SUCCESS,
   RESET_PASSWORD_FAILED,
+  AUTH_REQUEST,
+  AUTH_SUCCESS,
+  AUTH_FAILED,
 } from "../actions/user";
 // Исходное состояние
 const initialState = {
   user: null,
+
+  authRequest: false,
+  authSuccess: false,
+  authFailed: false,
+
   registerRequest: false,
   registerFailed: false,
 
@@ -25,6 +33,28 @@ const initialState = {
 };
 export const userReducer = (state = initialState, action) => {
   switch (action.type) {
+    case AUTH_REQUEST: {
+      return {
+        ...state,
+        authRequest: true,
+      };
+    }
+    case AUTH_SUCCESS: {
+      return {
+        ...state,
+        authRequest: false,
+        authSuccess: true,
+        authFailed: false,
+        user: action.payload,
+      };
+    }
+    case AUTH_FAILED: {
+      return {
+        ...state,
+        authRequest: false,
+        authFailed: true,
+      };
+    }
     case REGISTRATION_REQUEST: {
       return {
         ...state,

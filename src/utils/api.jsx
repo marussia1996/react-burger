@@ -26,6 +26,18 @@ export const postOrderDetails = async(ingridientsIdArray) => {
   })
   .then((res)=>checkResponse(res))
 }
+//запрос на авторизацию
+export const autorizationUser = async(email, password) =>{
+  return fetch (`${baseUrl}/auth/login`, {
+    method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+          'email': email,
+          'password': password
+      }),
+    })
+    .then((res)=>checkResponse(res))
+}
 //запрос на регистрацию пользователя
 export const registrationUser = async(email, password, name) =>{
   return fetch (`${baseUrl}/auth/register`, {
