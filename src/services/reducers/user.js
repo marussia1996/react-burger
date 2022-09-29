@@ -11,6 +11,9 @@ import {
   AUTH_REQUEST,
   AUTH_SUCCESS,
   AUTH_FAILED,
+  UPDATE_TOKEN_REQUEST,
+  UPDATE_TOKEN_SUCCESS,
+  UPDATE_TOKEN_FAILED,
 } from "../actions/user";
 // Исходное состояние
 const initialState = {
@@ -22,6 +25,10 @@ const initialState = {
 
   registerRequest: false,
   registerFailed: false,
+
+  tokenRequest: false,
+  tokenSuccess: false,
+  tokenFailed: false,
 
   forgotPswRequest: false,
   forgotPswFailed: false,
@@ -74,6 +81,27 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         registerRequest: false,
         registerFailed: true,
+      };
+    }
+    case UPDATE_TOKEN_REQUEST: {
+      return {
+        ...state,
+        tokenRequest: true,
+      };
+    }
+    case UPDATE_TOKEN_SUCCESS: {
+      return {
+        ...state,
+        tokenRequest: false,
+        tokenSuccess: true,
+        tokenFailed: false,
+      };
+    }
+    case UPDATE_TOKEN_FAILED: {
+      return {
+        ...state,
+        tokenRequest: false,
+        tokenFailed: true,
       };
     }
     case FORGOT_PASSWORD_REQUEST: {

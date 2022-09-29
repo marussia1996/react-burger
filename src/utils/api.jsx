@@ -1,4 +1,5 @@
 import { baseUrl } from "./constants";
+import {getCookie} from './cookie';
 //проверка ответа от сервера
 const checkResponse = (res) => {
   if (res.ok) {
@@ -47,6 +48,17 @@ export const registrationUser = async(email, password, name) =>{
           'email': email,
           'password': password,
           'name': name
+      }),
+    })
+    .then((res)=>checkResponse(res))
+}
+//
+export const getAuthToken = async() =>{
+  return fetch (`${baseUrl}/auth/token`, {
+    method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        "token": getCookie("refreshToken"),
       }),
     })
     .then((res)=>checkResponse(res))
