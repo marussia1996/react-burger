@@ -86,3 +86,14 @@ export const resetPassword = async(password, token) =>{
     })
     .then((res)=>checkResponse(res))
 }
+//запрос выхода из системы
+export const logOut = async() => {
+  return fetch(`${baseUrl}/auth/logout`, {
+    method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        "token": getCookie("refreshToken"),
+      }),
+    })
+    .then((res)=>checkResponse(res))
+}

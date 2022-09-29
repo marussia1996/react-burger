@@ -4,6 +4,7 @@ import {
   resetPassword,
   autorizationUser,
   getAuthToken,
+  logOut,
 } from "../../utils/api";
 import { setCookie } from "../../utils/cookie";
 export const AUTH_REQUEST = "AUTH_REQUEST";
@@ -21,6 +22,15 @@ export const FORGOT_PASSWORD_FAILED = "FORGOT_PASSWORD_FAILED";
 export const RESET_PASSWORD_REQUEST = "RESET_PASSWORD_REQUEST";
 export const RESET_PASSWORD_SUCCESS = "RESET_PASSWORD_SUCCESS";
 export const RESET_PASSWORD_FAILED = "RESET_PASSWORD_FAILED";
+export const GET_USER_REQUEST = "GET_USER_REQUEST";
+export const GET_USER_SUCCESS = "GET_USER_SUCCESS";
+export const GET_USER_FAILED = "GET_USER_FAILED";
+export const UPDATE_USER_REQUEST = "UPDATE_USER_REQUEST";
+export const UPDATE_USER_SUCCESS = "UPDATE_USER_SUCCESS";
+export const UPDATE_USER_FAILED = "UPDATE_USER_FAILED";
+export const EXIT_REQUEST = "EXIT_REQUEST";
+export const EXIT_SUCCESS = "EXIT_SUCCESS";
+export const EXIT_FAILED = "EXIT_FAILED";
 
 export const authUser = (email, password) => {
   return function (dispatch) {
@@ -136,6 +146,26 @@ export const resetPswUser = (password, token) => {
       .catch((err) => {
         dispatch({
           type: RESET_PASSWORD_FAILED,
+        });
+        console.log(err);
+      });
+  };
+};
+export const exit = () => {
+  return function (dispatch) {
+    dispatch({
+      type: EXIT_REQUEST,
+    });
+    logOut()
+      .then((res) => {
+        dispatch({
+          type: EXIT_SUCCESS,
+          payload: res.success,
+        });
+      })
+      .catch((err) => {
+        dispatch({
+          type: EXIT_FAILED,
         });
         console.log(err);
       });

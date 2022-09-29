@@ -14,6 +14,9 @@ import {
   UPDATE_TOKEN_REQUEST,
   UPDATE_TOKEN_SUCCESS,
   UPDATE_TOKEN_FAILED,
+  EXIT_REQUEST,
+  EXIT_SUCCESS,
+  EXIT_FAILED,
 } from "../actions/user";
 // Исходное состояние
 const initialState = {
@@ -24,6 +27,7 @@ const initialState = {
   authFailed: false,
 
   registerRequest: false,
+  registerSuccess: false,
   registerFailed: false,
 
   tokenRequest: false,
@@ -37,6 +41,10 @@ const initialState = {
   resetPswRequest: false,
   resetPswFailed: false,
   resetPswSuccess: false,
+
+  exitRequest: false,
+  exitSuccess: false,
+  exitFailed: false,
 };
 export const userReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -72,8 +80,9 @@ export const userReducer = (state = initialState, action) => {
       return {
         ...state,
         registerRequest: false,
-        user: action.payload,
+        registerSuccess: true,
         registerFailed: false,
+        user: action.payload,
       };
     }
     case REGISTRATION_FAILED: {
@@ -144,6 +153,28 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         resetPswFailed: true,
         resetPswRequest: false,
+      };
+    }
+    case EXIT_REQUEST: {
+      return {
+        ...state,
+        exitRequest: true,
+      };
+    }
+    case EXIT_SUCCESS: {
+      return {
+        ...state,
+        exitRequest: false,
+        exitSuccess: true,
+        exitFailed: false,
+        user: null,
+      };
+    }
+    case EXIT_FAILED: {
+      return {
+        ...state,
+        exitRequest: false,
+        exitFailed: true,
       };
     }
     default: {
