@@ -50,7 +50,6 @@ export function HomePage() {
 		dispatch(getOrder(getIdIngredients()));
 	  	setShowOrderDetails(true);
   	}
-
   	return (
         <>
 		{ (!ingredientsRequest && !ingredientsFailed) &&

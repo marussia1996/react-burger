@@ -1,16 +1,28 @@
 import styles from './Profile.module.css';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components'
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { updateUser, exit, getUser } from '../../services/actions/user';
+import { deleteCookie } from '../../utils/cookie';
+
 export const Profile = () =>{
+    const user = useSelector(store=>store.user.user);
+    const dispatch = useDispatch();
     const [state, setState] = useState({
-        name: 'name',
-        email: 'email',
-        password: 'pass',
+        name: user.name,
+        email: user.email,
+        password: '',
     });
     const nameRef = useRef(null);
     const passRef = useRef(null);
     const emailRef = useRef(null);
+    //при монтировании получаем данные пользователя
+    useEffect(()=>{
+        dispatch(getUser());
+    }, [dispatch]);
+    //функии взаимодействия с inputs
     const nameClick  = () => {
         setTimeout(() => nameRef.current.focus(), 0)
     }
@@ -29,16 +41,33 @@ export const Profile = () =>{
         [name]: value,
         });
     }
+    //отправка формы
     const handleSubmit = (e) => {
         e.preventDefault();
-        
+        dispatch(updateUser(state.name,state.email,state.password));
+    }
+    //сброс формы
+    const handleReset = (e) =>{
+        e.preventDefault();
+        setState({
+            ...state,
+            name: user.name,
+            email: user.email,
+            password: ''
+        })
+    }
+    //выход из профиля
+    const handleExit = (e) =>{
+        dispatch(exit());
+        deleteCookie('authToken');
+        deleteCookie('refreshToken');
     }
     return (
         <div className={`${styles.container}`}>
             <nav className={`${styles.navigation}`}>
                 <NavLink exact to='/profile' activeClassName={`${styles.activeLink}`} className={`${styles.link} text text_type_main-medium `}>Профиль</NavLink>
                 <NavLink exact to='/profile/orders' activeClassName={`${styles.activeLink}`} className={`${styles.link} text text_type_main-medium `}>История заказов</NavLink>
-                <NavLink exact to='/profile/orders/:id' activeClassName={`${styles.activeLink}`} className={`${styles.link} text text_type_main-medium `}>Выход</NavLink>
+                <NavLink exact to='/login' onClick={handleExit} activeClassName={`${styles.activeLink}`} className={`${styles.link} text text_type_main-medium `}>Выход</NavLink>
                 <p className={`${styles.caption} text text_type_main-default mt-20`}>В этом разделе вы можете изменить свои персональные данные</p>
             </nav>
             <form className={`${styles.form}`} onSubmit={handleSubmit}>
@@ -88,8 +117,8 @@ export const Profile = () =>{
                     />
                 </div>
                 <div className={`${styles.buttons}`}>
-                    <Button type="secondary" size="medium">Отмена</Button>
-                    <Button type="primary" size="medium" >Сохранить</Button>
+                    <Button type="secondary" size="medium" onClick={handleReset}>Отмена</Button>
+                    <Button disabled={!(state.name && state.email && state.password)} type="primary" size="medium" >Сохранить</Button>
                 </div>
             </form>
         </div>

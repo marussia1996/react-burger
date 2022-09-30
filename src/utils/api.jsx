@@ -52,7 +52,7 @@ export const registrationUser = async(email, password, name) =>{
     })
     .then((res)=>checkResponse(res))
 }
-//
+//запрос на получение токена
 export const getAuthToken = async() =>{
   return fetch (`${baseUrl}/auth/token`, {
     method: 'POST',
@@ -90,18 +90,18 @@ export const resetPassword = async(password, token) =>{
 export const getUserData = async() =>{
   return fetch (`${baseUrl}/auth/user`, {
     method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-      Authorization: 'Bearer ' + getCookie('authToken')
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getCookie('authToken') },
+      
     })
     .then((res)=>checkResponse(res))
 }
 //запрос обновления данных пользователя
-export const updateUserData = async(email,password) =>{
+export const updateUserData = async(name, email, password) =>{
   return fetch (`${baseUrl}/auth/user`, {
     method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      Authorization: 'Bearer ' + getCookie('authToken'),
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getCookie('authToken') },
       body: JSON.stringify({
+        'name': name,
         'email': email,
         'password': password,
     }),

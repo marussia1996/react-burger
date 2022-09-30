@@ -112,12 +112,12 @@ export const getUser = () => {
       });
   };
 };
-export const updateUser = () => {
+export const updateUser = (name, email, password) => {
   return function (dispatch) {
     dispatch({
       type: UPDATE_TOKEN_REQUEST,
     });
-    updateUserData()
+    updateUserData(name, email, password)
       .then((res) => {
         dispatch({
           type: UPDATE_TOKEN_SUCCESS,
