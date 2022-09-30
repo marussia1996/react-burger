@@ -76,7 +76,6 @@ export const userReducer = (state = initialState, action) => {
         authRequest: false,
         authSuccess: true,
         authFailed: false,
-        expiredToken: false,
         user: action.payload,
       };
     }
@@ -85,7 +84,6 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         authRequest: false,
         authFailed: true,
-        expiredToken: true,
       };
     }
     case REGISTRATION_REQUEST: {
@@ -100,7 +98,6 @@ export const userReducer = (state = initialState, action) => {
         registerRequest: false,
         registerSuccess: true,
         registerFailed: false,
-        expiredToken: false,
         user: action.payload,
       };
     }
@@ -109,7 +106,6 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         registerRequest: false,
         registerFailed: true,
-        expiredToken: true,
       };
     }
     case GET_USER_REQUEST: {
@@ -200,7 +196,6 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         forgotPswFailed: true,
         forgotPswRequest: false,
-        expiredToken: true,
       };
     }
     case RESET_PASSWORD_REQUEST: {
@@ -222,7 +217,6 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         resetPswFailed: true,
         resetPswRequest: false,
-        expiredToken: true,
       };
     }
     case EXIT_REQUEST: {

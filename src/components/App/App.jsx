@@ -11,21 +11,24 @@ import { ProtectedRoute } from '../ProtectedRoute/ProtectedRoute';
 import {useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getCookie } from '../../utils/cookie';
-import { getUser, updateToken } from '../../services/actions/user';
+import { getUser, updateToken, updateUser } from '../../services/actions/user';
 export const App = () => {
 	const user = useSelector(store => store.user.user);
     const dispatch = useDispatch();
 	const authToken = getCookie('authToken');
     const refreshToken = getCookie('refreshToken');
-    const tokenSuccess = useSelector(store => store.user.tokenSuccess);
 	const userFailed = useSelector(store=>store.user.userFailed);
 	const expiredToken = useSelector(store=>store.user.expiredToken);
-
+	//если токен не валидный - обновляем, если была ошибка для получения данных пользователя, повторяем запрос
 	useEffect(()=>{
 		if(expiredToken){
 			dispatch(updateToken());
 		}
-	},[expiredToken])
+		if(userFailed && !expiredToken){
+			dispatch(getUser());
+		}
+	},[expiredToken, userFailed])
+	//если user нет в сторе, то есть токены, то отправляем запрос на получение данных
 	useEffect(() => {
         if (!user && authToken && refreshToken) {
             dispatch(getUser());

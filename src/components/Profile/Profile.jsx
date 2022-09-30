@@ -9,6 +9,8 @@ import { deleteCookie } from '../../utils/cookie';
 
 export const Profile = () =>{
     const user = useSelector(store=>store.user.user);
+    const updateFailed = useSelector(store=>store.user.updateFailed);
+	const expiredToken = useSelector(store=>store.user.expiredToken);
     const dispatch = useDispatch();
     const [state, setState] = useState({
         name: user.name,
@@ -22,6 +24,12 @@ export const Profile = () =>{
     useEffect(()=>{
         dispatch(getUser());
     }, [dispatch]);
+
+    useEffect(()=>{
+		if(updateFailed && !expiredToken){
+			dispatch(updateUser(state.name,state.email,state.password));
+		}
+	},[expiredToken, updateFailed])
     //функии взаимодействия с inputs
     const nameClick  = () => {
         setTimeout(() => nameRef.current.focus(), 0)
