@@ -12,6 +12,7 @@ import {useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getCookie } from '../../utils/cookie';
 import { getUser, updateToken, updateUser } from '../../services/actions/user';
+import { NotFound404Page } from '../../pages/NotFound404Page';
 export const App = () => {
 	const user = useSelector(store => store.user.user);
     const dispatch = useDispatch();
@@ -57,6 +58,9 @@ export const App = () => {
 				</ProtectedRoute>
 				<Route exact path="/">
 					<HomePage />
+				</Route>
+				<Route>
+					<NotFound404Page/>
 				</Route>
 			</Switch>
 		</main>
