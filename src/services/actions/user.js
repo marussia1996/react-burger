@@ -115,18 +115,18 @@ export const getUser = () => {
 export const updateUser = (name, email, password) => {
   return function (dispatch) {
     dispatch({
-      type: UPDATE_TOKEN_REQUEST,
+      type: UPDATE_USER_REQUEST,
     });
     updateUserData(name, email, password)
       .then((res) => {
         dispatch({
-          type: UPDATE_TOKEN_SUCCESS,
+          type: UPDATE_USER_SUCCESS,
           payload: res.user,
         });
       })
       .catch((err) => {
         dispatch({
-          type: UPDATE_TOKEN_FAILED,
+          type: UPDATE_USER_FAILED,
         });
         console.log(err);
       });
@@ -139,6 +139,14 @@ export const updateToken = () => {
     });
     getAuthToken()
       .then((res) => {
+        let authToken = res.accessToken.split("Bearer ")[1];
+        let refreshToken = res.refreshToken;
+        if (authToken) {
+          setCookie("authToken", authToken);
+        }
+        if (refreshToken) {
+          setCookie("refreshToken", refreshToken);
+        }
         dispatch({
           type: UPDATE_TOKEN_SUCCESS,
           payload: res.success,

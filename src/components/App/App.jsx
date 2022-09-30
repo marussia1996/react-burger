@@ -18,21 +18,19 @@ export const App = () => {
 	const authToken = getCookie('authToken');
     const refreshToken = getCookie('refreshToken');
     const tokenSuccess = useSelector(store => store.user.tokenSuccess);
+	const userFailed = useSelector(store=>store.user.userFailed);
+	const expiredToken = useSelector(store=>store.user.expiredToken);
 
+	useEffect(()=>{
+		if(expiredToken){
+			dispatch(updateToken());
+		}
+	},[expiredToken])
 	useEffect(() => {
         if (!user && authToken && refreshToken) {
-			console.log('нет юзера')
             dispatch(getUser());
         }
-         if (!authToken && refreshToken) {
-			console.log('нет токена')
-            dispatch(updateToken());
-        }
-         if (authToken && tokenSuccess && refreshToken && !user) {
-			console.log('нет юзера и был запрос на сервер за токеном')
-            dispatch(getUser());
-        }
-    }, [dispatch, refreshToken, user, authToken, tokenSuccess]);
+    }, [dispatch, user, refreshToken, authToken]);
 
 	return (
 		<div className={styles.app}>

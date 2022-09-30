@@ -59,6 +59,8 @@ const initialState = {
   exitRequest: false,
   exitSuccess: false,
   exitFailed: false,
+
+  expiredToken: true,
 };
 export const userReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -74,6 +76,7 @@ export const userReducer = (state = initialState, action) => {
         authRequest: false,
         authSuccess: true,
         authFailed: false,
+        expiredToken: false,
         user: action.payload,
       };
     }
@@ -82,6 +85,7 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         authRequest: false,
         authFailed: true,
+        expiredToken: true,
       };
     }
     case REGISTRATION_REQUEST: {
@@ -96,6 +100,7 @@ export const userReducer = (state = initialState, action) => {
         registerRequest: false,
         registerSuccess: true,
         registerFailed: false,
+        expiredToken: false,
         user: action.payload,
       };
     }
@@ -104,28 +109,30 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         registerRequest: false,
         registerFailed: true,
+        expiredToken: true,
       };
     }
     case GET_USER_REQUEST: {
       return {
         ...state,
-        registerRequest: true,
+        userRequest: true,
       };
     }
     case GET_USER_SUCCESS: {
       return {
         ...state,
-        registerRequest: false,
-        registerSuccess: true,
-        registerFailed: false,
+        userRequest: false,
+        userSuccess: true,
+        userFailed: false,
         user: action.payload,
       };
     }
     case GET_USER_FAILED: {
       return {
         ...state,
-        registerRequest: false,
-        registerFailed: true,
+        userRequest: false,
+        userFailed: true,
+        expiredToken: true,
       };
     }
     case UPDATE_USER_REQUEST: {
@@ -148,6 +155,7 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         updateRequest: false,
         updateFailed: true,
+        expiredToken: true,
       };
     }
     case UPDATE_TOKEN_REQUEST: {
@@ -162,6 +170,7 @@ export const userReducer = (state = initialState, action) => {
         tokenRequest: false,
         tokenSuccess: true,
         tokenFailed: false,
+        expiredToken: false,
       };
     }
     case UPDATE_TOKEN_FAILED: {
@@ -169,6 +178,7 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         tokenRequest: false,
         tokenFailed: true,
+        expiredToken: false,
       };
     }
     case FORGOT_PASSWORD_REQUEST: {
@@ -190,6 +200,7 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         forgotPswFailed: true,
         forgotPswRequest: false,
+        expiredToken: true,
       };
     }
     case RESET_PASSWORD_REQUEST: {
@@ -211,6 +222,7 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         resetPswFailed: true,
         resetPswRequest: false,
+        expiredToken: true,
       };
     }
     case EXIT_REQUEST: {
