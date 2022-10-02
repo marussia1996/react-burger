@@ -7,10 +7,6 @@ export const IngredientDetails = () => {
     const {id} = useParams();
     const ingredients = useSelector(store=>store.listIngredients.ingredients);
     const ingredient = ingredients.find((el)=> el._id === id);
-    console.log('ingredients');
-    console.log(ingredients);
-    console.log('ingredient');
-    console.log(ingredient);
     return (
         // TODO: add Loading animation
          (ingredient && 

@@ -60,7 +60,7 @@ const initialState = {
   exitSuccess: false,
   exitFailed: false,
 
-  expiredToken: true,
+  expiredToken: false,
 };
 export const userReducer = (state = initialState, action) => {
   switch (action.type) {

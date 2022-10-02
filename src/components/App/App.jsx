@@ -21,7 +21,6 @@ import { getOrder } from '../../services/actions/order';
 import { IngredientPage } from '../../pages/IngredientPage';
 import { getIngreedients } from '../../services/actions/listIngredients';
 export const App = () => {
-	console.log('init app')
 	const user = useSelector(store => store.user.user);
     const dispatch = useDispatch();
 	const authToken = getCookie('authToken');
@@ -30,13 +29,12 @@ export const App = () => {
 	const expiredToken = useSelector(store=>store.user.expiredToken);
 	//при монтировании запрашиваем данные
 	useEffect(() => {
-		console.log('запрос данных')
 		dispatch(getIngreedients());
-
 	}, [dispatch]);	
 	//если токен не валидный - обновляем, если была ошибка для получения данных пользователя, повторяем запрос
 	useEffect(()=>{
 		if(expiredToken){
+			console.log(expiredToken);
 			dispatch(updateToken());
 		}
 		if(userFailed && !expiredToken){
