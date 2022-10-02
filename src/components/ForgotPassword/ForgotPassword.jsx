@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 export const ForgotPassword = () =>{
     const [email, setEmail] = useState('');
     const dispatch = useDispatch();
+    const user = useSelector(store=>store.user.user);
     const forgotSuccess = useSelector(store=>store.user.forgotPswSuccess);
     const onChange = e =>{
         setEmail(e.target.value);
@@ -19,6 +20,11 @@ export const ForgotPassword = () =>{
     if(forgotSuccess){
         return (
             <Redirect to={'/reset-password'} />
+        );
+    }
+    if(user){
+        return (
+            <Redirect to={'/'} />
         );
     }
     return (

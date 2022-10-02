@@ -28,7 +28,7 @@ export const BurgerIngredient = ({ingredient, openModalIngredient}) => {
         }
     }, [bun, ingredients, ingredient._id, ingredient.type]);
     return(
-        <Link
+        <Link className={`${styles.link}`}
             to={{
                 pathname: `/ingredients/${ingredient._id}`,
                 state: { background: location }
@@ -36,7 +36,7 @@ export const BurgerIngredient = ({ingredient, openModalIngredient}) => {
         <div draggable ref={dragRef} style={{opacity}} className={`${styles.ingredient}`} onClick={()=>{openModalIngredient(ingredient)}}>
             {setCounter > 0 && <Counter count={setCounter} size="default" />}
             <img src={ingredient.image} alt={ingredient.name}/>
-                <div className='mt-2 mb-2'>
+                <div className={`${styles.cost} mt-2 mb-2`}>
                     <p className="text text_type_digits-default mr-2">{ingredient.price}</p>
                     <CurrencyIcon type="primary" />
                 </div>

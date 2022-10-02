@@ -11,7 +11,7 @@ import { ProtectedRoute } from '../ProtectedRoute/ProtectedRoute';
 import {useEffect, useCallback, useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getCookie } from '../../utils/cookie';
-import { getUser, updateToken } from '../../services/actions/user';
+import { exit, getUser, updateToken } from '../../services/actions/user';
 import { NotFound404Page } from '../../pages/NotFound404Page';
 import {Modal} from '../Modal/Modal';
 import {IngredientDetails} from '../IngredientDetails/IngredientDetails';
@@ -20,6 +20,7 @@ import { CLOSE_MODAL, OPEN_MODAL } from '../../services/actions/ingredient';
 import { getOrder } from '../../services/actions/order';
 import { IngredientPage } from '../../pages/IngredientPage';
 import { getIngreedients } from '../../services/actions/listIngredients';
+import { deleteCookie } from '../../utils/cookie';
 export const App = () => {
 	const user = useSelector(store => store.user.user);
     const dispatch = useDispatch();
@@ -27,20 +28,26 @@ export const App = () => {
     const refreshToken = getCookie('refreshToken');
 	const userFailed = useSelector(store=>store.user.userFailed);
 	const expiredToken = useSelector(store=>store.user.expiredToken);
+	const tokenFailed = useSelector(store=>store.user.tokenFailed);
 	//при монтировании запрашиваем данные
 	useEffect(() => {
 		dispatch(getIngreedients());
 	}, [dispatch]);	
-	//если токен не валидный - обновляем, если была ошибка для получения данных пользователя, повторяем запрос
+	//если токен не валидный - обновляем, если не получилось обновить токен - выходим из системы, если была ошибка для получения данных пользователя, повторяем запрос
 	useEffect(()=>{
-		if(expiredToken){
+		if(expiredToken && !tokenFailed){
 			dispatch(updateToken());
+		}
+		if(expiredToken && tokenFailed){
+			dispatch(exit());
+			deleteCookie('authToken');
+        	deleteCookie('refreshToken');
 		}
 		if(userFailed && !expiredToken){
 			dispatch(getUser());
 		}
 	},[dispatch, expiredToken, userFailed])
-	//если user нет в сторе, то есть токены, то отправляем запрос на получение данных
+	//если user нет в сторе, и есть токены, то отправляем запрос на получение данных
 	useEffect(() => {
         if (!user && authToken && refreshToken) {
             dispatch(getUser());
@@ -64,8 +71,13 @@ export const App = () => {
 	}, [currentBun, currentIngredients]);
 	//открытие модального окна заказа
 	const openModalOrder = () => {
-		dispatch(getOrder(getIdIngredients()));
+		if(user){
+			dispatch(getOrder(getIdIngredients()));
 			setShowOrderDetails(true);
+		}
+		else{
+			history.push('/login');
+		}
 	}
 	//состояния для модальных окон
 	const [showOrderDetails, setShowOrderDetails] = useState(false);

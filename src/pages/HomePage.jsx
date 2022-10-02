@@ -3,6 +3,7 @@ import {BurgerIngredients} from '../components/BurgerIngredients/BurgerIngredien
 import { useSelector } from 'react-redux';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import PropTypes from "prop-types";
 
 export function HomePage({openModalIngredient,openModalOrder}) {
     //значения из хранилища 
@@ -22,3 +23,7 @@ export function HomePage({openModalIngredient,openModalOrder}) {
         </>
   	);
 }
+HomePage.propTypes = {
+    openModalOrder: PropTypes.func.isRequired,
+    openModalIngredient: PropTypes.func.isRequired,
+};

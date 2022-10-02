@@ -11,6 +11,7 @@ export const ResetPassword = () =>{
         token: ''
       });
     const dispatch = useDispatch();
+    const user = useSelector(store=>store.user.user);
     const resetSuccess = useSelector(store=>store.user.resetPswSuccess);
     const onChangeInputs = e => {
         const value = e.target.value;
@@ -28,6 +29,11 @@ export const ResetPassword = () =>{
     if(resetSuccess){
         return (
             <Redirect to={'/login'} />
+        );
+    }
+    if(user){
+        return (
+            <Redirect to={'/'} />
         );
     }
     return (

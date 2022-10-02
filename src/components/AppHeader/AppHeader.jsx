@@ -18,7 +18,7 @@ export const AppHeader = () => {
                         </NavLink>
                     </li>
                     <li className={`${styles.item} pl-5 pr-5 ml-2`}>
-                        <NavLink exact to='/order' className={`${styles.link}`} activeClassName={`${styles.activeLink}`}>
+                        <NavLink to='/order' className={`${styles.link}`} activeClassName={`${styles.activeLink}`}>
                             <ListIcon type={location.pathname === '/order' ? "primary"  : "secondary" } />
                             <p className="text text_type_main-default pl-2 ">Лента заказов</p>
                         </NavLink>
@@ -27,7 +27,7 @@ export const AppHeader = () => {
                 <Logo/>
             </div>
             <div className='pl-5 pr-5'>
-                <NavLink exact to='/profile' className={`${styles.link}`} activeClassName={`${styles.activeLink}`}>
+                <NavLink to='/profile' className={`${styles.link}`} activeClassName={`${styles.activeLink}`}>
                     <ProfileIcon type={location.pathname === '/profile' ? "primary"  : "secondary" } />
                     <p className="text text_type_main-default pl-2 ">Личный кабинет</p>
                 </NavLink>
