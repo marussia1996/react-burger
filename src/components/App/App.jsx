@@ -34,7 +34,6 @@ export const App = () => {
 	//если токен не валидный - обновляем, если была ошибка для получения данных пользователя, повторяем запрос
 	useEffect(()=>{
 		if(expiredToken){
-			console.log(expiredToken);
 			dispatch(updateToken());
 		}
 		if(userFailed && !expiredToken){
@@ -117,7 +116,6 @@ export const App = () => {
 					</Modal>
 				</Route>
 			}
-
 			{ (showOrderDetails && order && !orderRequest) && (
 				<Modal handleClose={closeModalOrder} title="">
 					<OrderDetails order={order}/>
