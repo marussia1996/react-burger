@@ -29,7 +29,7 @@ export const Profile = () =>{
 		if(updateFailed && !expiredToken){
 			dispatch(updateUser(state.name,state.email,state.password));
 		}
-	},[expiredToken, updateFailed])
+	},[dispatch, expiredToken, updateFailed, state.name,state.email,state.password])
     //функии взаимодействия с inputs
     const nameClick  = () => {
         setTimeout(() => nameRef.current.focus(), 0)
