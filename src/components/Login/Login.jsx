@@ -1,7 +1,7 @@
 import styles from './Login.module.css'
 import { Button, PasswordInput, Input } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useState } from "react"
-import {Link, Redirect} from 'react-router-dom';
+import {Link, Redirect, useLocation} from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { authUser } from '../../services/actions/user';
 import { useSelector } from 'react-redux';
@@ -26,9 +26,10 @@ export const Login = () =>{
         e.preventDefault();
         dispatch(authUser(state.email, state.password));
     }
+    const location = useLocation();
     if(user && !exitRequest){
         return (
-            <Redirect to={'/'} />
+            <Redirect to={location?.state?.from || '/'} />
         );
     }
     return (
