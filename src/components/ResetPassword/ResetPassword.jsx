@@ -27,8 +27,6 @@ export const ResetPassword = () =>{
         dispatch(resetPswUser(state.password, state.token));
     }
     const location = useLocation();
-    console.log('reset')
-    console.log(location.state?.from);
     if(location.state?.from !== '/forgot-password'){
         return (
             <Redirect to={'/'} />
@@ -37,11 +35,6 @@ export const ResetPassword = () =>{
     if(resetSuccess){
         return (
             <Redirect to={'/login'} />
-        );
-    }
-    if(user){
-        return (
-            <Redirect to={'/'} />
         );
     }
     return (

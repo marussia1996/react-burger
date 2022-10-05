@@ -27,7 +27,7 @@ export const ForgotPassword = () =>{
             />
         );
     }
-    if(user){
+    if(location.state?.from !== '/login' || user){
         return (
             <Redirect to={'/'} />
         );
