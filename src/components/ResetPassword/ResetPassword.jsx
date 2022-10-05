@@ -1,7 +1,7 @@
 import styles from './ResetPassword.module.css'
 import { Button, PasswordInput, Input } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useState } from "react"
-import {Link, Redirect, useHistory, useLocation} from 'react-router-dom';
+import {Link, Redirect, useLocation} from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { resetPswUser } from '../../services/actions/user';
 import { useSelector } from 'react-redux';
@@ -11,7 +11,6 @@ export const ResetPassword = () =>{
         token: ''
       });
     const dispatch = useDispatch();
-    const user = useSelector(store=>store.user.user);
     const resetSuccess = useSelector(store=>store.user.resetPswSuccess);
     const onChangeInputs = e => {
         const value = e.target.value;
