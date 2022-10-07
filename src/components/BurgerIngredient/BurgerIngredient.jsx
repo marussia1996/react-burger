@@ -6,6 +6,7 @@ import { useDrag } from "react-dnd";
 import dataType from '../../utils/types'
 import { useMemo} from "react"
 import { useSelector } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
 
 export const BurgerIngredient = ({ingredient, openModalIngredient}) => {
     const ingredients = useSelector(store=>store.currentIngredients.currentIngredients);
@@ -17,6 +18,7 @@ export const BurgerIngredient = ({ingredient, openModalIngredient}) => {
             opacity: monitor.isDragging() ? 0.5 : 1
         }),
     })
+    const location = useLocation();
     const setCounter = useMemo(() =>{
         if(ingredient.type === 'bun'){
             return bun && ingredient._id === bun._id ? 2 : 0;
@@ -26,10 +28,15 @@ export const BurgerIngredient = ({ingredient, openModalIngredient}) => {
         }
     }, [bun, ingredients, ingredient._id, ingredient.type]);
     return(
+        <Link className={`${styles.link}`}
+            to={{
+                pathname: `/ingredients/${ingredient._id}`,
+                state: { background: location }
+        }}>
         <div draggable ref={dragRef} style={{opacity}} className={`${styles.ingredient}`} onClick={()=>{openModalIngredient(ingredient)}}>
             {setCounter > 0 && <Counter count={setCounter} size="default" />}
             <img src={ingredient.image} alt={ingredient.name}/>
-                <div className='mt-2 mb-2'>
+                <div className={`${styles.cost} mt-2 mb-2`}>
                     <p className="text text_type_digits-default mr-2">{ingredient.price}</p>
                     <CurrencyIcon type="primary" />
                 </div>
@@ -37,6 +44,7 @@ export const BurgerIngredient = ({ingredient, openModalIngredient}) => {
                     {ingredient.name}
                 </h3>
             </div>
+        </Link>
     );
 }
 BurgerIngredient.propTypes = {

@@ -1,7 +1,15 @@
-import dataType from '../../utils/types.js'
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import styles from './IngredientDetails.module.css'
-export const IngredientDetails = ({ingredient}) => {
+
+export const IngredientDetails = () => {
+    const {id} = useParams();
+    const ingredients = useSelector(store=>store.listIngredients.ingredients);
+    const ingredient = ingredients.find((el)=> el._id === id);
     return (
+        // TODO: add Loading animation
+         (ingredient && 
         <div className={`${styles.container} pb-15`}>
             <img className={`${styles.image} mb-4`} src={ingredient.image} alt={ingredient.name}/>
             <h3 className={`${styles.subtitle} mb-8 text text_type_main-medium`}>{ingredient.name}</h3>
@@ -24,8 +32,6 @@ export const IngredientDetails = ({ingredient}) => {
                 </li>
             </ul>
         </div>
+        )
     )
 };
-IngredientDetails.propTypes = {
-    ingredient: dataType.isRequired,
-}

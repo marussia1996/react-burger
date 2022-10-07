@@ -35,8 +35,12 @@
 .wrapperPrice {
   display: flex;
   flex-direction: row;
+  align-items: center;
   justify-content: flex-end;
   margin-bottom: 52px;
+}
+.wrapperPrice > button {
+  margin: 0;
 }
 .containePrice {
   display: flex;

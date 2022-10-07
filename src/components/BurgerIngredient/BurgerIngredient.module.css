@@ -1,4 +1,16 @@
 .ingredient {
   position: relative;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.link {
+  color: inherit;
+  text-decoration: none;
+}
+.cost {
+  display: flex;
+  flex-direction: row;
 }

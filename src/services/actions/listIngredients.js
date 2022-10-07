@@ -11,7 +11,6 @@ export const getIngreedients = () => {
     });
     getData()
       .then((res) => {
-        console.log(res);
         dispatch({
           type: GET_INGREDIENTS_SUCCESS,
           ingredients: res.data,

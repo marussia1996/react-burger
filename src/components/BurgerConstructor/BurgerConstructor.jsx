@@ -7,8 +7,7 @@ import styles from './BurgerConstructor.module.css'
 import { useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
-import {ADD_BUN, ADD_INGREDIENT} from '../../services/actions/currentIngredients'
-import uuid from 'react-uuid';
+import {ADD_BUN, ADD_INGREDIENT} from '../../services/actions/currentIngredients';
 import image from '../../images/bun.png'
 import {ConstructorIngredient} from '../ConstructorIngredient/ConstructorIngredient'
 
