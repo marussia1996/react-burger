@@ -18,8 +18,8 @@ export const AppHeader = () => {
                         </NavLink>
                     </li>
                     <li className={`${styles.item} pl-5 pr-5 ml-2`}>
-                        <NavLink to='/order' className={`${styles.link}`} activeClassName={`${styles.activeLink}`}>
-                            <ListIcon type={location.pathname === '/order' ? "primary"  : "secondary" } />
+                        <NavLink to='/feed' className={`${styles.link}`} activeClassName={`${styles.activeLink}`}>
+                            <ListIcon type={location.pathname === '/feed' ? "primary"  : "secondary" } />
                             <p className="text text_type_main-default pl-2 ">Лента заказов</p>
                         </NavLink>
                     </li>

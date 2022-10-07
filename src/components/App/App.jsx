@@ -19,6 +19,7 @@ import {OrderDetails} from '../OrderDetails/OrderDetailes';
 import { CLOSE_MODAL, OPEN_MODAL } from '../../services/actions/ingredient';
 import { getOrder } from '../../services/actions/order';
 import { IngredientPage } from '../../pages/IngredientPage';
+import {OrderFeedPage} from '../../pages/OrderFeedPage';
 import { getIngreedients } from '../../services/actions/listIngredients';
 import { deleteCookie } from '../../utils/cookie';
 export const App = () => {
@@ -113,6 +114,9 @@ export const App = () => {
 				</ProtectedRoute>
 				<Route exact path='/ingredients/:id'>
 					<IngredientPage />
+				</Route>
+				<Route exact path='/feed'>
+					<OrderFeedPage/>
 				</Route>
 				<Route exact path="/">
 					<HomePage openModalIngredient={openModalIngredient} openModalOrder={openModalOrder}/>
