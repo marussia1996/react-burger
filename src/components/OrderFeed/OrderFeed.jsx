@@ -1,5 +1,5 @@
-import { ListOrders } from '../components/ListOrders/ListOrders'
-import { WorkOrders } from '../components/WorkOrders/WorkOrders'
+import { ListOrders } from '../ListOrders/ListOrders'
+import { WorkOrders } from '../WorkOrders/WorkOrders'
 import styles from './OrderFeed.module.css'
 export const OrderFeed = () =>{
     return (

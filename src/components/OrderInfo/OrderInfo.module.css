@@ -1,0 +1,42 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  width: 640px;
+  margin-top: 122px;
+}
+.containerScroll {
+  flex: 1 1 auto;
+}
+.scrollTrack {
+  cursor: pointer;
+  background-color: #2f2f37;
+  right: 2px;
+  bottom: 2px;
+  top: 2px;
+  border-radius: 1px;
+  width: 8px;
+}
+.scrollThumb {
+  width: 8px;
+  border-radius: 3px;
+  background-color: #8585ad;
+}
+.number {
+  text-align: center;
+}
+.status {
+  color: #00cccc;
+}
+.info {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.total {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.cost {
+  margin-right: 9px;
+}

@@ -22,6 +22,7 @@ import { IngredientPage } from '../../pages/IngredientPage';
 import {OrderFeedPage} from '../../pages/OrderFeedPage';
 import { getIngreedients } from '../../services/actions/listIngredients';
 import { deleteCookie } from '../../utils/cookie';
+import { OrderInfoPage } from '../../pages/OrderInfoPage';
 export const App = () => {
 	const user = useSelector(store => store.user.user);
     const dispatch = useDispatch();
@@ -34,7 +35,7 @@ export const App = () => {
 	useEffect(() => {
 		dispatch(getIngreedients());
 	}, [dispatch]);	
-	//если токен не валидный - обновляем, если не получилось обновить токен - выходим из системы, если была ошибка для получения данных пользователя, повторяем запрос
+	//если токен не валидный - обновляем, если не получилось обновить токен - выходим из системы, если была ошибка для получения данных пользователя - повторяем запрос
 	useEffect(()=>{
 		if(expiredToken && !tokenFailed){
 			dispatch(updateToken());
@@ -48,7 +49,7 @@ export const App = () => {
 			dispatch(getUser());
 		}
 	},[dispatch, expiredToken, userFailed])
-	//если user нет в сторе, и есть токены, то отправляем запрос на получение данных
+	//если user нет в сторе, и есть токены, то отправляем запрос на получение данных о user
 	useEffect(() => {
         if (!user && authToken && refreshToken) {
             dispatch(getUser());
@@ -91,7 +92,6 @@ export const App = () => {
 		setShowOrderDetails(false);
 		history.replace('/');
 	}
-	
 	return (
 		<div className={styles.app}>
 			<AppHeader/>
@@ -117,6 +117,9 @@ export const App = () => {
 				</Route>
 				<Route exact path='/feed'>
 					<OrderFeedPage/>
+				</Route>
+				<Route exact path='/feed:id'>
+					<OrderInfoPage/>
 				</Route>
 				<Route exact path="/">
 					<HomePage openModalIngredient={openModalIngredient} openModalOrder={openModalOrder}/>

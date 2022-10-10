@@ -1,4 +1,4 @@
-import { OrderFeed } from "../OrderFeed/OrderFeed";
+import { OrderFeed } from "../components/OrderFeed/OrderFeed";
 
 export function OrderFeedPage() {
     return (
