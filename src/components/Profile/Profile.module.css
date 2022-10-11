@@ -9,6 +9,7 @@
   display: flex;
   flex-direction: column;
   margin-right: 60px;
+  max-width: 320px;
 }
 .link {
   padding: 17px 0;

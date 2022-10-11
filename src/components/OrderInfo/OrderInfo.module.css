@@ -32,6 +32,26 @@
   flex-direction: row;
   justify-content: space-between;
 }
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.ingredient {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.image {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(#131316, #131316) padding-box,
+    linear-gradient(63.18deg, #801ab3 0%, #4c4cff 100%) border-box;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  object-fit: cover;
+}
 .total {
   display: flex;
   flex-direction: row;

@@ -1,6 +1,7 @@
 import styles from './OrderInfo.module.css'
 import { Scrollbars } from 'react-custom-scrollbars'
 import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
+import bun from '../../images/bun-01.svg'
 
 export const OrderInfo = () => {
     return (
@@ -13,7 +14,16 @@ export const OrderInfo = () => {
                 <Scrollbars universal 
                     renderTrackVertical={props => <div {...props} className={styles.scrollTrack}/>}
                     renderThumbVertical={props => <div {...props} className={styles.scrollThumb}/>}>
-
+                    <div className={`${styles.ingredient} mr-8`}>
+                        <div className={`${styles.wrapper}`}>
+                            <img className={`${styles.image}`} src={bun} alt='bun'/>
+                            <p className='text text_type_main-default ml-4 mr-4'>Флюоресцентная булка R2-D3</p>
+                        </div>
+                        <div className={`${styles.total}`}>
+                            <p className={`${styles.cost} text text_type_digits-default`}>2 x 480</p>
+                            <CurrencyIcon type="primary" />
+                        </div>
+                    </div>
                 </Scrollbars>
             </div>
             <div className={`${styles.info} mt-10`}>

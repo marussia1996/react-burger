@@ -23,6 +23,7 @@ import {OrderFeedPage} from '../../pages/OrderFeedPage';
 import { getIngreedients } from '../../services/actions/listIngredients';
 import { deleteCookie } from '../../utils/cookie';
 import { OrderInfoPage } from '../../pages/OrderInfoPage';
+import { UserOrdersPage } from '../../pages/UserOrdersPage';
 export const App = () => {
 	const user = useSelector(store => store.user.user);
     const dispatch = useDispatch();
@@ -48,7 +49,7 @@ export const App = () => {
 		if(userFailed && !expiredToken){
 			dispatch(getUser());
 		}
-	},[dispatch, expiredToken, userFailed])
+	},[dispatch, expiredToken, userFailed, tokenFailed])
 	//если user нет в сторе, и есть токены, то отправляем запрос на получение данных о user
 	useEffect(() => {
         if (!user && authToken && refreshToken) {
@@ -112,13 +113,19 @@ export const App = () => {
 				<ProtectedRoute exact path='/profile'>
 					<ProfilePage/>
 				</ProtectedRoute>
+				<ProtectedRoute exact path='/profile/orders'>
+					<UserOrdersPage/>
+				</ProtectedRoute>
+				<ProtectedRoute exact path='/profile/orders/:id'>
+					<OrderInfoPage/>
+				</ProtectedRoute>
 				<Route exact path='/ingredients/:id'>
 					<IngredientPage />
 				</Route>
 				<Route exact path='/feed'>
 					<OrderFeedPage/>
 				</Route>
-				<Route exact path='/feed:id'>
+				<Route exact path='/feed/:id'>
 					<OrderInfoPage/>
 				</Route>
 				<Route exact path="/">
@@ -129,11 +136,23 @@ export const App = () => {
 				</Route>
 			</Switch>
 			{background &&
-				<Route exact path="/ingredients/:id">
-					<Modal title="Детали ингредиента" handleClose={closeModalIngredient}>
-						<IngredientDetails />
-					</Modal>
-				</Route>
+				<Switch>
+					<Route exact path="/ingredients/:id">
+						<Modal title="Детали ингредиента" handleClose={closeModalIngredient}>
+							<IngredientDetails />
+						</Modal>
+					</Route>
+					<Route exact path='/feed/:id'>
+						<Modal title="" handleClose={closeModalIngredient}>
+							<OrderInfoPage/>
+						</Modal>
+					</Route>
+					<Route exact path='/profile/orders/:id'>
+						<Modal title="" handleClose={closeModalIngredient}>
+							<OrderInfoPage/>
+						</Modal>
+					</Route>
+				</Switch>
 			}
 			{ (showOrderDetails && order && !orderRequest) && (
 				<Modal handleClose={closeModalOrder} title="">
