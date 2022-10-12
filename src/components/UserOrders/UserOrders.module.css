@@ -19,6 +19,10 @@
   color: #8585ad;
   transition: all 0.3s ease;
 }
+.orderLink {
+  color: inherit;
+  text-decoration: none;
+}
 .activeLink {
   color: #f2f2f3;
 }

@@ -5,8 +5,10 @@ import { createPortal } from 'react-dom';
 import styles from "./Modal.module.css";
 import {modalRoot} from '../../utils/constants';
 import PropTypes from 'prop-types';
+import { useLocation } from 'react-router-dom';
 
 export const Modal = ({handleClose, title, children }) =>{
+    const location = useLocation();
     useEffect(() => {
         const handleEsc = (e) => {
             if(e.key === "Escape"){
@@ -23,12 +25,17 @@ export const Modal = ({handleClose, title, children }) =>{
             <>
                 <div className={styles.containerModal}>
                     <div className={`${styles.content} pl-10 pt-10 pr-10`}>
-                        <h2 className='text text_type_main-large'>{title}</h2>
+                        { location.state?.search?.length > 0 ? 
+                            <h2 className='text text_type_digits-default'>{location.state.search}</h2> :
+                            <h2 className='text text_type_main-large'>{title}</h2>
+                        }
                         <button className={styles.closeButton} type="button"> 
                             <CloseIcon type='primary' onClick={handleClose}/>
                         </button>
                     </div>
-                    {children} 
+                    <div className='pl-10 pb-10 pr-10'>
+                        {children} 
+                    </div>
                 </div>
                 <ModalOverlay handleClick={handleClose} /> 
             </>

@@ -2,11 +2,15 @@ import styles from './OrderInfo.module.css'
 import { Scrollbars } from 'react-custom-scrollbars'
 import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import bun from '../../images/bun-01.svg'
+import { useLocation } from 'react-router-dom'
 
 export const OrderInfo = () => {
+    const location = useLocation();
     return (
         <div className={`${styles.section}`}>
-            <h1 className={`${styles.number} text text_type_digits-default`}>#034533</h1>
+            {   ((location.state?.background.pathname !== '/profile/orders') && (location.state?.background.pathname !== '/feed')) &&
+                <h1 className={`${styles.number} text text_type_digits-default`}>#034533</h1>
+            }
             <h2 className='text text_type_main-medium mt-10 mb-3'>Black Hole Singularity острый бургер</h2>
             <p className={`${styles.status} text text_type_main-default`}>Выполнен</p>
             <h3 className='text text_type_main-medium mb-6 mt-15'>Состав:</h3>

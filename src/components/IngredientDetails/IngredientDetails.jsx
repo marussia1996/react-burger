@@ -9,7 +9,7 @@ export const IngredientDetails = () => {
     return (
         // TODO: add Loading animation
          (ingredient && 
-        <div className={`${styles.container} pb-15`}>
+        <div className={`${styles.container} pb-5`}>
             <img className={`${styles.image} mb-4`} src={ingredient.image} alt={ingredient.name}/>
             <h3 className={`${styles.subtitle} mb-8 text text_type_main-medium`}>{ingredient.name}</h3>
             <ul className={`${styles.list} text text_type_main-default text_color_inactive`}>

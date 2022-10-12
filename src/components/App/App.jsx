@@ -93,6 +93,9 @@ export const App = () => {
 		setShowOrderDetails(false);
 		history.replace('/');
 	}
+	const closeModalOrderInfo = () => {
+		history.goBack();
+	}
 	return (
 		<div className={styles.app}>
 			<AppHeader/>
@@ -117,7 +120,9 @@ export const App = () => {
 					<UserOrdersPage/>
 				</ProtectedRoute>
 				<ProtectedRoute exact path='/profile/orders/:id'>
-					<OrderInfoPage/>
+					<div className="mt-30">
+						<OrderInfoPage/>
+					</div>
 				</ProtectedRoute>
 				<Route exact path='/ingredients/:id'>
 					<IngredientPage />
@@ -126,7 +131,9 @@ export const App = () => {
 					<OrderFeedPage/>
 				</Route>
 				<Route exact path='/feed/:id'>
-					<OrderInfoPage/>
+					<div className="mt-30">
+						<OrderInfoPage/>
+					</div>
 				</Route>
 				<Route exact path="/">
 					<HomePage openModalIngredient={openModalIngredient} openModalOrder={openModalOrder}/>
@@ -137,18 +144,21 @@ export const App = () => {
 			</Switch>
 			{background &&
 				<Switch>
-					<Route exact path="/ingredients/:id">
-						<Modal title="Детали ингредиента" handleClose={closeModalIngredient}>
-							<IngredientDetails />
-						</Modal>
+					<Route exact path="/ingredients/:id" render={() => {
+						return (
+							<Modal title="Детали ингредиента" handleClose={closeModalIngredient}>
+								<IngredientDetails />
+							</Modal>
+							);
+						}}>
 					</Route>
 					<Route exact path='/feed/:id'>
-						<Modal title="" handleClose={closeModalIngredient}>
+						<Modal title='' handleClose={closeModalOrderInfo}>
 							<OrderInfoPage/>
 						</Modal>
 					</Route>
 					<Route exact path='/profile/orders/:id'>
-						<Modal title="" handleClose={closeModalIngredient}>
+						<Modal title="" handleClose={closeModalOrderInfo}>
 							<OrderInfoPage/>
 						</Modal>
 					</Route>
