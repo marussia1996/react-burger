@@ -1,6 +1,6 @@
 import { UserOrders } from "../components/UserOrders/UserOrders";
-export function UserOrdersPage() {
+export function UserOrdersPage({openModalOrderInfo}) {
     return (
-        <UserOrders/>
+        <UserOrders openModalOrderInfo={openModalOrderInfo}/>
     )
 }

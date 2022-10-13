@@ -6,7 +6,7 @@ import { Link, NavLink, useLocation } from 'react-router-dom'
 import { useDispatch } from 'react-redux';
 import { exit } from '../../services/actions/user';
 import { deleteCookie } from '../../utils/cookie';
-export const UserOrders = () =>{
+export const UserOrders = ({openModalOrderInfo}) =>{
     const location = useLocation();
     const dispatch = useDispatch();
     //выход из профиля
@@ -28,10 +28,10 @@ export const UserOrders = () =>{
                     renderTrackVertical={props => <div {...props} className={styles.scrollTrack}/>}
                     renderThumbVertical={props => <div {...props} className={styles.scrollThumb}/>}>
                     <Link className={`${styles.orderLink}`} to={{
-                        pathname: `/profile/orders/:${11}`,
-                        state: { background: location, search: '#034535' }
+                        pathname: `/profile/orders/${11}`,
+                        state: { background: location, title: '#034535' }
                     }}>
-                        <div className={`${styles.order} p-6 mr-2`}>
+                        <div className={`${styles.order} p-6 mr-2`} onClick={()=>{openModalOrderInfo()}}>
                             <div className={`${styles.serviceInfo} mb-6`}>
                                 <p className={`${styles.number} text text_type_digits-default`}>#034535</p>
                                 <p className={`${styles.data} text text_type_main-default text_color_inactive`}>Сегодня, 16:20 i-GMT+3</p>

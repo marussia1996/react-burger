@@ -17,7 +17,7 @@ import {Modal} from '../Modal/Modal';
 import {IngredientDetails} from '../IngredientDetails/IngredientDetails';
 import {OrderDetails} from '../OrderDetails/OrderDetailes';
 import { CLOSE_MODAL, OPEN_MODAL } from '../../services/actions/ingredient';
-import { getOrder } from '../../services/actions/order';
+import { getOrder, OPEN_ORDER_MODAL } from '../../services/actions/order';
 import { IngredientPage } from '../../pages/IngredientPage';
 import {OrderFeedPage} from '../../pages/OrderFeedPage';
 import { getIngreedients } from '../../services/actions/listIngredients';
@@ -82,6 +82,10 @@ export const App = () => {
 			history.push('/login');
 		}
 	}
+	//открытие модального окна информации о заказе
+	const openModalOrderInfo = () => {
+		dispatch({type: OPEN_ORDER_MODAL});
+	}
 	//состояния для модальных окон
 	const [showOrderDetails, setShowOrderDetails] = useState(false);
 	//закрытие модальных окон 
@@ -117,18 +121,18 @@ export const App = () => {
 					<ProfilePage/>
 				</ProtectedRoute>
 				<ProtectedRoute exact path='/profile/orders'>
-					<UserOrdersPage/>
+					<UserOrdersPage openModalOrderInfo={openModalOrderInfo}/>
 				</ProtectedRoute>
-				<ProtectedRoute exact path='/profile/orders/:id'>
+				<Route exact path='/profile/orders/:id'>
 					<div className="mt-30">
 						<OrderInfoPage/>
 					</div>
-				</ProtectedRoute>
+				</Route>
 				<Route exact path='/ingredients/:id'>
 					<IngredientPage />
 				</Route>
 				<Route exact path='/feed'>
-					<OrderFeedPage/>
+					<OrderFeedPage openModalOrderInfo={openModalOrderInfo}/>
 				</Route>
 				<Route exact path='/feed/:id'>
 					<div className="mt-30">

@@ -1,7 +1,7 @@
 import { OrderFeed } from "../components/OrderFeed/OrderFeed";
 
-export function OrderFeedPage() {
+export function OrderFeedPage({openModalOrderInfo}) {
     return (
-        <OrderFeed/>
+        <OrderFeed openModalOrderInfo={openModalOrderInfo}/>
     )
 }

@@ -25,8 +25,8 @@ export const Modal = ({handleClose, title, children }) =>{
             <>
                 <div className={styles.containerModal}>
                     <div className={`${styles.content} pl-10 pt-10 pr-10`}>
-                        { location.state?.search?.length > 0 ? 
-                            <h2 className='text text_type_digits-default'>{location.state.search}</h2> :
+                        { location.state?.title?.length > 0 ? 
+                            <h2 className='text text_type_digits-default'>{location.state.title}</h2> :
                             <h2 className='text text_type_main-large'>{title}</h2>
                         }
                         <button className={styles.closeButton} type="button"> 
