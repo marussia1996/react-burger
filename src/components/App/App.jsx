@@ -59,11 +59,17 @@ export const App = () => {
 	//для открытия модальных окон
 	const location = useLocation();
 	const history = useHistory();
-	const background = location.state && location.state?.background;
+	let background = location.state && location.state?.background;
 	const order = useSelector(store=>store.order.order);
 	const orderRequest = useSelector(store=>store.order.orderRequest);
 	const currentIngredients = useSelector(store=>store.currentIngredients.currentIngredients);
 	const currentBun = useSelector(store=>store.currentIngredients.currentBun);
+	const isOpenModal = useSelector(store=>store.order.openModalOrder);
+	// если модальное окно было открыто и установлен background, обнуляем 
+	// (для того чтобы при перезагрузки страницы происходил переход на страницу информации о заказе)
+	if(!isOpenModal && background !== null){
+		background = null;
+	}
 	//открытие модального окна ингредиента
 	const openModalIngredient = (ingredient) => {
 		dispatch({type: OPEN_MODAL, payload: ingredient})
