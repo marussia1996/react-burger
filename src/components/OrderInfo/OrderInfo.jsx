@@ -2,10 +2,11 @@ import styles from './OrderInfo.module.css'
 import { Scrollbars } from 'react-custom-scrollbars'
 import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import bun from '../../images/bun-01.svg'
-import { useLocation } from 'react-router-dom'
+import { useLocation} from 'react-router-dom'
 
 export const OrderInfo = () => {
     const location = useLocation();
+
     return (
         <div className={`${styles.section}`}>
             {   ((location.state?.background.pathname !== '/profile/orders') && (location.state?.background.pathname !== '/feed')) &&

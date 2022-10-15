@@ -40,24 +40,15 @@ export const UserOrders = ({openModalOrderInfo}) =>{
                             <p className='text text_type_main-default mt-2'>Создан</p>
                             <div className={`${styles.detailInfo} mt-6`}>
                                 <div className={`${styles.ingredients} mr-6`}>
-                                    <div className={`${styles.ingredient}`}>
-                                        <img className={`${styles.image}`} src={bun} alt='bun'/>
-                                    </div>
-                                    <div className={`${styles.ingredient}`}>
-                                        <img className={`${styles.image}`} src={bun} alt='bun'/>
-                                    </div>  
-                                    <div className={`${styles.ingredient}`}>
-                                        <img className={`${styles.image}`} src={bun} alt='bun'/>
-                                    </div>  
-                                    <div className={`${styles.ingredient}`}>
-                                        <img className={`${styles.image}`} src={bun} alt='bun'/>
-                                    </div>  
-                                    <div className={`${styles.ingredient}`}>
-                                        <img className={`${styles.image}`} src={bun} alt='bun'/>
-                                    </div>  
-                                    <div className={`${styles.ingredient}`}>
-                                        <img className={`${styles.image}`} src={bun} alt='bun'/>
-                                    </div>                                
+                                    <img className={`${styles.ingredient}`} src={bun} alt='bun'/>
+                                    <img className={`${styles.ingredient}`} src={bun} alt='bun'/>
+                                    <img className={`${styles.ingredient}`} src={bun} alt='bun'/>
+                                    <img className={`${styles.ingredient}`} src={bun} alt='bun'/>
+                                    <img className={`${styles.ingredient}`} src={bun} alt='bun'/>
+                                    <img className={`${styles.ingredient}`} src={bun} alt='bun'/>
+                                    <div className={`${styles.counter}`}>
+                                        <p className={`${styles.textCounter} text text_type_main-default`}>+3</p>
+                                    </div>                                                                  
                                 </div>
                                 <div className={`${styles.total}`}>
                                     <p className={`${styles.cost} text text_type_digits-default`}>480</p>

@@ -59,7 +59,7 @@ export const App = () => {
 	//для открытия модальных окон
 	const location = useLocation();
 	const history = useHistory();
-	const background = location.state && location.state.background;
+	const background = location.state && location.state?.background;
 	const order = useSelector(store=>store.order.order);
 	const orderRequest = useSelector(store=>store.order.orderRequest);
 	const currentIngredients = useSelector(store=>store.currentIngredients.currentIngredients);
@@ -134,10 +134,12 @@ export const App = () => {
 				<Route exact path='/feed'>
 					<OrderFeedPage openModalOrderInfo={openModalOrderInfo}/>
 				</Route>
-				<Route exact path='/feed/:id'>
-					<div className="mt-30">
-						<OrderInfoPage/>
-					</div>
+				<Route exact path='/feed/:id' render={() => {
+						return (
+							<div className="mt-40">
+								<OrderInfoPage/>
+							</div>
+						)}}>
 				</Route>
 				<Route exact path="/">
 					<HomePage openModalIngredient={openModalIngredient} openModalOrder={openModalOrder}/>
@@ -146,7 +148,7 @@ export const App = () => {
 					<NotFound404Page/>
 				</Route>
 			</Switch>
-			{background &&
+			{background && 
 				<Switch>
 					<Route exact path="/ingredients/:id" render={() => {
 						return (

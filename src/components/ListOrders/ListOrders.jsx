@@ -3,9 +3,9 @@ import { Scrollbars } from 'react-custom-scrollbars'
 import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import bun from '../../images/bun-01.svg'
 import { Link, useLocation } from 'react-router-dom'
+
 export const ListOrders = ({openModalOrderInfo}) =>{
     const location = useLocation();
-    console.log(location);
     return (
         <section className={`${styles.section}`}>
             <div className={`${styles.containerScroll}`}>
@@ -24,24 +24,17 @@ export const ListOrders = ({openModalOrderInfo}) =>{
                             <h2 className={`${styles.name} text text_type_main-medium`}>Death Star Starship Main бургер</h2>
                             <div className={`${styles.detailInfo} mt-6`}>
                                 <div className={`${styles.ingredients} mr-6`}>
-                                    <div className={`${styles.ingredient}`}>
-                                        <img className={`${styles.image}`} src={bun} alt='bun'/>
-                                    </div>
-                                    <div className={`${styles.ingredient}`}>
-                                        <img className={`${styles.image}`} src={bun} alt='bun'/>
-                                    </div>  
-                                    <div className={`${styles.ingredient}`}>
-                                        <img className={`${styles.image}`} src={bun} alt='bun'/>
-                                    </div>  
-                                    <div className={`${styles.ingredient}`}>
-                                        <img className={`${styles.image}`} src={bun} alt='bun'/>
-                                    </div>  
-                                    <div className={`${styles.ingredient}`}>
-                                        <img className={`${styles.image}`} src={bun} alt='bun'/>
-                                    </div>  
-                                    <div className={`${styles.ingredient}`}>
-                                        <img className={`${styles.image}`} src={bun} alt='bun'/>
-                                    </div>                                
+                                <div className={`${styles.ingredients} mr-6`}>
+                                    <img className={`${styles.ingredient}`} src={bun} alt='bun'/>
+                                    <img className={`${styles.ingredient}`} src={bun} alt='bun'/>
+                                    <img className={`${styles.ingredient}`} src={bun} alt='bun'/>
+                                    <img className={`${styles.ingredient}`} src={bun} alt='bun'/>
+                                    <img className={`${styles.ingredient}`} src={bun} alt='bun'/>
+                                    <img className={`${styles.ingredient}`} src={bun} alt='bun'/>
+                                    <div className={`${styles.counter}`}>
+                                        <p className={`${styles.textCounter} text text_type_main-default`}>+3</p>
+                                    </div>                                                                  
+                                </div>                               
                                 </div>
                                 <div className={`${styles.total}`}>
                                     <p className={`${styles.cost} text text_type_digits-default`}>480</p>
