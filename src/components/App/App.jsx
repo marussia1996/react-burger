@@ -16,14 +16,15 @@ import { NotFound404Page } from '../../pages/NotFound404Page';
 import {Modal} from '../Modal/Modal';
 import {IngredientDetails} from '../IngredientDetails/IngredientDetails';
 import {OrderDetails} from '../OrderDetails/OrderDetailes';
-import { CLOSE_MODAL, OPEN_MODAL } from '../../services/actions/ingredient';
-import { getOrder, OPEN_ORDER_MODAL } from '../../services/actions/order';
+import { CLEAR_INGREDIENT, GET_INGREDIENT } from '../../services/actions/ingredient';
+import { getOrder } from '../../services/actions/order';
 import { IngredientPage } from '../../pages/IngredientPage';
 import {OrderFeedPage} from '../../pages/OrderFeedPage';
 import { getIngreedients } from '../../services/actions/listIngredients';
 import { deleteCookie } from '../../utils/cookie';
 import { OrderInfoPage } from '../../pages/OrderInfoPage';
 import { UserOrdersPage } from '../../pages/UserOrdersPage';
+import { CLOSE_MODAL, OPEN_MODAL } from '../../services/actions/modal';
 export const App = () => {
 	const user = useSelector(store => store.user.user);
     const dispatch = useDispatch();
@@ -64,21 +65,29 @@ export const App = () => {
 	const orderRequest = useSelector(store=>store.order.orderRequest);
 	const currentIngredients = useSelector(store=>store.currentIngredients.currentIngredients);
 	const currentBun = useSelector(store=>store.currentIngredients.currentBun);
-	const isOpenModal = useSelector(store=>store.order.openModalOrder);
+	const isOpenModal = useSelector(store=>store.modal.isOpened);
+	//состояния для модальных окон
+	const [showOrderDetails, setShowOrderDetails] = useState(false);
 	// если модальное окно было открыто и установлен background, обнуляем 
 	// (для того чтобы при перезагрузки страницы происходил переход на страницу информации о заказе)
 	if(!isOpenModal && background !== null){
 		background = null;
 	}
-	//открытие модального окна ингредиента
+	//открытие && закрытие модального окна ингредиента
 	const openModalIngredient = (ingredient) => {
-		dispatch({type: OPEN_MODAL, payload: ingredient})
+		dispatch({type: GET_INGREDIENT, payload: ingredient})
+		dispatch({type: OPEN_MODAL});
 	}
+	const closeModalIngredient = () => {
+		dispatch({type: CLEAR_INGREDIENT});
+		dispatch({type: CLOSE_MODAL});
+		history.replace('/');
+	};
 	//взятие всех Id выбранных ингредиентов
 	const getIdIngredients = useCallback(() =>{
 		return currentIngredients.map((ingredient)=>ingredient._id).concat(currentBun._id)
 	}, [currentBun, currentIngredients]);
-	//открытие модального окна заказа
+	//открытие && закрытие модального окна заказа
 	const openModalOrder = () => {
 		if(user){
 			dispatch(getOrder(getIdIngredients()));
@@ -88,22 +97,16 @@ export const App = () => {
 			history.push('/login');
 		}
 	}
-	//открытие модального окна информации о заказе
-	const openModalOrderInfo = () => {
-		dispatch({type: OPEN_ORDER_MODAL});
-	}
-	//состояния для модальных окон
-	const [showOrderDetails, setShowOrderDetails] = useState(false);
-	//закрытие модальных окон 
-	const closeModalIngredient = () => {
-		dispatch({type: CLOSE_MODAL});
-		history.replace('/');
-	};
 	const closeModalOrder = () => {
 		setShowOrderDetails(false);
 		history.replace('/');
 	}
+	//открытие && закрытие модального окна информации о заказе
+	const openModalOrderInfo = () => {
+		dispatch({type: OPEN_MODAL});
+	}
 	const closeModalOrderInfo = () => {
+		dispatch({type: CLOSE_MODAL});
 		history.goBack();
 	}
 	return (
