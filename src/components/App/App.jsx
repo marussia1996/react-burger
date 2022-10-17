@@ -8,7 +8,7 @@ import { RepairPasswordPage } from '../../pages/RepairPasswordPage'
 import { ResetPasswordPage } from '../../pages/ResetPasswordPage';
 import { ProfilePage } from '../../pages/ProfilePage';
 import { ProtectedRoute } from '../ProtectedRoute/ProtectedRoute';
-import {useEffect, useCallback, useState} from 'react'
+import {useEffect, useCallback} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getCookie } from '../../utils/cookie';
 import { exit, getUser, updateToken } from '../../services/actions/user';
@@ -25,6 +25,7 @@ import { deleteCookie } from '../../utils/cookie';
 import { OrderInfoPage } from '../../pages/OrderInfoPage';
 import { UserOrdersPage } from '../../pages/UserOrdersPage';
 import { CLOSE_MODAL, OPEN_MODAL } from '../../services/actions/modal';
+import { OrderInfo } from '../OrderInfo/OrderInfo';
 export const App = () => {
 	const user = useSelector(store => store.user.user);
     const dispatch = useDispatch();
@@ -37,6 +38,12 @@ export const App = () => {
 	useEffect(() => {
 		dispatch(getIngreedients());
 	}, [dispatch]);	
+	//если user нет в сторе, и есть токены, то отправляем запрос на получение данных о user
+	useEffect(() => {
+        if (!user && authToken && refreshToken) {
+            dispatch(getUser());
+        }
+    }, [dispatch, user, refreshToken, authToken]);
 	//если токен не валидный - обновляем, если не получилось обновить токен - выходим из системы, если была ошибка для получения данных пользователя - повторяем запрос
 	useEffect(()=>{
 		if(expiredToken && !tokenFailed){
@@ -51,23 +58,19 @@ export const App = () => {
 			dispatch(getUser());
 		}
 	},[dispatch, expiredToken, userFailed, tokenFailed])
-	//если user нет в сторе, и есть токены, то отправляем запрос на получение данных о user
-	useEffect(() => {
-        if (!user && authToken && refreshToken) {
-            dispatch(getUser());
-        }
-    }, [dispatch, user, refreshToken, authToken]);
+	
 	//для открытия модальных окон
 	const location = useLocation();
 	const history = useHistory();
 	let background = location.state && location.state?.background;
 	const order = useSelector(store=>store.order.order);
 	const orderRequest = useSelector(store=>store.order.orderRequest);
+    const orderFailed = useSelector(store=>store.order.orderFailed);
+	const isOpenModal = useSelector(store=>store.modal.isOpened);
+	
 	const currentIngredients = useSelector(store=>store.currentIngredients.currentIngredients);
 	const currentBun = useSelector(store=>store.currentIngredients.currentBun);
-	const isOpenModal = useSelector(store=>store.modal.isOpened);
-	//состояния для модальных окон
-	const [showOrderDetails, setShowOrderDetails] = useState(false);
+	
 	// если модальное окно было открыто и установлен background, обнуляем 
 	// (для того чтобы при перезагрузки страницы происходил переход на страницу информации о заказе)
 	if(!isOpenModal && background !== null){
@@ -91,14 +94,14 @@ export const App = () => {
 	const openModalOrder = () => {
 		if(user){
 			dispatch(getOrder(getIdIngredients()));
-			setShowOrderDetails(true);
+			dispatch({type: OPEN_MODAL});
 		}
 		else{
 			history.push('/login');
 		}
 	}
 	const closeModalOrder = () => {
-		setShowOrderDetails(false);
+		dispatch({type: CLOSE_MODAL});
 		history.replace('/');
 	}
 	//открытие && закрытие модального окна информации о заказе
@@ -140,15 +143,16 @@ export const App = () => {
 				<Route exact path='/ingredients/:id'>
 					<IngredientPage />
 				</Route>
+				{/* <Route exact path='/order'>
+					<OrderDetails order={order}/>
+				</Route> */}
 				<Route exact path='/feed'>
 					<OrderFeedPage openModalOrderInfo={openModalOrderInfo}/>
 				</Route>
-				<Route exact path='/feed/:id' render={() => {
-						return (
-							<div className="mt-40">
-								<OrderInfoPage/>
-							</div>
-						)}}>
+				<Route exact path='/feed/:id'>
+					<div className="mt-30">
+						<OrderInfoPage/>
+					</div>
 				</Route>
 				<Route exact path="/">
 					<HomePage openModalIngredient={openModalIngredient} openModalOrder={openModalOrder}/>
@@ -159,36 +163,36 @@ export const App = () => {
 			</Switch>
 			{background && 
 				<Switch>
-					<Route exact path="/ingredients/:id" render={() => {
-						return (
-							<Modal title="Детали ингредиента" handleClose={closeModalIngredient}>
-								<IngredientDetails />
-							</Modal>
-							);
-						}}>
+					<Route exact path="/ingredients/:id">
+						<Modal title="Детали ингредиента" handleClose={closeModalIngredient}>
+							<IngredientDetails />
+						</Modal>
 					</Route>
 					<Route exact path='/feed/:id'>
 						<Modal title='' handleClose={closeModalOrderInfo}>
-							<OrderInfoPage/>
+							<OrderInfo/>
 						</Modal>
 					</Route>
 					<Route exact path='/profile/orders/:id'>
 						<Modal title="" handleClose={closeModalOrderInfo}>
-							<OrderInfoPage/>
+							<OrderInfo/>
 						</Modal>
+					</Route>
+					<Route exact path='/order'>
+						{order && !orderRequest &&
+							<Modal handleClose={closeModalOrder} title="">
+								<OrderDetails order={order}/>
+							</Modal>
+						}
+						{orderFailed &&
+							<Modal handleClose={closeModalOrder} title="">
+								<p>Ошибка получения номера заказа</p>
+							</Modal>						
+						}
 					</Route>
 				</Switch>
 			}
-			{ (showOrderDetails && order && !orderRequest) && (
-				<Modal handleClose={closeModalOrder} title="">
-					<OrderDetails order={order}/>
-				</Modal>
-			)}
-			{ (showOrderDetails && !order && !orderRequest) && (
-				<Modal handleClose={closeModalOrder} title="">
-					<p>Ошибка получения номера заказа</p>
-				</Modal>
-			)}
+			
 		</main>
 	</div>
 	)

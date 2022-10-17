@@ -1,9 +1,10 @@
 import styles from './OrderDetails.module.css'
 import image from '../../images/done.png'
 import PropTypes from "prop-types";
+
 export const OrderDetails = ({order}) => {
     return (
-        <div className={`${styles.container} pb-20 pt-4`}>
+            <div className={`${styles.container} pb-20 pt-4`}>
             <ul className={`${styles.list}`}>
                 <li className={`${styles.item} ${styles.number} pb-8`}>
                     <h2 className='text text_type_digits-large'>
@@ -30,8 +31,9 @@ export const OrderDetails = ({order}) => {
                 </li>
             </ul>
         </div>
+    
     )
 }
 OrderDetails.propTypes = {
-    order: PropTypes.number.isRequired,
+    order: PropTypes.number,
 }
