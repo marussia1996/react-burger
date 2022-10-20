@@ -21,6 +21,7 @@
 .ingredients {
   display: flex;
   flex-direction: row;
+  position: relative;
 }
 .ingredient {
   position: relative;
@@ -57,13 +58,12 @@
   left: -60px;
 }
 .counter {
-  position: relative;
+  position: absolute;
   min-width: 64px;
   min-height: 64px;
   border-radius: 50%;
-  background-color: #131316;
-  opacity: 0.6;
-  left: -124px;
+  background-color: rgba(28, 28, 33, 0.6);
+  left: 260px;
   z-index: 1;
   display: flex;
   justify-content: center;
@@ -79,4 +79,9 @@
 }
 .cost {
   margin-right: 9px;
+}
+.name {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }

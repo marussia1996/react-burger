@@ -1,19 +1,39 @@
 import styles from './OrderInfo.module.css'
 import { Scrollbars } from 'react-custom-scrollbars'
 import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
-import bun from '../../images/bun-01.svg'
-import { useLocation} from 'react-router-dom'
+import bun from '../../images/bun.png'
+import { useLocation, useParams} from 'react-router-dom'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { wsConnectionClosedAllOrders, wsConnectionOpenAllOrders } from '../../services/actions/wsAllOrders'
+import { useSelector } from 'react-redux'
 
 export const OrderInfo = () => {
-    const location = useLocation();
-
+    const {id} = useParams();
+    // const dispatch = useDispatch();
+    // useEffect(() => {
+    //     dispatch(wsConnectionOpenAllOrders())
+    //     return () => {
+    //         dispatch(wsConnectionClosedAllOrders())
+    //     }
+    // }, [dispatch])
+    // const allOrders = useSelector(store=>store.wsAllOrders.orders);
+    // const order = allOrders?.find((order)=>order._id === id);
+    // console.log(order);
+    // let statusOrder = ''
+    // if(order.status === 'done'){
+    //     statusOrder = 'Выполнен'
+    // }
+    // else{
+    //     statusOrder = 'В работе'
+    // }
     return (
         <div className={`${styles.section}`}>
-            {   ((location.state?.background.pathname !== '/profile/orders') && (location.state?.background.pathname !== '/feed')) &&
+            {/* {   
                 <h1 className={`${styles.number} text text_type_digits-default`}>#034533</h1>
-            }
-            <h2 className='text text_type_main-medium mt-10 mb-3'>Black Hole Singularity острый бургер</h2>
-            <p className={`${styles.status} text text_type_main-default`}>Выполнен</p>
+            } */}
+            <h2 className='text text_type_main-medium mt-10 mb-3'>{}</h2>
+            <p className={`${styles.status} text text_type_main-default`}>{}</p>
             <h3 className='text text_type_main-medium mb-6 mt-15'>Состав:</h3>
             <div className={`${styles.containerScroll}`}>
                 <Scrollbars universal 

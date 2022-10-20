@@ -1,4 +1,4 @@
-// import { getCookie } from "../../utils/cookie";
+import { getCookie } from "../../utils/cookie";
 
 export const socketMiddleware = (wsUrl, wsActions) => {
   return (store) => {
@@ -7,12 +7,25 @@ export const socketMiddleware = (wsUrl, wsActions) => {
     return (next) => (action) => {
       const { dispatch } = store;
       const { type, payload } = action;
-      const { wsInit, wsSendMessage, onOpen, onClose, onError, onMessage } =
-        wsActions;
-      //   const authToken = getCookie("authToken");
-      if (type === wsInit) {
+      const {
+        wsInit,
+        wsInitUser,
+        wsSendMessage,
+        onOpen,
+        onClose,
+        onError,
+        onMessage,
+      } = wsActions;
+      //узнаем какой ws инициализируем
+      if (type === wsInitUser) {
+        const authToken = getCookie("authToken");
+        if (authToken) {
+          socket = new WebSocket(`${wsUrl}?token=${authToken}`);
+        }
+      } else if (type === wsInit) {
         socket = new WebSocket(wsUrl);
       }
+
       if (socket) {
         socket.onopen = (event) => {
           dispatch({ type: onOpen, payload: event });

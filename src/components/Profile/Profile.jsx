@@ -5,12 +5,19 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { updateUser, getUser } from '../../services/actions/user';
 import { NavProfile } from '../NavProfile/NavProfile';
+import { wsConnectionClosedUserOrders, wsConnectionOpenUserOrders } from '../../services/actions/wsUserOrders';
 
 export const Profile = () =>{
     const user = useSelector(store=>store.user.user);
     const updateFailed = useSelector(store=>store.user.updateFailed);
 	const expiredToken = useSelector(store=>store.user.expiredToken);
     const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(wsConnectionOpenUserOrders())
+        return () => {
+            dispatch(wsConnectionClosedUserOrders())
+        }
+    }, [dispatch])
     const [state, setState] = useState({
         name: user.name,
         email: user.email,
