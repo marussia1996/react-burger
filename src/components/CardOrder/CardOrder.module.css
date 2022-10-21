@@ -85,3 +85,6 @@
   white-space: nowrap;
   overflow: hidden;
 }
+.doneColor {
+  color: #00cccc;
+}

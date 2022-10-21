@@ -22,6 +22,18 @@ export const CardOrder = ({openModalOrderInfo, status, order}) =>{
             return 'Сегодня'
         }
     }
+    console.log('order');
+    console.log(order);
+    //определение статуса заказа
+    const statusName = () =>{
+        if(order.status === 'done'){
+            return 'Выполнен'
+        } else if(order.status === 'created'){
+            return 'Создан'
+        }else if(order.status === 'pending'){
+            return 'Готовится'
+        }
+    }
     const formatDate = () =>{
         return `${isToday()}, 
                 ${orderDate.getHours()}:${orderDate.getMinutes() >= 10 ? orderDate.getMinutes() :
@@ -42,7 +54,7 @@ export const CardOrder = ({openModalOrderInfo, status, order}) =>{
     //проверка содержимого массива ингредиентов
     const validIngredients = useMemo(()=>{
         const valideArr = [];
-        arrayIngredients.forEach((ingredient, index)=>{
+        arrayIngredients.forEach((ingredient)=>{
             if(ingredient){
                 valideArr.push(ingredient);
             }
@@ -78,12 +90,12 @@ export const CardOrder = ({openModalOrderInfo, status, order}) =>{
                 <p className={`${styles.data} text text_type_main-default text_color_inactive`}>{formatDate()}</p>
             </div>
             <h2 className={`${styles.name} text text_type_main-medium`}>{order.name}</h2>
-            {status && <p className='text text_type_main-default mt-2'>{order.status}</p>}
+            {status && <p className={`${order.status === 'done' ? styles.doneColor : ''} text text_type_main-default mt-2`}>{statusName()}</p>}
             <div className={`${styles.detailInfo} mt-6`}>
                 <div className={`${styles.ingredients} mr-6`}>
                     { visibleIngredients &&
                         visibleIngredients.map((ingredient)=>(
-                            <img key={uuid()} className={`${styles.ingredient}`} src={ingredient?.image} alt={`${ingredient?.name}`}/>))
+                            <img key={uuid()} className={`${styles.ingredient}`} src={ingredient.image} alt={`${ingredient.name}`}/>))
                     }
                     {isVisibleCounter &&
                         <div className={`${styles.counter}`}>
