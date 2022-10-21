@@ -88,9 +88,8 @@ export const App = () => {
 	};
 	//взятие всех Id выбранных ингредиентов
 	const getIdIngredients = useCallback(() =>{
-		return currentIngredients.map((ingredient)=>ingredient.data._id).concat(currentBun._id).reverse()
+		return currentIngredients.map((ingredient)=>ingredient.data._id).concat(currentBun._id).concat(currentBun._id).reverse()
 	}, [currentBun, currentIngredients]);
-	
 	//открытие && закрытие модального окна заказа
 	const openModalOrder = () => {
 		if(user){
