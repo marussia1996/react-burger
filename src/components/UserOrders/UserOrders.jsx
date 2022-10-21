@@ -8,7 +8,13 @@ import { wsConnectionClosedUserOrders, wsConnectionOpenUserOrders } from '../../
 import { useSelector } from 'react-redux';
 
 export const UserOrders = ({openModalOrderInfo}) =>{
-    
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(wsConnectionOpenUserOrders())
+        return () => {
+            dispatch(wsConnectionClosedUserOrders())
+        }
+    }, [dispatch])
     const orders = useSelector(store=>store.wsUserOrders.userOrders);
     console.log(orders);
     return (

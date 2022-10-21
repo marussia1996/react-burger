@@ -12,12 +12,6 @@ export const Profile = () =>{
     const updateFailed = useSelector(store=>store.user.updateFailed);
 	const expiredToken = useSelector(store=>store.user.expiredToken);
     const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(wsConnectionOpenUserOrders())
-        return () => {
-            dispatch(wsConnectionClosedUserOrders())
-        }
-    }, [dispatch])
     const [state, setState] = useState({
         name: user.name,
         email: user.email,

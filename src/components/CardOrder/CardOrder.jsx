@@ -1,24 +1,11 @@
 import styles from './CardOrder.module.css'
 import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
-import { Link, useLocation, useRouteMatch } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useCallback, useMemo } from 'react'
 import uuid from 'react-uuid'
 export const CardOrder = ({openModalOrderInfo, status, order}) =>{
     const location = useLocation();
-    
-    // const match = useRouteMatch();
-    // console.log(match);
-    // const allOrders = useSelector(store=>store.wsAllOrders.orders);
-    // const userOrders = useSelector(store=>store.wsUserOrders.orders);
-    // let orders;
-    // if(match.url === '/feed'){
-    //     orders = allOrders;
-    // }
-    // else if(match.url === '/profile/orders'){
-    //     orders = userOrders;
-    // }
-    // console.log(orders)
     const orderDate = new Date(order.createdAt);
     const isToday = () =>{
         const now = new Date();
@@ -35,6 +22,8 @@ export const CardOrder = ({openModalOrderInfo, status, order}) =>{
             return 'Сегодня'
         }
     }
+    console.log('order');
+    console.log(order);
     const formatDate = () =>{
         return `${isToday()}, 
                 ${orderDate.getHours()}:${orderDate.getMinutes() >= 10 ? orderDate.getMinutes() :
@@ -52,24 +41,34 @@ export const CardOrder = ({openModalOrderInfo, status, order}) =>{
     const arrayIngredients = useMemo(()=>{
         return filterIngredients.map((el)=>{return el})
     },[filterIngredients]);
+    //проверка содержимого массива ингредиентов
+    const validIngredients = useMemo(()=>{
+        const valideArr = [];
+        arrayIngredients.forEach((ingredient, index)=>{
+            if(ingredient){
+                valideArr.push(ingredient);
+            }
+        })
+        return valideArr;
+    },[arrayIngredients]);
     //виден ли последний элемент
     let isVisibleCounter = false;
     let deltaCounter = 0;
     //видимые ингредиенты
     const visibleIngredients = useMemo(()=>{
-        if(arrayIngredients.length > 6){
-            deltaCounter = arrayIngredients.length - 6;
+        if(validIngredients.length > 6){
+            deltaCounter = validIngredients.length - 6;
             isVisibleCounter = true;
-            return arrayIngredients.splice(0,6);
+            return validIngredients.splice(0,6);
         }
         else{
-            return arrayIngredients
+            return validIngredients
         }
-    }, [arrayIngredients])
+    }, [validIngredients])
     //подсчет стоимости
     const totalPrice = useCallback(()=>{
-        return ( arrayIngredients.reduce((acc, ingr) =>  acc +  ingr?.price , 0));
-        },[arrayIngredients]);
+        return ( validIngredients.reduce((acc, ingr) => acc +  ingr.price , 0));
+        },[validIngredients]);
     return(
         <Link className={`${styles.link}`} to={{
             pathname: `${location.pathname}/${order._id}`,
