@@ -80,7 +80,7 @@ export const BurgerConstructor = ({openModalOrder}) => {
             }
         }
     })
-
+    console.log(location)
     return (
       <section className={`${styles.section} ${isHover ? styles.onHover : ''} pt-25`} ref={dropTarget}>
         <div className='mr-4 ml-4 mb-4 pl-8'>

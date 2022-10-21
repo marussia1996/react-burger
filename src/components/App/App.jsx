@@ -70,7 +70,10 @@ export const App = () => {
 	
 	const currentIngredients = useSelector(store=>store.currentIngredients.currentIngredients);
 	const currentBun = useSelector(store=>store.currentIngredients.currentBun);
-	
+	console.log('background')
+	console.log(background)
+	console.log('isOpenModal')
+	console.log(isOpenModal)
 	// если модальное окно было открыто и установлен background, обнуляем 
 	// (для того чтобы при перезагрузки страницы происходил переход на страницу информации о заказе)
 	if(!isOpenModal && background !== null){
@@ -104,13 +107,16 @@ export const App = () => {
 		dispatch({type: CLOSE_MODAL});
 		history.replace('/');
 	}
+
 	//открытие && закрытие модального окна информации о заказе
 	const openModalOrderInfo = () => {
 		dispatch({type: OPEN_MODAL});
 	}
 	const closeModalOrderInfo = () => {
+		dispatch({type: CLOSE_MODAL});
 		history.goBack();
 	}
+	
 	return (
 		<div className={styles.app}>
 			<AppHeader/>

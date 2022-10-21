@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { updateUser, getUser } from '../../services/actions/user';
 import { NavProfile } from '../NavProfile/NavProfile';
-import { wsConnectionClosedUserOrders, wsConnectionOpenUserOrders } from '../../services/actions/wsUserOrders';
 
 export const Profile = () =>{
     const user = useSelector(store=>store.user.user);

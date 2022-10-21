@@ -42,6 +42,10 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 16px;
+}
+.ingredient:last-child {
+  margin-bottom: 0;
 }
 .image {
   width: 60px;
@@ -59,4 +63,7 @@
 }
 .cost {
   margin-right: 9px;
+}
+.doneColor {
+  color: #00cccc;
 }
