@@ -22,8 +22,6 @@ export const CardOrder = ({openModalOrderInfo, status, order}) =>{
             return 'Сегодня'
         }
     }
-    console.log('order');
-    console.log(order);
     const formatDate = () =>{
         return `${isToday()}, 
                 ${orderDate.getHours()}:${orderDate.getMinutes() >= 10 ? orderDate.getMinutes() :

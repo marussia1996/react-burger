@@ -16,7 +16,6 @@ export const UserOrders = ({openModalOrderInfo}) =>{
         }
     }, [dispatch])
     const orders = useSelector(store=>store.wsUserOrders.userOrders);
-    console.log(orders);
     return (
         <section className={`${styles.container}`}>
             <div className={`${styles.nav}`}>
@@ -31,7 +30,7 @@ export const UserOrders = ({openModalOrderInfo}) =>{
                         useMemo(()=>
                             orders.map((order)=>(
                                 <CardOrder key={order._id} openModalOrderInfo={openModalOrderInfo} order={order} status={true}/>
-                            )),[orders, openModalOrderInfo])
+                            )).reverse(),[orders, openModalOrderInfo])
                     }
                     {
                         orders.length === 0 && 
