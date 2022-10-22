@@ -4,6 +4,7 @@ import { wsConnectionClosedAllOrders, wsConnectionOpenAllOrders } from '../../se
 import { ListOrders } from '../ListOrders/ListOrders'
 import { WorkOrders } from '../WorkOrders/WorkOrders'
 import styles from './OrderFeed.module.css'
+import PropTypes from "prop-types";
 export const OrderFeed = ({openModalOrderInfo}) =>{
     const dispatch = useDispatch();
     useEffect(() => {
@@ -22,3 +23,6 @@ export const OrderFeed = ({openModalOrderInfo}) =>{
         </section>
     )
 }
+OrderFeed.propTypes = {
+    openModalOrderInfo: PropTypes.func.isRequired,
+};

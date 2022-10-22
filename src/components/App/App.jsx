@@ -62,7 +62,7 @@ export const App = () => {
 	//для открытия модальных окон
 	const location = useLocation();
 	const history = useHistory();
-	let background = location.state && location.state?.background;
+	let background = location.state && location.state.background;
 	const order = useSelector(store=>store.order.order);
 	const orderRequest = useSelector(store=>store.order.orderRequest);
     const orderFailed = useSelector(store=>store.order.orderFailed);
@@ -70,10 +70,6 @@ export const App = () => {
 	
 	const currentIngredients = useSelector(store=>store.currentIngredients.currentIngredients);
 	const currentBun = useSelector(store=>store.currentIngredients.currentBun);
-	console.log('background')
-	console.log(background)
-	console.log('isOpenModal')
-	console.log(isOpenModal)
 	// если модальное окно было открыто и установлен background, обнуляем 
 	// (для того чтобы при перезагрузки страницы происходил переход на страницу информации о заказе)
 	if(!isOpenModal && background !== null){
@@ -148,9 +144,6 @@ export const App = () => {
 				<Route exact path='/ingredients/:id'>
 					<IngredientPage />
 				</Route>
-				{/* <Route exact path='/order'>
-					<OrderDetails order={order}/>
-				</Route> */}
 				<Route exact path='/feed'>
 					<OrderFeedPage openModalOrderInfo={openModalOrderInfo}/>
 				</Route>
@@ -183,19 +176,17 @@ export const App = () => {
 							<OrderInfo/>
 						</Modal>
 					</Route>
-					<Route exact path='/order'>
-						{order && !orderRequest &&
-							<Modal handleClose={closeModalOrder} title="">
-								<OrderDetails order={order}/>
-							</Modal>
-						}
-						{orderFailed &&
-							<Modal handleClose={closeModalOrder} title="">
-								<p>Ошибка получения номера заказа</p>
-							</Modal>						
-						}
-					</Route>
 				</Switch>
+			}
+			{order && !orderRequest && isOpenModal &&
+				<Modal handleClose={closeModalOrder} title="">
+					<OrderDetails order={order}/>
+				</Modal>
+			}
+			{orderFailed && isOpenModal &&
+				<Modal handleClose={closeModalOrder} title="">
+					<p>Ошибка получения номера заказа</p>
+				</Modal>						
 			}
 			
 		</main>

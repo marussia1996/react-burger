@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { useEffect, useMemo } from 'react';
 import { wsConnectionClosedUserOrders, wsConnectionOpenUserOrders } from '../../services/actions/wsUserOrders';
 import { useSelector } from 'react-redux';
+import PropTypes from "prop-types";
 
 export const UserOrders = ({openModalOrderInfo}) =>{
     const dispatch = useDispatch();
@@ -43,3 +44,6 @@ export const UserOrders = ({openModalOrderInfo}) =>{
         </section>
     )
 }
+UserOrders.propTypes = {
+    openModalOrderInfo: PropTypes.func.isRequired,
+};

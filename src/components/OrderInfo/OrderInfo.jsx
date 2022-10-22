@@ -1,18 +1,15 @@
 import styles from './OrderInfo.module.css'
 import { Scrollbars } from 'react-custom-scrollbars'
 import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
-import bun from '../../images/bun.png'
 import { useLocation} from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { formatDate } from '../../utils/formatDate'
 import { statusName } from '../../utils/statusOrder'
 import { useCallback, useMemo } from 'react'
-import { GET_INGREDIENTS_FAILED } from '../../services/actions/listIngredients'
 
 export const OrderInfo = () => {
     const location = useLocation();
     const order = location.state.order;
-    console.log(order);
     const isOpenModal = useSelector(store=>store.modal.isOpened)
     const orderIngredients = order.ingredients;
     const allIngredients = useSelector(store=>store.listIngredients.ingredients);
@@ -96,7 +93,7 @@ export const OrderInfo = () => {
                 </Scrollbars>
             </div>
             <div className={`${styles.info} mt-10`}>
-                <p>{formatDate(order.createdAt)}</p>
+                <p className='text text_type_main-default text_color_inactive'>{formatDate(order.createdAt)}</p>
                 <div className={`${styles.total}`}>
                     <p className={`${styles.cost} text text_type_digits-default`}>{totalPrice()}</p>
                     <CurrencyIcon type="primary" />

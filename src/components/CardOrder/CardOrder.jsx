@@ -6,6 +6,8 @@ import { useCallback, useMemo } from 'react'
 import uuid from 'react-uuid'
 import { formatDate } from '../../utils/formatDate'
 import { statusName } from '../../utils/statusOrder'
+import PropTypes from "prop-types";
+import { orderType } from '../../utils/types'
 export const CardOrder = ({openModalOrderInfo, status, order}) =>{
     const location = useLocation();
     const orderIngredients = order.ingredients;
@@ -81,3 +83,8 @@ export const CardOrder = ({openModalOrderInfo, status, order}) =>{
         </Link>
     )
 }
+CardOrder.propTypes = {
+    openModalOrderInfo: PropTypes.func.isRequired,
+    status: PropTypes.bool.isRequired,
+    order: orderType.isRequired,
+};

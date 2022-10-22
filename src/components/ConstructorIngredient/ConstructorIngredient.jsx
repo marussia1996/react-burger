@@ -2,7 +2,7 @@ import {DragIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import {ConstructorElement} from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './ConstructorIngredient.module.css'
 import PropTypes from "prop-types";
-import dataType from '../../utils/types'
+import {dataType} from '../../utils/types'
 import {DELETE_INGREDIENT, SWAP_INGREDIENT} from '../../services/actions/currentIngredients'
 import { useDispatch } from 'react-redux';
 import { useDrop, useDrag } from 'react-dnd';

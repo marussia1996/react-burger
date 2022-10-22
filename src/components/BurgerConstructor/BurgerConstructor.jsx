@@ -10,12 +10,10 @@ import { useDrop } from 'react-dnd';
 import {ADD_BUN, ADD_INGREDIENT} from '../../services/actions/currentIngredients';
 import image from '../../images/bun.png'
 import {ConstructorIngredient} from '../ConstructorIngredient/ConstructorIngredient'
-import { Link, useLocation } from 'react-router-dom';
 
 export const BurgerConstructor = ({openModalOrder}) => {
     const ingredients = useSelector(store=>store.currentIngredients.currentIngredients);
     const bun = useSelector(store=>store.currentIngredients.currentBun);
-    const location = useLocation();
     const dispatch = useDispatch();
     const priceCounting = useCallback(()=>{
         return ( (bun ? bun.price * 2 : 0) +
@@ -80,7 +78,6 @@ export const BurgerConstructor = ({openModalOrder}) => {
             }
         }
     })
-    console.log(location)
     return (
       <section className={`${styles.section} ${isHover ? styles.onHover : ''} pt-25`} ref={dropTarget}>
         <div className='mr-4 ml-4 mb-4 pl-8'>
@@ -119,13 +116,11 @@ export const BurgerConstructor = ({openModalOrder}) => {
                 </p>
                 <CurrencyIcon type="primary" />
             </div>
-            <Link to={{
-                pathname: `/order`,
-                state: { background: location }}}>
-                <Button type="primary" disabled={isDisabledButton} size="large" onClick={openModalOrder}>
-                    Оформить заказ
-                </Button> 
-            </Link>         
+           
+            <Button type="primary" disabled={isDisabledButton} size="large" onClick={openModalOrder}>
+                Оформить заказ
+            </Button> 
+                 
         </div>
       </section>
     );

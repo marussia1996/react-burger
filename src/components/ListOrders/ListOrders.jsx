@@ -3,6 +3,7 @@ import { Scrollbars } from 'react-custom-scrollbars'
 import { CardOrder } from '../CardOrder/CardOrder'
 import { useSelector } from 'react-redux'
 import { useMemo } from 'react'
+import PropTypes from "prop-types";
 
 export const ListOrders = ({openModalOrderInfo}) =>{
     const orders = useSelector(store=>store.wsAllOrders.orders);
@@ -24,3 +25,6 @@ export const ListOrders = ({openModalOrderInfo}) =>{
         </section>
     )
 }
+ListOrders.propTypes = {
+    openModalOrderInfo: PropTypes.func.isRequired,
+};
