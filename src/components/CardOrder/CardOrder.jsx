@@ -3,11 +3,11 @@ import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import { Link, useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useCallback, useMemo } from 'react'
-import uuid from 'react-uuid'
 import { formatDate } from '../../utils/formatDate'
 import { statusName } from '../../utils/statusOrder'
 import PropTypes from "prop-types";
 import { orderType } from '../../utils/types'
+import uuid from 'react-uuid'
 export const CardOrder = ({openModalOrderInfo, status, order}) =>{
     const location = useLocation();
     const orderIngredients = order.ingredients;

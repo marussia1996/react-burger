@@ -26,6 +26,7 @@ import { OrderInfoPage } from '../../pages/OrderInfoPage';
 import { UserOrdersPage } from '../../pages/UserOrdersPage';
 import { CLOSE_MODAL, OPEN_MODAL } from '../../services/actions/modal';
 import { OrderInfo } from '../OrderInfo/OrderInfo';
+import { OrderInfoModal } from '../OrderInfoModal/OrderInfoModal';
 export const App = () => {
 	const user = useSelector(store => store.user.user);
     const dispatch = useDispatch();
@@ -112,7 +113,7 @@ export const App = () => {
 		dispatch({type: CLOSE_MODAL});
 		history.goBack();
 	}
-	
+
 	return (
 		<div className={styles.app}>
 			<AppHeader/>
@@ -166,15 +167,12 @@ export const App = () => {
 							<IngredientDetails />
 						</Modal>
 					</Route>
-					<Route exact path='/feed/:id'>
-						<Modal title='' handleClose={closeModalOrderInfo}>
-							<OrderInfo/>
-						</Modal>
+					<Route exact path='/feed/:id'>					
+						{/* TODO: получение заголовка из стора номера заказа по id*/}
+						<OrderInfoModal closeModalOrderInfo={closeModalOrderInfo}/>						
 					</Route>
 					<Route exact path='/profile/orders/:id'>
-						<Modal title="" handleClose={closeModalOrderInfo}>
-							<OrderInfo/>
-						</Modal>
+						<OrderInfoModal closeModalOrderInfo={closeModalOrderInfo}/>
 					</Route>
 				</Switch>
 			}

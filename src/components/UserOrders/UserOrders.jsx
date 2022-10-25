@@ -29,12 +29,12 @@ export const UserOrders = ({openModalOrderInfo}) =>{
                     renderThumbVertical={props => <div {...props} className={styles.scrollThumb}/>}>
                     {
                         useMemo(()=>
-                            orders.map((order)=>(
+                            orders?.map((order)=>(
                                 <CardOrder key={order._id} openModalOrderInfo={openModalOrderInfo} order={order} status={true}/>
                             )).reverse(),[orders, openModalOrderInfo])
                     }
                     {
-                        orders.length === 0 && 
+                        orders?.length === 0 && 
                             <p className='text text_type_main-default pl-10'>Нет заказов</p>
                         
                     }                    

@@ -7,8 +7,7 @@ import {modalRoot} from '../../utils/constants';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 
-export const Modal = ({handleClose, title, children }) =>{
-    const location = useLocation();
+export const Modal = ({handleClose, title, style, children }) =>{
     useEffect(() => {
         const handleEsc = (e) => {
             if(e.key === "Escape"){
@@ -25,8 +24,8 @@ export const Modal = ({handleClose, title, children }) =>{
             <>
                 <div className={styles.containerModal}>
                     <div className={`${styles.content} pl-10 pt-10 pr-10`}>
-                        { location.state?.order ? 
-                            <h2 className='text text_type_digits-default'>{`#${location.state.order.number}`}</h2> :
+                        { style ? 
+                            <h2 className={style}>{title}</h2> :
                             <h2 className='text text_type_main-large'>{title}</h2>
                         }
                         <button className={styles.closeButton} type="button"> 
@@ -46,5 +45,6 @@ export const Modal = ({handleClose, title, children }) =>{
 Modal.propTypes = {
     handleClose: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
+    style: PropTypes.string,
     children: PropTypes.element.isRequired,
 }
