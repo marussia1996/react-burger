@@ -25,7 +25,6 @@ import { deleteCookie } from '../../utils/cookie';
 import { OrderInfoPage } from '../../pages/OrderInfoPage';
 import { UserOrdersPage } from '../../pages/UserOrdersPage';
 import { CLOSE_MODAL, OPEN_MODAL } from '../../services/actions/modal';
-import { OrderInfo } from '../OrderInfo/OrderInfo';
 import { OrderInfoModal } from '../OrderInfoModal/OrderInfoModal';
 export const App = () => {
 	const user = useSelector(store => store.user.user);
@@ -168,7 +167,6 @@ export const App = () => {
 						</Modal>
 					</Route>
 					<Route exact path='/feed/:id'>					
-						{/* TODO: получение заголовка из стора номера заказа по id*/}
 						<OrderInfoModal closeModalOrderInfo={closeModalOrderInfo}/>						
 					</Route>
 					<Route exact path='/profile/orders/:id'>

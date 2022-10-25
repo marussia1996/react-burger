@@ -27,7 +27,7 @@ export const CardOrder = ({openModalOrderInfo, status, order}) =>{
         const valideArr = [];
         arrayIngredients.forEach((ingredient)=>{
             if(ingredient){
-                valideArr.push(ingredient);
+                valideArr.push({...ingredient, key: uuid()});
             }
         })
         return valideArr;
@@ -66,7 +66,7 @@ export const CardOrder = ({openModalOrderInfo, status, order}) =>{
                 <div className={`${styles.ingredients} mr-6`}>
                     { visibleIngredients &&
                         visibleIngredients.map((ingredient)=>(
-                            <img key={uuid()} className={`${styles.ingredient}`} src={ingredient.image} alt={`${ingredient.name}`}/>))
+                            <img key={ingredient.key} className={`${styles.ingredient}`} src={ingredient.image} alt={`${ingredient.name}`}/>))
                     }
                     {isVisibleCounter &&
                         <div className={`${styles.counter}`}>

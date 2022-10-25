@@ -5,7 +5,6 @@ import { createPortal } from 'react-dom';
 import styles from "./Modal.module.css";
 import {modalRoot} from '../../utils/constants';
 import PropTypes from 'prop-types';
-import { useLocation } from 'react-router-dom';
 
 export const Modal = ({handleClose, title, style, children }) =>{
     useEffect(() => {
