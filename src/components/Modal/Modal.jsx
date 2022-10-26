@@ -6,7 +6,7 @@ import styles from "./Modal.module.css";
 import {modalRoot} from '../../utils/constants';
 import PropTypes from 'prop-types';
 
-export const Modal = ({handleClose, title, style, children }) =>{
+export const Modal = ({handleClose, title, styleTitle, children }) =>{
     useEffect(() => {
         const handleEsc = (e) => {
             if(e.key === "Escape"){
@@ -23,8 +23,8 @@ export const Modal = ({handleClose, title, style, children }) =>{
             <>
                 <div className={styles.containerModal}>
                     <div className={`${styles.content} pl-10 pt-10 pr-10`}>
-                        { style ? 
-                            <h2 className={style}>{title}</h2> :
+                        { styleTitle ? 
+                            <h2 className={styleTitle}>{title}</h2> :
                             <h2 className='text text_type_main-large'>{title}</h2>
                         }
                         <button className={styles.closeButton} type="button"> 

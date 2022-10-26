@@ -53,7 +53,7 @@ export const CardOrder = ({openModalOrderInfo, status, order}) =>{
     return(
         <Link className={`${styles.link}`} to={{
             pathname: `${location.pathname}/${order._id}`,
-            state: { background: location , order: order}
+            state: { background: location }
         }}>
         <div className={`${styles.order} p-6 mr-4`} onClick={()=>{openModalOrderInfo()}}>
             <div className={`${styles.serviceInfo} mb-6`}>

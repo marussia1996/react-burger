@@ -62,7 +62,7 @@ export const App = () => {
 	//для открытия модальных окон
 	const location = useLocation();
 	const history = useHistory();
-	let background = location.state && location.state.background;
+	const background = location.state && location.state?.background;
 	const order = useSelector(store=>store.order.order);
 	const orderRequest = useSelector(store=>store.order.orderRequest);
     const orderFailed = useSelector(store=>store.order.orderFailed);
@@ -70,11 +70,8 @@ export const App = () => {
 	
 	const currentIngredients = useSelector(store=>store.currentIngredients.currentIngredients);
 	const currentBun = useSelector(store=>store.currentIngredients.currentBun);
-	// если модальное окно было открыто и установлен background, обнуляем 
-	// (для того чтобы при перезагрузки страницы происходил переход на страницу информации о заказе)
-	if(!isOpenModal && background !== null){
-		background = null;
-	}
+
+	
 	//открытие && закрытие модального окна ингредиента
 	const openModalIngredient = (ingredient) => {
 		dispatch({type: GET_INGREDIENT, payload: ingredient})
@@ -133,9 +130,9 @@ export const App = () => {
 				<ProtectedRoute exact path='/profile'>
 					<ProfilePage/>
 				</ProtectedRoute>
-				<ProtectedRoute exact path='/profile/orders'>
+				<Route exact path='/profile/orders'>
 					<UserOrdersPage openModalOrderInfo={openModalOrderInfo}/>
-				</ProtectedRoute>
+				</Route>
 				<Route exact path='/profile/orders/:id'>
 					<div className="mt-30">
 						<OrderInfoPage/>

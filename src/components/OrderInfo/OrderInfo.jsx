@@ -1,32 +1,60 @@
 import styles from './OrderInfo.module.css'
 import { Scrollbars } from 'react-custom-scrollbars'
 import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
-import { useLocation} from 'react-router-dom'
+import { useLocation, useParams} from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { formatDate } from '../../utils/formatDate'
 import { statusName } from '../../utils/statusOrder'
-import { useCallback, useMemo } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
+import { useDispatch } from 'react-redux'
+import { wsConnectionClosedAllOrders, wsConnectionOpenAllOrders } from "../../services/actions/wsAllOrders";
+import { wsConnectionClosedUserOrders, wsConnectionOpenUserOrders } from "../../services/actions/wsUserOrders";
 
 export const OrderInfo = () => {
+    const {id} = useParams();
     const location = useLocation();
-    const order = location.state.order;
-    const isOpenModal = useSelector(store=>store.modal.isOpened)
-    const orderIngredients = order.ingredients;
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(wsConnectionOpenUserOrders())
+        dispatch(wsConnectionOpenAllOrders())
+        return () => {
+            dispatch(wsConnectionClosedUserOrders())
+            dispatch(wsConnectionClosedAllOrders())
+        }
+    }, [dispatch])
+    let order;
+    const wsConnectionAll = useSelector(store=>store.wsAllOrders.wsConnected);
+    const wsConnectionUser = useSelector(store=>store.wsUserOrders.wsUserConnected);
+    const orders = useSelector(store=>store.wsAllOrders.orders);
+    const userOrders = useSelector(store=>store.wsUserOrders.userOrders);
+        if(wsConnectionAll && wsConnectionUser){
+            if(orders?.find((el)=>el._id === id) ){
+                order = orders?.find((el)=>el._id === id) 
+            } else if(userOrders?.find((el)=>el._id === id)){
+                order = userOrders?.find((el)=>el._id === id)
+            }
+        }else if(wsConnectionAll){
+            order = orders?.find((el)=>el._id === id) 
+        }else if(wsConnectionUser){
+            order = userOrders?.find((el)=>el._id === id)
+        }
+
+    const orderIngredients = order?.ingredients;
     const allIngredients = useSelector(store=>store.listIngredients.ingredients);
     //поиск необходимых ингредиентов
     const filterIngredients = useMemo(() =>{
-        return orderIngredients.map((ingredient)=>{
+        return orderIngredients?.map((ingredient)=>{
             return allIngredients.find((ingr) => ingredient === ingr._id)
         })
     },[orderIngredients, allIngredients]);
     //формирование массива объектов ингредиента
     const arrayIngredients = useMemo(()=>{
-        return filterIngredients.map((el)=>{return el})
+        return filterIngredients?.map((el)=>{return el})
     },[filterIngredients]);
     //проверка содержимого массива ингредиентов
     const validIngredients = useMemo(()=>{
         const valideArr = [];
-        arrayIngredients.forEach((ingredient)=>{
+        arrayIngredients?.forEach((ingredient)=>{
             if(ingredient){
                 valideArr.push(ingredient);
             }
@@ -36,7 +64,7 @@ export const OrderInfo = () => {
     //подсчет вхождения ингредиента в массиве ингредиентов
     const amountIngredient = useCallback((ingredient) =>{
         let amount = 0;
-        validIngredients.forEach((ingr)=>{
+        validIngredients?.forEach((ingr)=>{
             if(ingr._id === ingredient._id){
                 amount++;
             }
@@ -45,14 +73,14 @@ export const OrderInfo = () => {
     },[validIngredients])
     //содержится ли элемент в массиве
     const isIngredient = (arr, ingredient) =>{
-            return arr.some((obj)=> 
+            return arr?.some((obj)=> 
                 obj.data._id === ingredient._id
             )
     }
     //формирование валидного массива ингредиентов с их количеством
     const arrayIngredientsAndAmount = useMemo(() =>{
         const newArr = [];
-        validIngredients.forEach((ingredient)=>{
+        validIngredients?.forEach((ingredient)=>{
             if(!isIngredient(newArr, ingredient)){
                 newArr.push({data: ingredient, amount: amountIngredient(ingredient)});
             }
@@ -62,11 +90,12 @@ export const OrderInfo = () => {
     
     //подсчет стоимости
     const totalPrice = useCallback(()=>{
-        return ( validIngredients.reduce((acc, ingr) => acc +  ingr.price , 0));
+        return ( validIngredients?.reduce((acc, ingr) => acc +  ingr.price , 0));
         },[validIngredients]);
     return (
+        (order &&
         <div className={`${styles.section}`}>
-            {   !isOpenModal &&
+            {   !location.state &&
                 <h1 className={`${styles.number} text text_type_digits-default`}>{`#${order.number}`}</h1>
             }
             <h2 className='text text_type_main-medium mt-10 mb-3'>{order.name}</h2>
@@ -100,5 +129,6 @@ export const OrderInfo = () => {
                 </div>
             </div>
         </div>
+        )
     )
 } 
