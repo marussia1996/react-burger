@@ -20,7 +20,7 @@ export const getData = async() => {
 export const postOrderDetails = async(ingridientsIdArray) => {
   return fetch(`${baseUrl}/orders`, {
     method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getCookie('authToken') },
       body: JSON.stringify({
           ingredients: ingridientsIdArray,
       }),

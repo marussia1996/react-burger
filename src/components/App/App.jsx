@@ -8,7 +8,7 @@ import { RepairPasswordPage } from '../../pages/RepairPasswordPage'
 import { ResetPasswordPage } from '../../pages/ResetPasswordPage';
 import { ProfilePage } from '../../pages/ProfilePage';
 import { ProtectedRoute } from '../ProtectedRoute/ProtectedRoute';
-import {useEffect, useCallback, useState} from 'react'
+import {useEffect, useCallback} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getCookie } from '../../utils/cookie';
 import { exit, getUser, updateToken } from '../../services/actions/user';
@@ -16,12 +16,16 @@ import { NotFound404Page } from '../../pages/NotFound404Page';
 import {Modal} from '../Modal/Modal';
 import {IngredientDetails} from '../IngredientDetails/IngredientDetails';
 import {OrderDetails} from '../OrderDetails/OrderDetailes';
-import { CLOSE_MODAL, OPEN_MODAL } from '../../services/actions/ingredient';
+import { CLEAR_INGREDIENT, GET_INGREDIENT } from '../../services/actions/ingredient';
 import { getOrder } from '../../services/actions/order';
 import { IngredientPage } from '../../pages/IngredientPage';
 import {OrderFeedPage} from '../../pages/OrderFeedPage';
 import { getIngreedients } from '../../services/actions/listIngredients';
 import { deleteCookie } from '../../utils/cookie';
+import { OrderInfoPage } from '../../pages/OrderInfoPage';
+import { UserOrdersPage } from '../../pages/UserOrdersPage';
+import { CLOSE_MODAL, OPEN_MODAL } from '../../services/actions/modal';
+import { OrderInfoModal } from '../OrderInfoModal/OrderInfoModal';
 export const App = () => {
 	const user = useSelector(store => store.user.user);
     const dispatch = useDispatch();
@@ -34,7 +38,13 @@ export const App = () => {
 	useEffect(() => {
 		dispatch(getIngreedients());
 	}, [dispatch]);	
-	//если токен не валидный - обновляем, если не получилось обновить токен - выходим из системы, если была ошибка для получения данных пользователя, повторяем запрос
+	//если user нет в сторе, и есть токены, то отправляем запрос на получение данных о user
+	useEffect(() => {
+        if (!user && authToken && refreshToken) {
+            dispatch(getUser());
+        }
+    }, [dispatch, user, refreshToken, authToken]);
+	//если токен не валидный - обновляем, если не получилось обновить токен - выходим из системы, если была ошибка для получения данных пользователя - повторяем запрос
 	useEffect(()=>{
 		if(expiredToken && !tokenFailed){
 			dispatch(updateToken());
@@ -47,51 +57,59 @@ export const App = () => {
 		if(userFailed && !expiredToken){
 			dispatch(getUser());
 		}
-	},[dispatch, expiredToken, userFailed])
-	//если user нет в сторе, и есть токены, то отправляем запрос на получение данных
-	useEffect(() => {
-        if (!user && authToken && refreshToken) {
-            dispatch(getUser());
-        }
-    }, [dispatch, user, refreshToken, authToken]);
+	},[dispatch, expiredToken, userFailed, tokenFailed])
+	
 	//для открытия модальных окон
 	const location = useLocation();
 	const history = useHistory();
-	const background = location.state && location.state.background;
+	const background = location.state && location.state?.background;
 	const order = useSelector(store=>store.order.order);
 	const orderRequest = useSelector(store=>store.order.orderRequest);
+    const orderFailed = useSelector(store=>store.order.orderFailed);
+	const isOpenModal = useSelector(store=>store.modal.isOpened);
+	
 	const currentIngredients = useSelector(store=>store.currentIngredients.currentIngredients);
 	const currentBun = useSelector(store=>store.currentIngredients.currentBun);
-	//открытие модального окна ингредиента
+
+	
+	//открытие && закрытие модального окна ингредиента
 	const openModalIngredient = (ingredient) => {
-		dispatch({type: OPEN_MODAL, payload: ingredient})
+		dispatch({type: GET_INGREDIENT, payload: ingredient})
+		dispatch({type: OPEN_MODAL});
 	}
+	const closeModalIngredient = () => {
+		dispatch({type: CLEAR_INGREDIENT});
+		dispatch({type: CLOSE_MODAL});
+		history.replace('/');
+	};
 	//взятие всех Id выбранных ингредиентов
 	const getIdIngredients = useCallback(() =>{
-		return currentIngredients.map((ingredient)=>ingredient._id).concat(currentBun._id)
+		return currentIngredients.map((ingredient)=>ingredient.data._id).concat(currentBun._id).concat(currentBun._id).reverse()
 	}, [currentBun, currentIngredients]);
-	//открытие модального окна заказа
+	//открытие && закрытие модального окна заказа
 	const openModalOrder = () => {
 		if(user){
 			dispatch(getOrder(getIdIngredients()));
-			setShowOrderDetails(true);
+			dispatch({type: OPEN_MODAL});
 		}
 		else{
 			history.push('/login');
 		}
 	}
-	//состояния для модальных окон
-	const [showOrderDetails, setShowOrderDetails] = useState(false);
-	//закрытие модальных окон 
-	const closeModalIngredient = () => {
+	const closeModalOrder = () => {
 		dispatch({type: CLOSE_MODAL});
 		history.replace('/');
-	};
-	const closeModalOrder = () => {
-		setShowOrderDetails(false);
-		history.replace('/');
 	}
-	
+
+	//открытие && закрытие модального окна информации о заказе
+	const openModalOrderInfo = () => {
+		dispatch({type: OPEN_MODAL});
+	}
+	const closeModalOrderInfo = () => {
+		dispatch({type: CLOSE_MODAL});
+		history.goBack();
+	}
+
 	return (
 		<div className={styles.app}>
 			<AppHeader/>
@@ -112,11 +130,24 @@ export const App = () => {
 				<ProtectedRoute exact path='/profile'>
 					<ProfilePage/>
 				</ProtectedRoute>
+				<Route exact path='/profile/orders'>
+					<UserOrdersPage openModalOrderInfo={openModalOrderInfo}/>
+				</Route>
+				<Route exact path='/profile/orders/:id'>
+					<div className="mt-30">
+						<OrderInfoPage/>
+					</div>
+				</Route>
 				<Route exact path='/ingredients/:id'>
 					<IngredientPage />
 				</Route>
 				<Route exact path='/feed'>
-					<OrderFeedPage/>
+					<OrderFeedPage openModalOrderInfo={openModalOrderInfo}/>
+				</Route>
+				<Route exact path='/feed/:id'>
+					<div className="mt-30">
+						<OrderInfoPage/>
+					</div>
 				</Route>
 				<Route exact path="/">
 					<HomePage openModalIngredient={openModalIngredient} openModalOrder={openModalOrder}/>
@@ -125,23 +156,32 @@ export const App = () => {
 					<NotFound404Page/>
 				</Route>
 			</Switch>
-			{background &&
-				<Route exact path="/ingredients/:id">
-					<Modal title="Детали ингредиента" handleClose={closeModalIngredient}>
-						<IngredientDetails />
-					</Modal>
-				</Route>
+			{background && 
+				<Switch>
+					<Route exact path="/ingredients/:id">
+						<Modal title="Детали ингредиента" handleClose={closeModalIngredient}>
+							<IngredientDetails />
+						</Modal>
+					</Route>
+					<Route exact path='/feed/:id'>					
+						<OrderInfoModal closeModalOrderInfo={closeModalOrderInfo}/>						
+					</Route>
+					<Route exact path='/profile/orders/:id'>
+						<OrderInfoModal closeModalOrderInfo={closeModalOrderInfo}/>
+					</Route>
+				</Switch>
 			}
-			{ (showOrderDetails && order && !orderRequest) && (
+			{order && !orderRequest && isOpenModal &&
 				<Modal handleClose={closeModalOrder} title="">
 					<OrderDetails order={order}/>
 				</Modal>
-			)}
-			{ (showOrderDetails && !order && !orderRequest) && (
+			}
+			{orderFailed && isOpenModal &&
 				<Modal handleClose={closeModalOrder} title="">
 					<p>Ошибка получения номера заказа</p>
-				</Modal>
-			)}
+				</Modal>						
+			}
+			
 		</main>
 	</div>
 	)

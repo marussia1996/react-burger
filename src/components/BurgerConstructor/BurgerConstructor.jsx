@@ -78,7 +78,6 @@ export const BurgerConstructor = ({openModalOrder}) => {
             }
         }
     })
-
     return (
       <section className={`${styles.section} ${isHover ? styles.onHover : ''} pt-25`} ref={dropTarget}>
         <div className='mr-4 ml-4 mb-4 pl-8'>
@@ -117,9 +116,11 @@ export const BurgerConstructor = ({openModalOrder}) => {
                 </p>
                 <CurrencyIcon type="primary" />
             </div>
-                <Button type="primary" disabled={isDisabledButton} size="large" onClick={openModalOrder}>
-                    Оформить заказ
-                </Button>          
+           
+            <Button type="primary" disabled={isDisabledButton} size="large" onClick={openModalOrder}>
+                Оформить заказ
+            </Button> 
+                 
         </div>
       </section>
     );

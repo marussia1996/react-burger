@@ -6,7 +6,7 @@ import styles from "./Modal.module.css";
 import {modalRoot} from '../../utils/constants';
 import PropTypes from 'prop-types';
 
-export const Modal = ({handleClose, title, children }) =>{
+export const Modal = ({handleClose, title, styleTitle, children }) =>{
     useEffect(() => {
         const handleEsc = (e) => {
             if(e.key === "Escape"){
@@ -23,12 +23,17 @@ export const Modal = ({handleClose, title, children }) =>{
             <>
                 <div className={styles.containerModal}>
                     <div className={`${styles.content} pl-10 pt-10 pr-10`}>
-                        <h2 className='text text_type_main-large'>{title}</h2>
+                        { styleTitle ? 
+                            <h2 className={styleTitle}>{title}</h2> :
+                            <h2 className='text text_type_main-large'>{title}</h2>
+                        }
                         <button className={styles.closeButton} type="button"> 
                             <CloseIcon type='primary' onClick={handleClose}/>
                         </button>
                     </div>
-                    {children} 
+                    <div className='pl-10 pb-10 pr-10'>
+                        {children} 
+                    </div>
                 </div>
                 <ModalOverlay handleClick={handleClose} /> 
             </>
@@ -39,5 +44,6 @@ export const Modal = ({handleClose, title, children }) =>{
 Modal.propTypes = {
     handleClose: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
+    style: PropTypes.string,
     children: PropTypes.element.isRequired,
 }

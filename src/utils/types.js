@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-const dataType = PropTypes.shape({
+export const dataType = PropTypes.shape({
   _id: PropTypes.string,
   name: PropTypes.string,
   type: PropTypes.oneOf(["bun", "sauce", "main"]),
@@ -14,4 +14,12 @@ const dataType = PropTypes.shape({
   image_large: PropTypes.string,
   __v: PropTypes.number,
 });
-export default dataType;
+export const orderType = PropTypes.shape({
+  createdAt: PropTypes.string,
+  ingredients: PropTypes.array,
+  name: PropTypes.string,
+  number: PropTypes.number,
+  status: PropTypes.string,
+  updatedAt: PropTypes.string,
+  _id: PropTypes.string,
+});

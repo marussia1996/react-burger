@@ -3,7 +3,7 @@ import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import PropTypes from "prop-types";
 import styles from './BurgerIngredient.module.css'
 import { useDrag } from "react-dnd";
-import dataType from '../../utils/types'
+import {dataType} from '../../utils/types'
 import { useMemo} from "react"
 import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';

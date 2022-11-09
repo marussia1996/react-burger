@@ -1,9 +1,11 @@
-.section {
+.container {
   display: flex;
-  flex-direction: column;
-  width: 600px;
+  flex-direction: row;
+  justify-content: center;
+  width: 1240px;
 }
 .containerScroll {
+  margin-top: 40px;
   flex: 1 1 auto;
 }
 .scrollTrack {
@@ -19,4 +21,7 @@
   width: 8px;
   border-radius: 3px;
   background-color: #8585ad;
+}
+.nav {
+  margin-top: 120px;
 }
