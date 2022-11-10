@@ -1,7 +1,7 @@
 import { baseUrl } from "./constants";
 import {getCookie} from './cookie';
 //проверка ответа от сервера
-const checkResponse = (res) => {
+const checkResponse = <T>(res: Response):Promise<T> => {
   if (res.ok) {
     return res.json();
   }
@@ -9,15 +9,64 @@ const checkResponse = (res) => {
     new Error(`Произошла ошибка со статус-кодом ${res.status}`)
   );
 };
+type TIngredient = {
+  calories:number;
+  carbohydrates: number;
+  fat: number;
+  image: string;
+  image_large: string;
+  image_mobile: string;
+  name: string;
+  price: number;
+  proteins: number;
+  type: string;
+  __v: number;
+  _id: string;
+}
+type TOrder = {
+  createdAt: string;
+  ingredients: Array<TIngredient>;
+  name: string;
+  number: number;
+  owner: {name: string; email: string; createdAt: string; updatedAt: string};
+  price: number; 
+  status: string;
+  updatedAt: string; 
+  _id: string;
+}
+type TGetIngredients = {
+  data: Array<TIngredient>;
+  success: boolean;
+}
+type TPostOrder = {
+  name: string;
+  order: TOrder;
+  success: boolean;
+}
+type TGetUser = {
+  success: boolean;
+  user: {email: string, name: string};
+}
+type TChangePassAndLogout = {
+  success: boolean;
+  message: string;
+}
+type TUserInfo = {
+  success: boolean;
+  user: {email: string, name: string};
+  refreshToken: string;
+  accessToken: string;
+}
+
 //запрос данных
 export const getData = async() => {
   return fetch(`${baseUrl}/ingredients`, {
     headers: { "Content-Type": "application/json" },
     method: "GET",
-  }).then((res) => {return checkResponse(res)});
+  }).then((res) => {return checkResponse<TGetIngredients>(res)});
 };
 //запрос получение номера заказа
-export const postOrderDetails = async(ingridientsIdArray) => {
+export const postOrderDetails = async(ingridientsIdArray: Array<string>) => {
   return fetch(`${baseUrl}/orders`, {
     method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getCookie('authToken') },
@@ -25,10 +74,10 @@ export const postOrderDetails = async(ingridientsIdArray) => {
           ingredients: ingridientsIdArray,
       }),
   })
-  .then((res)=>checkResponse(res))
+  .then((res)=>checkResponse<TPostOrder>(res))
 }
 //запрос на авторизацию
-export const autorizationUser = async(email, password) =>{
+export const autorizationUser = async(email: string, password: string) =>{
   return fetch (`${baseUrl}/auth/login`, {
     method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -37,10 +86,10 @@ export const autorizationUser = async(email, password) =>{
           'password': password
       }),
     })
-    .then((res)=>checkResponse(res))
+    .then((res)=>checkResponse<TUserInfo>(res))
 }
 //запрос на регистрацию пользователя
-export const registrationUser = async(email, password, name) =>{
+export const registrationUser = async(email: string, password: string, name: string) =>{
   return fetch (`${baseUrl}/auth/register`, {
     method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -50,7 +99,7 @@ export const registrationUser = async(email, password, name) =>{
           'name': name
       }),
     })
-    .then((res)=>checkResponse(res))
+    .then((res)=>checkResponse<TUserInfo>(res))
 }
 //запрос на получение токена
 export const getAuthToken = async() =>{
@@ -61,10 +110,10 @@ export const getAuthToken = async() =>{
         "token": getCookie("refreshToken"),
       }),
     })
-    .then((res)=>checkResponse(res))
+    .then((res)=>checkResponse<TUserInfo>(res))
 }
 //запрос для восстановления пароля
-export const forgotPassword = async(email) =>{
+export const forgotPassword = async(email: string) =>{
   return fetch (`${baseUrl}/password-reset`, {
     method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -72,10 +121,10 @@ export const forgotPassword = async(email) =>{
           'email': email,
       }),
     })
-    .then((res)=>checkResponse(res))
+    .then((res)=>checkResponse<TChangePassAndLogout>(res))
 }
 //запрос для смены пароля
-export const resetPassword = async(password, token) =>{
+export const resetPassword = async(password: string, token: string) =>{
   return fetch (`${baseUrl}/password-reset/reset`, {
     method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -84,7 +133,7 @@ export const resetPassword = async(password, token) =>{
           'token': token
       }),
     })
-    .then((res)=>checkResponse(res))
+    .then((res)=>checkResponse<TChangePassAndLogout>(res))
 }
 //запрос получения данных пользователя
 export const getUserData = async() =>{
@@ -93,10 +142,10 @@ export const getUserData = async() =>{
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getCookie('authToken') },
       
     })
-    .then((res)=>checkResponse(res))
+    .then((res)=>checkResponse<TGetUser>(res))
 }
 //запрос обновления данных пользователя
-export const updateUserData = async(name, email, password) =>{
+export const updateUserData = async(name: string, email: string, password: string) =>{
   return fetch (`${baseUrl}/auth/user`, {
     method: 'PATCH',
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getCookie('authToken') },
@@ -106,7 +155,7 @@ export const updateUserData = async(name, email, password) =>{
         'password': password,
     }),
     })
-    .then((res)=>checkResponse(res))
+    .then((res)=>checkResponse<TGetUser>(res))
 }
 //запрос выхода из системы
 export const logOut = async() => {
@@ -117,5 +166,5 @@ export const logOut = async() => {
         "token": getCookie("refreshToken"),
       }),
     })
-    .then((res)=>checkResponse(res))
+    .then((res)=>checkResponse<TChangePassAndLogout>(res))
 }
