@@ -23,7 +23,47 @@ import {
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAILED,
+  TUserActions,
 } from "../actions/user";
+import { TUser } from "../types/data";
+//тип исходного состояния
+type TInitialState = {
+  user: TUser | null;
+
+  authRequest: boolean;
+  authSuccess: boolean;
+  authFailed: boolean;
+
+  registerRequest: boolean;
+  registerSuccess: boolean;
+  registerFailed: boolean;
+
+  userRequest: boolean;
+  userSuccess: boolean;
+  userFailed: boolean;
+
+  updateRequest: boolean;
+  updateSuccess: boolean;
+  updateFailed: boolean;
+
+  tokenRequest: boolean;
+  tokenSuccess: boolean;
+  tokenFailed: boolean;
+
+  forgotPswRequest: boolean;
+  forgotPswFailed: boolean;
+  forgotPswSuccess: boolean;
+
+  resetPswRequest: boolean;
+  resetPswFailed: boolean;
+  resetPswSuccess: boolean;
+
+  exitRequest: boolean;
+  exitSuccess: boolean;
+  exitFailed: boolean;
+
+  expiredToken: boolean;
+};
 // Исходное состояние
 const initialState = {
   user: null,
@@ -62,7 +102,7 @@ const initialState = {
 
   expiredToken: false,
 };
-export const userReducer = (state = initialState, action) => {
+export const userReducer = (state = initialState, action: TUserActions): TInitialState => {
   switch (action.type) {
     case AUTH_REQUEST: {
       return {
@@ -188,7 +228,7 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         forgotPswFailed: false,
         forgotPswRequest: false,
-        forgotPswSuccess: action.payload,
+        forgotPswSuccess: action.success,
       };
     }
     case FORGOT_PASSWORD_FAILED: {
@@ -209,7 +249,7 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         resetPswFailed: false,
         resetPswRequest: false,
-        resetPswSuccess: action.payload,
+        resetPswSuccess: action.success,
       };
     }
     case RESET_PASSWORD_FAILED: {

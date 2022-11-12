@@ -1,3 +1,4 @@
+import { TChangePassAndLogout, TGetIngredients, TGetUser, TPostOrder, TUserInfo } from "../services/types/data";
 import { baseUrl } from "./constants";
 import {getCookie} from './cookie';
 //проверка ответа от сервера
@@ -9,55 +10,6 @@ const checkResponse = <T>(res: Response):Promise<T> => {
     new Error(`Произошла ошибка со статус-кодом ${res.status}`)
   );
 };
-type TIngredient = {
-  calories:number;
-  carbohydrates: number;
-  fat: number;
-  image: string;
-  image_large: string;
-  image_mobile: string;
-  name: string;
-  price: number;
-  proteins: number;
-  type: string;
-  __v: number;
-  _id: string;
-}
-type TOrder = {
-  createdAt: string;
-  ingredients: Array<TIngredient>;
-  name: string;
-  number: number;
-  owner: {name: string; email: string; createdAt: string; updatedAt: string};
-  price: number; 
-  status: string;
-  updatedAt: string; 
-  _id: string;
-}
-type TGetIngredients = {
-  data: Array<TIngredient>;
-  success: boolean;
-}
-type TPostOrder = {
-  name: string;
-  order: TOrder;
-  success: boolean;
-}
-type TGetUser = {
-  success: boolean;
-  user: {email: string, name: string};
-}
-type TChangePassAndLogout = {
-  success: boolean;
-  message: string;
-}
-type TUserInfo = {
-  success: boolean;
-  user: {email: string, name: string};
-  refreshToken: string;
-  accessToken: string;
-}
-
 //запрос данных
 export const getData = async() => {
   return fetch(`${baseUrl}/ingredients`, {

@@ -3,8 +3,16 @@ import {
   ALL_ORDER_WS_CONNECTION_ERROR,
   ALL_ORDER_WS_CONNECTION_CLOSED,
   ALL_ORDER_WS_GET_MESSAGE,
-} from "./../actions/wsAllOrders";
-
+  TWsAllOrdersActions,
+} from "../actions/wsAllOrders";
+import { TOrder } from "../types/data";
+//тип исходного состояния
+type TInitialState = {
+  wsConnected: boolean;
+  orders: Array<TOrder>,
+  total: number;
+  totalToday: number;
+};
 const initialState = {
   wsConnected: false,
   orders: [],
@@ -12,7 +20,7 @@ const initialState = {
   totalToday: 0,
 };
 
-export const wsAllOrdersReducer = (state = initialState, action) => {
+export const wsAllOrdersReducer = (state = initialState, action: TWsAllOrdersActions): TInitialState => {
   switch (action.type) {
     case ALL_ORDER_WS_CONNECTION_SUCCESS:
       return {

@@ -1,4 +1,5 @@
 import { getData } from "../../utils/api";
+import { TIngredient } from "../types/data";
 export const GET_INGREDIENTS_REQUEST: 'GET_INGREDIENTS_REQUEST' = "GET_INGREDIENTS_REQUEST";
 export const GET_INGREDIENTS_SUCCESS: 'GET_INGREDIENTS_SUCCESS' = "GET_INGREDIENTS_SUCCESS";
 export const GET_INGREDIENTS_FAILED: 'GET_INGREDIENTS_FAILED' = "GET_INGREDIENTS_FAILED";
@@ -9,12 +10,14 @@ export interface IGetIngredientsRequest{
 }
 export interface IGetIngredientsSuccess{
   readonly type: typeof GET_INGREDIENTS_SUCCESS;
+  readonly ingredients: Array<TIngredient>;
 }
 export interface IGetIngredientsFailed{
   readonly type: typeof GET_INGREDIENTS_FAILED;
 }
 export interface ISetCurrentBun{
   readonly type: typeof SET_CURRENT_TAB;
+  currentTab: string;
 }
 
 export type TListIngredientsActions = IGetIngredientsRequest | IGetIngredientsSuccess | IGetIngredientsFailed | ISetCurrentBun;

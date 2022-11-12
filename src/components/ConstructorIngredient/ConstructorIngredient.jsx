@@ -48,7 +48,7 @@ export const ConstructorIngredient = ({ingredient, index}) =>{
         dispatch({type: SWAP_INGREDIENT, dragIndex, hoverIndex});
     }
     const deleteIngredient = (uid) =>{
-        dispatch({type: DELETE_INGREDIENT, payload: uid});
+        dispatch({type: DELETE_INGREDIENT, uid: uid});
     }
     return (
         <div draggable ref={dragDropRef} style={{opacity}} className={`${styles.ingredient} ${isSwap ? styles.onSwap : ''} pl-4 pr-4 pb-4`}>

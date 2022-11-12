@@ -3,14 +3,21 @@ import {
   GET_ORDER_SUCCESS,
   GET_ORDER_FAILED,
   CLEAR_ORDER,
+  TOrderActions,
 } from "../actions/order";
+//тип исходного состояния
+type TInitialState = {
+  order: number | null;
+  orderRequest: boolean;
+  orderFailed: boolean;
+};
 // Исходное состояние
 const initialState = {
   order: null,
   orderRequest: false,
   orderFailed: false,
 };
-export const orderReducer = (state = initialState, action) => {
+export const orderReducer = (state = initialState, action: TOrderActions): TInitialState => {
   switch (action.type) {
     case GET_ORDER_REQUEST: {
       return {
@@ -23,7 +30,7 @@ export const orderReducer = (state = initialState, action) => {
         ...state,
         orderRequest: false,
         orderFailed: false,
-        order: action.payload,
+        order: action.order,
       };
     }
     case GET_ORDER_FAILED: {

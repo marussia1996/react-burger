@@ -1,3 +1,5 @@
+import { TOrder } from "../types/data";
+
 export const USER_ORDER_WS_CONNECTION_START: 'USER_ORDER_WS_CONNECTION_START' = "USER_ORDER_WS_CONNECTION_START";
 export const USER_ORDER_WS_CONNECTION_SUCCESS: 'USER_ORDER_WS_CONNECTION_SUCCESS' =
   "USER_ORDER_WS_CONNECTION_SUCCESS";
@@ -21,9 +23,11 @@ export interface IUserOrderWsConnectionFailed{
 }
 export interface IUserOrderWsGetMessage{
   readonly type: typeof USER_ORDER_WS_GET_MESSAGE;
+  readonly payload: {orders: TOrder[], total: number, totalToday: number}
 }
 export interface IUserOrderWsSendMessage{
   readonly type: typeof USER_ORDER_WS_SEND_MESSAGE;
+  readonly payload: {orders: TOrder[], total: number, totalToday: number}
 }
 
 export type TWsUserOrders = IUserOrderWsConnectionStart | 
@@ -56,14 +60,13 @@ export const wsConnectionClosedUserOrders = () => {
     type: USER_ORDER_WS_CONNECTION_CLOSED,
   };
 };
-//TODO: проверить чем является orders
-export const wsGetUserOrders = (orders: Array<string>) => {
+export const wsGetUserOrders = (orders: Array<TOrder>) => {
   return {
     type: USER_ORDER_WS_GET_MESSAGE,
     payload: orders,
   };
 };
-export const wsSendUserOrders = (orders: Array<string>) => {
+export const wsSendUserOrders = (orders: Array<TOrder>) => {
   return {
     type: USER_ORDER_WS_SEND_MESSAGE,
     payload: orders,

@@ -5,13 +5,20 @@ import {
   DELETE_INGREDIENT,
   SWAP_INGREDIENT,
   CLEAR_INGREDIENTS,
+  TCurrentIngredientActions,
 } from "../actions/currentIngredients";
+import { TIngredient } from "../types/data";
+//тип исходного состояния
+type TInitialState = {
+  currentIngredients: Array<{uid: string, data: TIngredient}>;
+  currentBun: string | null;
+};
 // Исходное состояние
 const initialState = {
   currentIngredients: [],
   currentBun: null,
 };
-export const currentIngredientsReducer = (state = initialState, action) => {
+export const currentIngredientsReducer = (state = initialState, action: TCurrentIngredientActions): TInitialState => {
   switch (action.type) {
     case ADD_BUN: {
       return {
@@ -32,7 +39,7 @@ export const currentIngredientsReducer = (state = initialState, action) => {
       return {
         ...state,
         currentIngredients: [...state.currentIngredients].filter(
-          (el) => el.uid !== action.payload
+          (el:{uid: string, data: TIngredient}) => el.uid !== action.uid
         ),
       };
     }
@@ -58,11 +65,11 @@ export const currentIngredientsReducer = (state = initialState, action) => {
     }
   }
 };
-const arrayMove = (arr, newIndex, oldIndex) => {
+const arrayMove = (arr: Array<{uid: string, data: TIngredient}>, newIndex: number, oldIndex: number) => {
   if (arr.length <= newIndex) {
     let c = newIndex - arr.length + 1;
     while (c--) {
-      arr.push(undefined);
+      arr.push();
     }
   }
   arr.splice(newIndex, 0, arr.splice(oldIndex, 1)[0]);

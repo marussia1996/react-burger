@@ -1,4 +1,5 @@
 import { postOrderDetails } from "../../utils/api";
+import { TIngridientsIdArray } from "../types/data";
 import { CLEAR_INGREDIENTS } from "./currentIngredients";
 export const GET_ORDER_REQUEST: 'GET_ORDER_REQUEST' = "GET_ORDER_REQUEST";
 export const GET_ORDER_SUCCESS: 'GET_ORDER_SUCCESS' = "GET_ORDER_SUCCESS";
@@ -10,6 +11,7 @@ export interface IGetOrderRequest{
 }
 export interface IGetOrderSuccess{
   readonly type: typeof GET_ORDER_SUCCESS;
+  readonly order: number;
 }
 export interface IGetOrderFailed{
   readonly type: typeof GET_ORDER_FAILED;
@@ -20,7 +22,7 @@ export interface IClearOrder{
 
 export type TOrderActions = IGetOrderRequest | IGetOrderSuccess | IGetOrderFailed | IClearOrder;
 
-export const getOrder = (ingridientsIdArray: Array<string>) => {
+export const getOrder = (ingridientsIdArray: TIngridientsIdArray) => {
   return function (dispatch: any) {
     dispatch({
       type: GET_ORDER_REQUEST,

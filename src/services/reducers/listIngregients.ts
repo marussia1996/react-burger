@@ -3,17 +3,25 @@ import {
   GET_INGREDIENTS_SUCCESS,
   GET_INGREDIENTS_FAILED,
   SET_CURRENT_TAB,
+  TListIngredientsActions,
 } from "../actions/listIngredients";
+import { TIngredient } from "../types/data";
+//тип исходного состояния
+type TInitialState = {
+  ingredients: TIngredient[];
+  ingredientsRequest: boolean;
+  ingredientsFailed:  boolean;
+  currentTab: string;
+};
 // Исходное состояние
 const initialState = {
   ingredients: [],
   ingredientsRequest: false,
   ingredientsFailed: false,
-
   currentTab: "bun",
 };
 
-export const listIngredientsReducer = (state = initialState, action) => {
+export const listIngredientsReducer = (state = initialState, action: TListIngredientsActions) :TInitialState => {
   switch (action.type) {
     case SET_CURRENT_TAB: {
       return {

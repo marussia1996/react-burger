@@ -1,3 +1,5 @@
+import { TOrder } from "../types/data";
+
 export const ALL_ORDER_WS_CONNECTION_START: 'ALL_ORDER_WS_CONNECTION_START' = "ALL_ORDER_WS_CONNECTION_START";
 export const ALL_ORDER_WS_CONNECTION_SUCCESS: 'ALL_ORDER_WS_CONNECTION_SUCCESS' =
   "ALL_ORDER_WS_CONNECTION_SUCCESS";
@@ -20,9 +22,11 @@ export interface IAllOrdersWsConnectionClosed{
 }
 export interface IAllOrdersWsGetMessage{
   readonly type: typeof ALL_ORDER_WS_GET_MESSAGE;
+  readonly payload: {orders: TOrder[], total: number, totalToday: number}
 }
 export interface IAllOrdersWsSendMesssage{
   readonly type: typeof ALL_ORDER_WS_SEND_MESSAGE;
+  readonly payload: {orders: TOrder[], total: number, totalToday: number}
 }
 
 export type TWsAllOrdersActions = IAllOrdersWsConnectionStart | 
@@ -56,13 +60,13 @@ export const wsConnectionClosedAllOrders = () => {
   };
 };
 //TODO: проверить чем является orders
-export const wsGetAllOrders = (orders: Array<string>) => {
+export const wsGetAllOrders = (orders: Array<TOrder>) => {
   return {
     type: ALL_ORDER_WS_GET_MESSAGE,
     payload: orders,
   };
 };
-export const wsSendAllOrders = (orders: Array<string>) => {
+export const wsSendAllOrders = (orders: Array<TOrder>) => {
   return {
     type: ALL_ORDER_WS_SEND_MESSAGE,
     payload: orders,

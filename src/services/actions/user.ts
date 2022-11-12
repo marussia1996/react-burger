@@ -9,6 +9,7 @@ import {
   updateUserData,
 } from "../../utils/api";
 import { setCookie } from "../../utils/cookie";
+import { TUser } from "../types/data";
 export const AUTH_REQUEST: 'AUTH_REQUEST' = "AUTH_REQUEST";
 export const AUTH_SUCCESS: 'AUTH_SUCCESS' = "AUTH_SUCCESS";
 export const AUTH_FAILED: 'AUTH_FAILED' = "AUTH_FAILED";
@@ -46,6 +47,7 @@ export interface IAuthRequest{
 }
 export interface IAuthSuccess{
   readonly type: typeof AUTH_SUCCESS;
+  readonly payload: TUser;
 }
 export interface IAuthFailed{
   readonly type: typeof AUTH_FAILED;
@@ -55,6 +57,7 @@ export interface IRegistrationRequest{
 }
 export interface IRegistrationSuccess{
   readonly type: typeof REGISTRATION_SUCCESS;
+  readonly payload: TUser;
 }
 export interface IRegistrationFailed{
   readonly type: typeof REGISTRATION_FAILED;
@@ -73,6 +76,7 @@ export interface IForgotPassRequest{
 }
 export interface IForgotPassSuccess{
   readonly type: typeof FORGOT_PASSWORD_SUCCESS;
+  readonly success: boolean;
 }
 export interface IForgotPassFailed{
   readonly type: typeof FORGOT_PASSWORD_FAILED;
@@ -82,6 +86,7 @@ export interface IResetPassRequest{
 }
 export interface IResetPassSuccess{
   readonly type: typeof RESET_PASSWORD_SUCCESS;
+  readonly success: boolean;
 }
 export interface IResetPassFailed{
   readonly type: typeof RESET_PASSWORD_FAILED;
@@ -91,6 +96,7 @@ export interface IGetUserRequest{
 }
 export interface IGetUserSuccess{
   readonly type: typeof GET_USER_SUCCESS;
+  readonly payload: TUser;
 }
 export interface IGetUserFailed{
   readonly type: typeof GET_USER_FAILED;
@@ -100,6 +106,7 @@ export interface IUpdateUserRequest{
 }
 export interface IUpdateUserSuccess{
   readonly type: typeof UPDATE_USER_SUCCESS;
+  readonly payload: TUser;
 }
 export interface IUpdateUserFailed{
   readonly type: typeof UPDATE_USER_FAILED;
@@ -238,7 +245,7 @@ export const updateToken = () => {
         }
         dispatch({
           type: UPDATE_TOKEN_SUCCESS,
-          payload: res.success,
+          success: res.success,
         });
       })
       .catch((err) => {
@@ -258,7 +265,7 @@ export const forgotPswUser = (email: string) => {
       .then((res) => {
         dispatch({
           type: FORGOT_PASSWORD_SUCCESS,
-          payload: res.success,
+          success: res.success,
         });
       })
       .catch((err) => {
@@ -279,7 +286,7 @@ export const resetPswUser = (password: string, token: string) => {
       .then((res) => {
         dispatch({
           type: RESET_PASSWORD_SUCCESS,
-          payload: res.success,
+          success: res.success,
         });
       })
       .catch((err) => {
@@ -299,7 +306,7 @@ export const exit = () => {
       .then((res) => {
         dispatch({
           type: EXIT_SUCCESS,
-          payload: res.success,
+          success: res.success,
         });
       })
       .catch((err) => {
