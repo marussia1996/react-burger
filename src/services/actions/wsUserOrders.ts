@@ -30,7 +30,7 @@ export interface IUserOrderWsSendMessage{
   readonly payload: {orders: TOrder[], total: number, totalToday: number}
 }
 
-export type TWsUserOrders = IUserOrderWsConnectionStart | 
+export type TWsUserOrdersActions = IUserOrderWsConnectionStart | 
                             IUserOrderWsConnectionSuccess | 
                             IUserOrderWsConnectionError |
                             IUserOrderWsConnectionFailed | 

@@ -12,7 +12,7 @@ type TInitialState = {
   orderFailed: boolean;
 };
 // Исходное состояние
-const initialState = {
+const initialState: TInitialState = {
   order: null,
   orderRequest: false,
   orderFailed: false,

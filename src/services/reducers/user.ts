@@ -65,7 +65,7 @@ type TInitialState = {
   expiredToken: boolean;
 };
 // Исходное состояние
-const initialState = {
+const initialState: TInitialState = {
   user: null,
 
   authRequest: false,

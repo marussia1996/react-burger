@@ -13,7 +13,7 @@ type TInitialState = {
   total: number;
   totalToday: number;
 };
-const initialState = {
+const initialState: TInitialState = {
   wsConnected: false,
   orders: [],
   total: 0,

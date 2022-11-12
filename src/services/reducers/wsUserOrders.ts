@@ -3,7 +3,7 @@ import {
   USER_ORDER_WS_CONNECTION_ERROR,
   USER_ORDER_WS_CONNECTION_CLOSED,
   USER_ORDER_WS_GET_MESSAGE,
-  TWsUserOrders,
+  TWsUserOrdersActions,
 } from "../actions/wsUserOrders";
 import { TOrder } from "../types/data";
 //тип исходного состояния
@@ -13,14 +13,14 @@ type TInitialState = {
   total: number;
   totalToday: number;
 };
-const initialState = {
+const initialState: TInitialState = {
   wsUserConnected: false,
   userOrders: [],
   total: 0,
   totalToday: 0,
 };
 
-export const wsUserOrdersReducer = (state = initialState, action: TWsUserOrders): TInitialState => {
+export const wsUserOrdersReducer = (state = initialState, action: TWsUserOrdersActions): TInitialState => {
   switch (action.type) {
     case USER_ORDER_WS_CONNECTION_SUCCESS:
       return {

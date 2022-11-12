@@ -14,7 +14,7 @@ type TInitialState = {
   currentBun: string | null;
 };
 // Исходное состояние
-const initialState = {
+const initialState: TInitialState = {
   currentIngredients: [],
   currentBun: null,
 };

@@ -14,7 +14,7 @@ type TInitialState = {
   currentTab: string;
 };
 // Исходное состояние
-const initialState = {
+const initialState: TInitialState = {
   ingredients: [],
   ingredientsRequest: false,
   ingredientsFailed: false,

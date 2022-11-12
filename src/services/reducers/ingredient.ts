@@ -5,7 +5,7 @@ type TInitialState = {
   currentIngredient: TIngredient | null;
 };
 // Исходное состояние
-const initialState = {
+const initialState: TInitialState = {
   currentIngredient: null,
 };
 export const ingredientReducer = (state = initialState, action: TIngredientActions) :TInitialState => {

@@ -4,7 +4,7 @@ type TInitialState = {
   isOpened: boolean;
 };
 // Исходное состояние
-const initialState = {
+const initialState: TInitialState = {
   isOpened: false,
 };
 export const modalReducer = (state = initialState, action: TModalActions) : TInitialState => {

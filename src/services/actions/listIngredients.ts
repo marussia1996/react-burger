@@ -1,4 +1,5 @@
 import { getData } from "../../utils/api";
+import { AppDispatch, AppThunk } from "../types";
 import { TIngredient } from "../types/data";
 export const GET_INGREDIENTS_REQUEST: 'GET_INGREDIENTS_REQUEST' = "GET_INGREDIENTS_REQUEST";
 export const GET_INGREDIENTS_SUCCESS: 'GET_INGREDIENTS_SUCCESS' = "GET_INGREDIENTS_SUCCESS";
@@ -23,8 +24,8 @@ export interface ISetCurrentBun{
 export type TListIngredientsActions = IGetIngredientsRequest | IGetIngredientsSuccess | IGetIngredientsFailed | ISetCurrentBun;
 
 //Усилитель получение данных с сервера
-export const getIngreedients = () => {
-  return function (dispatch: any) {
+export const getIngreedients: AppThunk = () => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: GET_INGREDIENTS_REQUEST,
     });

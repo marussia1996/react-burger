@@ -9,6 +9,7 @@ import {
   updateUserData,
 } from "../../utils/api";
 import { setCookie } from "../../utils/cookie";
+import { AppDispatch, AppThunk } from "../types";
 import { TUser } from "../types/data";
 export const AUTH_REQUEST: 'AUTH_REQUEST' = "AUTH_REQUEST";
 export const AUTH_SUCCESS: 'AUTH_SUCCESS' = "AUTH_SUCCESS";
@@ -130,8 +131,8 @@ export type TUserActions = IAuthRequest | IAuthSuccess | IAuthFailed |
                             IUpdateTokenRequest | IUpdateTokenSuccess | IUpdateTokenFailed |
                             IUpdateUserRequest | IUpdateUserSuccess | IUpdateUserFailed;
 
-export const authUser = (email: string, password: string) => {
-  return function (dispatch: any) {
+export const authUser: AppThunk = (email: string, password: string) => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: AUTH_REQUEST,
     });
@@ -160,8 +161,8 @@ export const authUser = (email: string, password: string) => {
   };
 };
 
-export const registerUser = (email: string, password: string, name: string) => {
-  return function (dispatch: any) {
+export const registerUser: AppThunk = (email: string, password: string, name: string) => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: REGISTRATION_REQUEST,
     });
@@ -188,8 +189,8 @@ export const registerUser = (email: string, password: string, name: string) => {
       });
   };
 };
-export const getUser = () => {
-  return function (dispatch: any) {
+export const getUser: AppThunk = () => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: GET_USER_REQUEST,
     });
@@ -208,8 +209,8 @@ export const getUser = () => {
       });
   };
 };
-export const updateUser = (name: string, email: string, password: string) => {
-  return function (dispatch: any) {
+export const updateUser: AppThunk = (name: string, email: string, password: string) => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: UPDATE_USER_REQUEST,
     });
@@ -228,8 +229,8 @@ export const updateUser = (name: string, email: string, password: string) => {
       });
   };
 };
-export const updateToken = () => {
-  return function (dispatch: any) {
+export const updateToken: AppThunk = () => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: UPDATE_TOKEN_REQUEST,
     });
@@ -256,8 +257,8 @@ export const updateToken = () => {
       });
   };
 };
-export const forgotPswUser = (email: string) => {
-  return function (dispatch: any) {
+export const forgotPswUser: AppThunk = (email: string) => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: FORGOT_PASSWORD_REQUEST,
     });
@@ -277,8 +278,8 @@ export const forgotPswUser = (email: string) => {
   };
 };
 
-export const resetPswUser = (password: string, token: string) => {
-  return function (dispatch: any) {
+export const resetPswUser: AppThunk = (password: string, token: string) => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: RESET_PASSWORD_REQUEST,
     });
@@ -297,8 +298,8 @@ export const resetPswUser = (password: string, token: string) => {
       });
   };
 };
-export const exit = () => {
-  return function (dispatch: any) {
+export const exit: AppThunk = () => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: EXIT_REQUEST,
     });

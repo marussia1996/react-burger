@@ -1,4 +1,5 @@
 import { postOrderDetails } from "../../utils/api";
+import { AppDispatch, AppThunk } from "../types";
 import { TIngridientsIdArray } from "../types/data";
 import { CLEAR_INGREDIENTS } from "./currentIngredients";
 export const GET_ORDER_REQUEST: 'GET_ORDER_REQUEST' = "GET_ORDER_REQUEST";
@@ -22,8 +23,8 @@ export interface IClearOrder{
 
 export type TOrderActions = IGetOrderRequest | IGetOrderSuccess | IGetOrderFailed | IClearOrder;
 
-export const getOrder = (ingridientsIdArray: TIngridientsIdArray) => {
-  return function (dispatch: any) {
+export const getOrder: AppThunk = (ingridientsIdArray: TIngridientsIdArray) => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: GET_ORDER_REQUEST,
     });
@@ -31,7 +32,7 @@ export const getOrder = (ingridientsIdArray: TIngridientsIdArray) => {
       .then((res) => {
         dispatch({
           type: GET_ORDER_SUCCESS,
-          payload: res.order.number,
+          order: res.order.number,
         });
         dispatch({
           type: CLEAR_INGREDIENTS,
