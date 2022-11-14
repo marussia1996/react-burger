@@ -12,7 +12,7 @@ import image from '../../images/bun.png'
 import {ConstructorIngredient} from '../ConstructorIngredient/ConstructorIngredient'
 import { FC } from 'react';
 import { useDispatch, useSelector } from '../../services/hooks';
-import { TConstructorIngredient, TIngredient } from '../../services/types/data';
+import { TIngredient } from '../../services/types/data';
 
 type TBurgerConstructorProps = {
     openModalOrder: (() => void);
@@ -70,17 +70,17 @@ export const BurgerConstructor: FC<TBurgerConstructorProps> = ({openModalOrder})
         dispatch({type:ADD_INGREDIENT, payload: item})
     }
 
-    const [{ isHover }, dropTarget] = useDrop<TIngredient, void , {isHover: boolean}>({
+    const [{ isHover }, dropTarget] = useDrop<{ingredient:TIngredient}, void , {isHover: boolean}>({
         accept: 'ingredient',
         collect: (monitor) => ({
             isHover: monitor.isOver()
           }),
         drop(item){
-            if(item.type === 'bun'){
-                addBun(item);
+            if(item.ingredient.type === 'bun'){
+                addBun(item.ingredient);
             }
             else{
-                addIngredient(item);
+                addIngredient(item.ingredient);
             }
         }
     })
