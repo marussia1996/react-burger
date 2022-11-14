@@ -3,9 +3,11 @@ import { BurgerIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { ListIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { NavLink, Link, useLocation } from 'react-router-dom';
+import { TLocation } from '../../services/types/data';
 import styles from './AppHeader.module.css'
-export const AppHeader = () => {
-    const location = useLocation();
+import { FC } from 'react';
+export const AppHeader: FC = () => {
+    const location = useLocation<TLocation>();
     return (
     <header className={`${styles.header} pb-4 pt-4`}>
         <nav className={styles.navbar}>

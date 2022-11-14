@@ -1,15 +1,15 @@
 import { getCookie } from "../../utils/cookie";
+import { Middleware, MiddlewareAPI } from 'redux';
+import { TWsAllOrdersActions, TWsUserOrdersActions } from "../store";
 
-export const socketMiddleware = (wsUrl, wsActions) => {
-  return (store) => {
-    let socket = null;
+export const socketMiddleware = (wsUrl: string, wsActions: TWsUserOrdersActions | TWsAllOrdersActions): Middleware => {
+  return (store: MiddlewareAPI) => {
+    let socket: WebSocket | null = null;
 
     return (next) => (action) => {
       const { dispatch } = store;
       const { type, payload } = action;
       const {
-        wsInit,
-        wsInitUser,
         wsSendMessage,
         onOpen,
         onClose,
@@ -17,12 +17,12 @@ export const socketMiddleware = (wsUrl, wsActions) => {
         onMessage,
       } = wsActions;
       //узнаем какой ws инициализируем
-      if (type === wsInitUser) {
+      if (type === (wsActions as TWsUserOrdersActions).wsInitUser) {
         const authToken = getCookie("authToken");
         if (authToken) {
           socket = new WebSocket(`${wsUrl}?token=${authToken}`);
         }
-      } else if (type === wsInit) {
+      } else if (type === (wsActions as TWsAllOrdersActions).wsInit) {
         socket = new WebSocket(wsUrl);
       }
 

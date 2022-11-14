@@ -1,16 +1,17 @@
 import styles from './Login.module.css'
 import { Button, PasswordInput, Input } from '@ya.praktikum/react-developer-burger-ui-components'
-import { useState } from "react"
+import { ChangeEvent, FC, FormEvent, useState } from "react"
 import {Link, Redirect, useLocation} from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { authUser } from '../../services/actions/user';
-import { useSelector } from 'react-redux';
-export const Login = () =>{
+import { useDispatch, useSelector } from '../../services/hooks';
+import { TLocation } from '../../services/types/data';
+
+export const Login: FC = () =>{
     const [state, setState] = useState({
         email: "",
         password: '',
       });
-    const onChangeInputs = e => {
+    const onChangeInputs = (e: ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         const name = e.target.name;
         // Применяем вычисляемые имена свойств
@@ -22,11 +23,11 @@ export const Login = () =>{
     const dispatch = useDispatch();
     const user = useSelector(store=>store.user.user);
     const exitRequest = useSelector(store=>store.user.exitRequest);
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         dispatch(authUser(state.email, state.password));
     }
-    const location = useLocation();
+    const location = useLocation<TLocation>();
     if(user && !exitRequest){
         return (
             <Redirect to={location.state?.from || '/'} />
@@ -49,9 +50,9 @@ export const Login = () =>{
                     />
                 </div>
                 <div className={`${styles.input} mt-6 mb-6`}>
-                    <PasswordInput type={'password'} onChange={onChangeInputs} value={state.password} name={'password'} />
+                    <PasswordInput onChange={onChangeInputs} value={state.password} name={'password'} />
                 </div>
-                <Button disabled={!(state.email && state.password)} type="primary" size="medium">Войти</Button>
+                <Button htmlType='submit' disabled={!(state.email && state.password)} type="primary" size="medium">Войти</Button>
             </form>
             <p className={`text text_type_main-default text_color_inactive mt-20 mb-4`}>Вы — новый пользователь? <Link to='/register' className={`${styles.link}`}>Зарегистрироваться</Link></p>
             <p className={`text text_type_main-default text_color_inactive`}>Забыли пароль? <Link to={{ pathname: "/forgot-password", state: { from: location.pathname } }} className={`${styles.link}`}>Восстановить пароль</Link></p>

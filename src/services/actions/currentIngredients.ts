@@ -17,7 +17,7 @@ export interface IDeleteIngredient{
 }
 export interface IAddBun{
     readonly type: typeof ADD_BUN;
-    payload: string;
+    payload: TIngredient;
 }
 export interface ISwapIngredient{
     readonly type: typeof SWAP_INGREDIENT;

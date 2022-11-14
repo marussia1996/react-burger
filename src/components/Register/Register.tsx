@@ -1,11 +1,11 @@
 import styles from './Register.module.css'
 import { Button, PasswordInput, Input } from '@ya.praktikum/react-developer-burger-ui-components'
-import { useState } from "react"
+import { ChangeEvent, FC, FormEvent, useState } from "react"
 import {Link, Redirect} from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { registerUser } from '../../services/actions/user';
-import { useSelector } from 'react-redux';
-export const Register = () =>{
+import { useDispatch, useSelector } from '../../services/hooks';
+
+export const Register: FC = () =>{
     const [state, setState] = useState({
         name: '',
         email: '',
@@ -13,7 +13,7 @@ export const Register = () =>{
       });
     const user = useSelector(store=>store.user.user);
     const dispatch = useDispatch();
-    const onChangeInputs = e => {
+    const onChangeInputs = (e: ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         const name = e.target.name;
         // Применяем вычисляемые имена свойств
@@ -22,7 +22,7 @@ export const Register = () =>{
         [name]: value,
         });
     }
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         dispatch(registerUser(state.email, state.password, state.name));
     }
@@ -60,9 +60,9 @@ export const Register = () =>{
                     />
                 </div>
                 <div className={`${styles.input} mt-6 mb-6`}>
-                    <PasswordInput type={'password'} onChange={onChangeInputs} value={state.password} name={'password'} />
+                    <PasswordInput onChange={onChangeInputs} value={state.password} name={'password'} />
                 </div>
-                <Button disabled={!(state.email && state.password)} type="primary" size="medium">Зарегистрироваться</Button>
+                <Button htmlType='submit' disabled={!(state.email && state.password)} type="primary" size="medium">Зарегистрироваться</Button>
             </form>
             <p className={`text text_type_main-default text_color_inactive mt-20`}>Уже зарегистрированы? <Link to='/login' className={`${styles.link}`}>Войти</Link></p>
         </div>

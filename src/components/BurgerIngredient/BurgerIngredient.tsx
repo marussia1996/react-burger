@@ -4,11 +4,15 @@ import PropTypes from "prop-types";
 import styles from './BurgerIngredient.module.css'
 import { useDrag } from "react-dnd";
 import {dataType} from '../../utils/types'
-import { useMemo} from "react"
-import { useSelector } from 'react-redux';
+import { FC, useMemo} from "react"
 import { Link, useLocation } from 'react-router-dom';
-
-export const BurgerIngredient = ({ingredient, openModalIngredient}) => {
+import { TIngredient } from '../../services/types/data';
+import { useSelector } from '../../services/hooks';
+export type TBurgerIngredientProps = {
+    ingredient: TIngredient;
+    openModalIngredient: (ingredient: TIngredient) => void;
+}
+export const BurgerIngredient: FC <TBurgerIngredientProps> = ({ingredient, openModalIngredient}) => {
     const ingredients = useSelector(store=>store.currentIngredients.currentIngredients);
     const bun = useSelector(store=>store.currentIngredients.currentBun);
     const [{opacity},dragRef] = useDrag({
@@ -20,12 +24,14 @@ export const BurgerIngredient = ({ingredient, openModalIngredient}) => {
     })
     const location = useLocation();
     const setCounter = useMemo(() =>{
+        let counter: number = 0;
         if(ingredient.type === 'bun'){
-            return bun && ingredient._id === bun._id ? 2 : 0;
+            counter = (bun && ingredient._id === bun._id) ? 2 : 0;
         }
-        else{
-            return ingredients.length > 0 && ingredients.filter((element) => element.data._id === ingredient._id).length;
+        else if(ingredients.length > 0){
+            counter = ingredients.filter((element) => element.data._id === ingredient._id).length;
         }
+        return counter;
     }, [bun, ingredients, ingredient._id, ingredient.type]);
     return(
         <Link className={`${styles.link}`}
@@ -47,7 +53,7 @@ export const BurgerIngredient = ({ingredient, openModalIngredient}) => {
         </Link>
     );
 }
-BurgerIngredient.propTypes = {
-    ingredient: dataType.isRequired,
-    openModalIngredient: PropTypes.func.isRequired,
-};
+// BurgerIngredient.propTypes = {
+//     ingredient: dataType.isRequired,
+//     openModalIngredient: PropTypes.func.isRequired,
+// };

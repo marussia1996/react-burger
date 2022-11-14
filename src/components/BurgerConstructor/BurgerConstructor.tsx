@@ -5,13 +5,19 @@ import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import PropTypes from "prop-types";
 import styles from './BurgerConstructor.module.css'
 import { useCallback, useMemo } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+// import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
 import {ADD_BUN, ADD_INGREDIENT} from '../../services/actions/currentIngredients';
 import image from '../../images/bun.png'
 import {ConstructorIngredient} from '../ConstructorIngredient/ConstructorIngredient'
+import { FC } from 'react';
+import { useDispatch, useSelector } from '../../services/hooks';
+import { TConstructorIngredient, TIngredient } from '../../services/types/data';
 
-export const BurgerConstructor = ({openModalOrder}) => {
+type TBurgerConstructorProps = {
+    openModalOrder: (() => void);
+}
+export const BurgerConstructor: FC<TBurgerConstructorProps> = ({openModalOrder}) => {
     const ingredients = useSelector(store=>store.currentIngredients.currentIngredients);
     const bun = useSelector(store=>store.currentIngredients.currentBun);
     const dispatch = useDispatch();
@@ -20,8 +26,8 @@ export const BurgerConstructor = ({openModalOrder}) => {
             ingredients.reduce((acc, topping) =>  acc +  topping.data.price , 0));
         },[ingredients,bun]);
     
-    const bunRender = (position) =>{
-        let currentType = '';
+    const bunRender = (position: string) =>{
+        let currentType: "bottom" | "top" | undefined = undefined;
         if(position === '(низ)'){
             currentType = 'bottom';
         }
@@ -51,30 +57,30 @@ export const BurgerConstructor = ({openModalOrder}) => {
                 )
             }
     };
-    const isDisabledButton = useMemo(()=>{
+    const isDisabledButton = useMemo<boolean>(()=>{
         if(ingredients.length > 0 && bun)
             return false;
         else return true;
     }, [ingredients, bun]);
 
-    const addBun = (item) => {
+    const addBun = (item: TIngredient) => {
         dispatch({type: ADD_BUN, payload: item });
     }
-    const addIngredient = (item) =>{
-        dispatch({type:ADD_INGREDIENT, payload:item})
+    const addIngredient = (item: TIngredient) =>{
+        dispatch({type:ADD_INGREDIENT, payload: item})
     }
 
-    const [{ isHover }, dropTarget] = useDrop({
+    const [{ isHover }, dropTarget] = useDrop<TIngredient, void , {isHover: boolean}>({
         accept: 'ingredient',
-        collect: monitor => ({
+        collect: (monitor) => ({
             isHover: monitor.isOver()
           }),
         drop(item){
-            if(item.ingredient.type === 'bun'){
-                addBun(item.ingredient);
+            if(item.type === 'bun'){
+                addBun(item);
             }
             else{
-                addIngredient(item.ingredient);
+                addIngredient(item);
             }
         }
     })
@@ -117,7 +123,7 @@ export const BurgerConstructor = ({openModalOrder}) => {
                 <CurrencyIcon type="primary" />
             </div>
            
-            <Button type="primary" disabled={isDisabledButton} size="large" onClick={openModalOrder}>
+            <Button htmlType="button" type="primary" disabled={isDisabledButton} size="large" onClick={openModalOrder}>
                 Оформить заказ
             </Button> 
                  
@@ -125,7 +131,7 @@ export const BurgerConstructor = ({openModalOrder}) => {
       </section>
     );
   };
-BurgerConstructor.propTypes = {
-    openModalOrder: PropTypes.func.isRequired,
-};
+// BurgerConstructor.propTypes = {
+//     openModalOrder: PropTypes.func.isRequired,
+// };
 

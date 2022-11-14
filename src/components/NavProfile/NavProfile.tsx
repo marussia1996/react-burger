@@ -1,13 +1,14 @@
 import styles from './NavProfile.module.css'
 import { NavLink } from 'react-router-dom'
-import { useDispatch } from 'react-redux';
 import { exit } from '../../services/actions/user';
 import { deleteCookie } from '../../utils/cookie';
+import { useDispatch } from '../../services/hooks';
+import { FC } from 'react';
 
-export const NavProfile = () =>{
+export const NavProfile: FC = () =>{
     const dispatch = useDispatch();
     //выход из профиля
-    const handleExit = (e) =>{
+    const handleExit = () =>{
         dispatch(exit());
         deleteCookie('authToken');
         deleteCookie('refreshToken');

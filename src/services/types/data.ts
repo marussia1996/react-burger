@@ -8,9 +8,13 @@ export type TIngredient = {
     name: string;
     price: number;
     proteins: number;
-    type: string;
     __v: number;
     _id: string;
+    type: 'bun' | 'sauce' | 'main';
+}
+export type TConstructorIngredient = {
+    data: TIngredient;
+    uid: string;
 }
 export type TOrder = {
     createdAt: string;
@@ -48,3 +52,20 @@ export type TUserInfo = {
 }
 export type TIngridientsIdArray = Array<string>;
 export type TUser = {email: string, name: string};
+
+export type TLocation = {
+    hash: string;
+    pathname: string;
+    search: string;
+    state: object;
+    from?: string;
+    // background: {
+    //     pathname: string;
+    //     search: string;
+    //     hash: string;
+    //     state: null;
+    //     key: string;
+    // }
+    // from: string;
+    // state?: object;
+};

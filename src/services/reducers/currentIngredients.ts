@@ -11,7 +11,7 @@ import { TIngredient } from "../types/data";
 //тип исходного состояния
 type TInitialState = {
   currentIngredients: Array<{uid: string, data: TIngredient}>;
-  currentBun: string | null;
+  currentBun: TIngredient | null;
 };
 // Исходное состояние
 const initialState: TInitialState = {
