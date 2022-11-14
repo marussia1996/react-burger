@@ -19,7 +19,7 @@ export const CardOrder: FC<TCardOrderProps> = ({openModalOrderInfo, status, orde
     //поиск необходимых ингредиентов
     const filterIngredients = useMemo(() =>{
         return orderIngredients.map((ingredient)=>{
-            return allIngredients.find((ingr) => ingredient._id === ingr._id)
+            return allIngredients.find((ingr) => ingredient === ingr._id)
         })
     },[orderIngredients, allIngredients]);
     //формирование массива объектов ингредиента

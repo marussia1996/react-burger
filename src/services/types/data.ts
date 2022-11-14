@@ -19,7 +19,7 @@ export type TConstructorIngredient = {
 }
 export type TOrder = {
     createdAt: string;
-    ingredients: Array<TIngredient>;
+    ingredients: Array<string>;
     name: string;
     number: number;
     owner: {name: string; email: string; createdAt: string; updatedAt: string};
