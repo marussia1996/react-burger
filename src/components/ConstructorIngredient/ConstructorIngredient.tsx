@@ -1,13 +1,11 @@
 import {DragIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import {ConstructorElement} from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './ConstructorIngredient.module.css'
-import PropTypes from "prop-types";
-import {dataType} from '../../utils/types'
 import {DELETE_INGREDIENT, SWAP_INGREDIENT} from '../../services/actions/currentIngredients'
 import { useDispatch } from 'react-redux';
 import { useDrop, useDrag } from 'react-dnd';
 import {FC, useRef} from 'react'
-import { TConstructorIngredient, TIngredient } from '../../services/types/data';
+import { TConstructorIngredient } from '../../services/types/data';
 
 type TConstructorIngredientProps = {
     ingredient: TConstructorIngredient;
@@ -70,7 +68,3 @@ export const ConstructorIngredient: FC<TConstructorIngredientProps> = ({ingredie
         </div>
     );
 }
-// ConstructorIngredient.propTypes = {
-//     ingredient: dataType.isRequired,
-//     index: PropTypes.number,
-// };

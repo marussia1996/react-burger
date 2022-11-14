@@ -1,16 +1,17 @@
-import { useSelector } from "react-redux";
 import { useLocation, useParams } from "react-router-dom"
 import { Modal } from "../Modal/Modal"
 import { OrderInfo } from "../OrderInfo/OrderInfo"
-import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
-import { useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { wsConnectionClosedAllOrders, wsConnectionOpenAllOrders } from "../../services/actions/wsAllOrders";
 import { wsConnectionClosedUserOrders, wsConnectionOpenUserOrders } from "../../services/actions/wsUserOrders";
-
-export const OrderInfoModal = ({closeModalOrderInfo}) =>{
-    const {id} = useParams();
-    const location = useLocation();
+import { TLocation } from "../../services/types/data";
+import { useDispatch, useSelector } from "../../services/hooks";
+type TOrderInfoModalProps = {
+    closeModalOrderInfo: ()=>void;
+}
+export const OrderInfoModal: FC<TOrderInfoModalProps> = ({closeModalOrderInfo}) =>{
+    const {id} = useParams<{id: string}>();
+    const location = useLocation<TLocation>();
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(wsConnectionOpenUserOrders())
@@ -35,6 +36,3 @@ export const OrderInfoModal = ({closeModalOrderInfo}) =>{
 		</Modal>
     )
 }
-OrderInfoModal.propTypes = {
-    closeModalOrderInfo: PropTypes.func.isRequired,
-};

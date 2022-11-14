@@ -1,5 +1,6 @@
+import { FC } from "react"
 import { Login } from "../components/Login/Login"
-export function LoginPage() {
+export const LoginPage:FC = () => {
     return (
         <Login/>
     )

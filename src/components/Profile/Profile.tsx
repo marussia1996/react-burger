@@ -1,10 +1,9 @@
 import styles from './Profile.module.css';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components'
-import { useState, useRef, useEffect } from "react"
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
+import { useState, useRef, useEffect, ChangeEvent, FormEvent, SyntheticEvent } from "react"
 import { updateUser, getUser } from '../../services/actions/user';
 import { NavProfile } from '../NavProfile/NavProfile';
+import { useDispatch, useSelector } from '../../services/hooks';
 
 export const Profile = () =>{
     const user = useSelector(store=>store.user.user);
@@ -12,13 +11,13 @@ export const Profile = () =>{
 	const expiredToken = useSelector(store=>store.user.expiredToken);
     const dispatch = useDispatch();
     const [state, setState] = useState({
-        name: user.name,
-        email: user.email,
+        name: '',
+        email: '',
         password: '',
     });
-    const nameRef = useRef(null);
-    const passRef = useRef(null);
-    const emailRef = useRef(null);
+    const nameRef = useRef<HTMLInputElement>(null);
+    const passRef = useRef<HTMLInputElement>(null);
+    const emailRef = useRef<HTMLInputElement>(null);
     //при монтировании получаем данные пользователя
     useEffect(()=>{
         dispatch(getUser());
@@ -29,17 +28,27 @@ export const Profile = () =>{
 			dispatch(updateUser(state.name,state.email,state.password));
 		}
 	},[dispatch, expiredToken, updateFailed, state.name,state.email,state.password])
+    //при монтировании заполняем данные, если они есть
+    useEffect(()=>{
+        if(user){
+            setState({
+                name: user.name,
+                email: user.email,
+                password: '',
+            })
+        }
+    },[setState, user])
     //функии взаимодействия с inputs
     const nameClick  = () => {
-        setTimeout(() => nameRef.current.focus(), 0)
+        setTimeout(() => nameRef.current?.focus(), 0)
     }
     const emailClick = () => {
-        setTimeout(() => emailRef.current.focus(), 0)
+        setTimeout(() => emailRef.current?.focus(), 0)
     }
     const passwordClick = () => {
-        setTimeout(() => passRef.current.focus(), 0)
+        setTimeout(() => passRef.current?.focus(), 0)
     }
-    const onChangeInputs = e => {
+    const onChangeInputs = (e: ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         const name = e.target.name;
         // Применяем вычисляемые имена свойств
@@ -49,14 +58,14 @@ export const Profile = () =>{
         });
     }
     //отправка формы
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         dispatch(updateUser(state.name,state.email,state.password));
     }
     //сброс формы
-    const handleReset = (e) =>{
+    const handleReset = (e: SyntheticEvent<Element, Event>) =>{
         e.preventDefault();
-        setState({
+        user && setState({
             ...state,
             name: user.name,
             email: user.email,
@@ -114,8 +123,8 @@ export const Profile = () =>{
                     />
                 </div>
                 <div className={`${styles.buttons}`}>
-                    <Button type="secondary" size="medium" onClick={handleReset}>Отмена</Button>
-                    <Button disabled={!(state.name && state.email && state.password)} type="primary" size="medium" >Сохранить</Button>
+                    <Button htmlType='reset' type="secondary" size="medium" onClick={handleReset}>Отмена</Button>
+                    <Button htmlType='submit' disabled={!(state.name && state.email && state.password)} type="primary" size="medium" >Сохранить</Button>
                 </div>
             </form>
         </div>

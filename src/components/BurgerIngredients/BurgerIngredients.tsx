@@ -2,14 +2,14 @@ import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
 import { useEffect, useMemo} from "react"
 import { Scrollbars } from 'react-custom-scrollbars'
 import { useInView } from "react-intersection-observer";
-import PropTypes from "prop-types";
 import styles from './BurgerIngredients.module.css'
 import {SET_CURRENT_TAB} from '../../services/actions/listIngredients'
 import { BurgerIngredient } from '../BurgerIngredient/BurgerIngredient'
 import { useDispatch, useSelector } from '../../services/hooks';
 import { FC } from 'react';
+import { TIngredient } from '../../services/types/data';
 export type TBurgerIngredientsProps = {
-    openModalIngredient: (() => void);
+    openModalIngredient: ((ingredient: TIngredient) => void);
 }
 export const BurgerIngredients:FC<TBurgerIngredientsProps> = ({openModalIngredient}) => {
     const ingredients = useSelector(store=>store.listIngredients.ingredients);
@@ -97,6 +97,3 @@ export const BurgerIngredients:FC<TBurgerIngredientsProps> = ({openModalIngredie
         </section>
     );
 }
-// BurgerIngredients.propTypes = {
-//     openModalIngredient: PropTypes.func.isRequired,
-// };

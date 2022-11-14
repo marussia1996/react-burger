@@ -2,17 +2,17 @@ import styles from './OrderInfo.module.css'
 import { Scrollbars } from 'react-custom-scrollbars'
 import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import { useLocation, useParams} from 'react-router-dom'
-import { useSelector } from 'react-redux'
 import { formatDate } from '../../utils/formatDate'
 import { statusName } from '../../utils/statusOrder'
-import { useCallback, useEffect, useMemo } from 'react'
-import { useDispatch } from 'react-redux'
+import { FC, useCallback, useEffect, useMemo } from 'react'
 import { wsConnectionClosedAllOrders, wsConnectionOpenAllOrders } from "../../services/actions/wsAllOrders";
 import { wsConnectionClosedUserOrders, wsConnectionOpenUserOrders } from "../../services/actions/wsUserOrders";
+import { TIngredient, TLocation } from '../../services/types/data'
+import { useDispatch, useSelector } from '../../services/hooks'
 
-export const OrderInfo = () => {
-    const {id} = useParams();
-    const location = useLocation();
+export const OrderInfo: FC = () => {
+    const {id} = useParams<{id: string}>();
+    const location = useLocation<TLocation>();
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(wsConnectionOpenUserOrders())
@@ -44,7 +44,7 @@ export const OrderInfo = () => {
     //поиск необходимых ингредиентов
     const filterIngredients = useMemo(() =>{
         return orderIngredients?.map((ingredient)=>{
-            return allIngredients.find((ingr) => ingredient === ingr._id)
+            return allIngredients.find((ingr) => ingredient._id === ingr._id)
         })
     },[orderIngredients, allIngredients]);
     //формирование массива объектов ингредиента
@@ -53,7 +53,7 @@ export const OrderInfo = () => {
     },[filterIngredients]);
     //проверка содержимого массива ингредиентов
     const validIngredients = useMemo(()=>{
-        const valideArr = [];
+        const valideArr: Array<TIngredient> = [];
         arrayIngredients?.forEach((ingredient)=>{
             if(ingredient){
                 valideArr.push(ingredient);
@@ -62,7 +62,7 @@ export const OrderInfo = () => {
         return valideArr;
     },[arrayIngredients]);
     //подсчет вхождения ингредиента в массиве ингредиентов
-    const amountIngredient = useCallback((ingredient) =>{
+    const amountIngredient = useCallback((ingredient: TIngredient) =>{
         let amount = 0;
         validIngredients?.forEach((ingr)=>{
             if(ingr._id === ingredient._id){
@@ -72,14 +72,14 @@ export const OrderInfo = () => {
         return amount;
     },[validIngredients])
     //содержится ли элемент в массиве
-    const isIngredient = (arr, ingredient) =>{
+    const isIngredient = (arr: Array<{data: TIngredient}>, ingredient: TIngredient) =>{
             return arr?.some((obj)=> 
                 obj.data._id === ingredient._id
             )
     }
     //формирование валидного массива ингредиентов с их количеством
     const arrayIngredientsAndAmount = useMemo(() =>{
-        const newArr = [];
+        const newArr: Array<{data: TIngredient, amount: number}> = [];
         validIngredients?.forEach((ingredient)=>{
             if(!isIngredient(newArr, ingredient)){
                 newArr.push({data: ingredient, amount: amountIngredient(ingredient)});
@@ -93,42 +93,44 @@ export const OrderInfo = () => {
         return ( validIngredients?.reduce((acc, ingr) => acc +  ingr.price , 0));
         },[validIngredients]);
     return (
-        (order &&
-        <div className={`${styles.section}`}>
-            {   !location.state &&
-                <h1 className={`${styles.number} text text_type_digits-default`}>{`#${order.number}`}</h1>
-            }
-            <h2 className='text text_type_main-medium mt-10 mb-3'>{order.name}</h2>
-            <p className={`${order.status === 'done' ? styles.doneColor : ''} text text_type_main-default`}>{statusName(order.status)}</p>
-            <h3 className='text text_type_main-medium mb-6 mt-15'>Состав:</h3>
-            <div className={`${styles.containerScroll}`}>
-                <Scrollbars universal 
-                    renderTrackVertical={props => <div {...props} className={styles.scrollTrack}/>}
-                    renderThumbVertical={props => <div {...props} className={styles.scrollThumb}/>}>
-                    { arrayIngredientsAndAmount &&
-                        arrayIngredientsAndAmount.map((ingredient)=>(
-                        <div key={ingredient.data._id} className={`${styles.ingredient} mr-8`}>
-                            <div className={`${styles.wrapper}`}>
-                                <img className={`${styles.image}`} src={ingredient.data.image} alt={`${ingredient.data.name}`}/>
-                                <p className='text text_type_main-default ml-4 mr-4'>{`${ingredient.data.name}`}</p>
+        <>
+        {order && (
+            <div className={`${styles.section}`}>
+                {   !location.state &&
+                    <h1 className={`${styles.number} text text_type_digits-default`}>{`#${order.number}`}</h1>
+                }
+                <h2 className='text text_type_main-medium mt-10 mb-3'>{order.name}</h2>
+                <p className={`${order.status === 'done' ? styles.doneColor : ''} text text_type_main-default`}>{statusName(order.status)}</p>
+                <h3 className='text text_type_main-medium mb-6 mt-15'>Состав:</h3>
+                <div className={`${styles.containerScroll}`}>
+                    <Scrollbars universal 
+                        renderTrackVertical={props => <div {...props} className={styles.scrollTrack}/>}
+                        renderThumbVertical={props => <div {...props} className={styles.scrollThumb}/>}>
+                        { arrayIngredientsAndAmount &&
+                            arrayIngredientsAndAmount.map((ingredient)=>(
+                            <div key={ingredient.data._id} className={`${styles.ingredient} mr-8`}>
+                                <div className={`${styles.wrapper}`}>
+                                    <img className={`${styles.image}`} src={ingredient.data.image} alt={`${ingredient.data.name}`}/>
+                                    <p className='text text_type_main-default ml-4 mr-4'>{`${ingredient.data.name}`}</p>
+                                </div>
+                                <div className={`${styles.total}`}>
+                                    <p className={`${styles.cost} text text_type_digits-default`}>{`${ingredient.amount} x ${ingredient.data.price}`}</p>
+                                    <CurrencyIcon type="primary" />
+                                </div>
                             </div>
-                            <div className={`${styles.total}`}>
-                                <p className={`${styles.cost} text text_type_digits-default`}>{`${ingredient.amount} x ${ingredient.data.price}`}</p>
-                                <CurrencyIcon type="primary" />
-                            </div>
-                        </div>
-                        ))
-                    }
-                </Scrollbars>
-            </div>
-            <div className={`${styles.info} mt-10`}>
-                <p className='text text_type_main-default text_color_inactive'>{formatDate(order.createdAt)}</p>
-                <div className={`${styles.total}`}>
-                    <p className={`${styles.cost} text text_type_digits-default`}>{totalPrice()}</p>
-                    <CurrencyIcon type="primary" />
+                            ))
+                        }
+                    </Scrollbars>
+                </div>
+                <div className={`${styles.info} mt-10`}>
+                    <p className='text text_type_main-default text_color_inactive'>{formatDate(order.createdAt)}</p>
+                    <div className={`${styles.total}`}>
+                        <p className={`${styles.cost} text text_type_digits-default`}>{totalPrice()}</p>
+                        <CurrencyIcon type="primary" />
+                    </div>
                 </div>
             </div>
-        </div>
-        )
+            )}
+        </>
     )
 } 

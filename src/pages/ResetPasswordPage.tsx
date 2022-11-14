@@ -1,5 +1,6 @@
+import { FC } from 'react'
 import {ResetPassword} from '../components/ResetPassword/ResetPassword'
-export function ResetPasswordPage() {
+export const ResetPasswordPage:FC = () => {
     return (
         <ResetPassword/>
     )

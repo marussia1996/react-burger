@@ -1,5 +1,6 @@
+import { FC } from "react"
 import { Register } from "../components/Register/Register"
-export function RegisterPage() {
+export const RegisterPage:FC = () => {
     return (
         <Register/>
     )

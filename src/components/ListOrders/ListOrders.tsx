@@ -1,11 +1,13 @@
 import styles from './ListOrders.module.css'
 import { Scrollbars } from 'react-custom-scrollbars'
 import { CardOrder } from '../CardOrder/CardOrder'
-import { useSelector } from 'react-redux'
-import { useMemo } from 'react'
-import PropTypes from "prop-types";
+import { FC, useMemo } from 'react'
+import { useSelector } from '../../services/hooks';
 
-export const ListOrders = ({openModalOrderInfo}) =>{
+type TListOrdersProps = {
+    openModalOrderInfo: ()=>void;
+}
+export const ListOrders: FC<TListOrdersProps> = ({openModalOrderInfo}) =>{
     const orders = useSelector(store=>store.wsAllOrders.orders);
     return (
         <section className={`${styles.section}`}>
@@ -25,6 +27,3 @@ export const ListOrders = ({openModalOrderInfo}) =>{
         </section>
     )
 }
-ListOrders.propTypes = {
-    openModalOrderInfo: PropTypes.func.isRequired,
-};

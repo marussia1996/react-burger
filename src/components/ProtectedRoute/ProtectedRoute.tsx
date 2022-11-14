@@ -1,7 +1,12 @@
 import { Route, Redirect, useLocation } from 'react-router-dom';
-import { useSelector } from "react-redux";
-
-export const ProtectedRoute = ({ children, ...rest }) => {
+import { FC, ReactNode } from 'react';
+import { useSelector } from '../../services/hooks';
+type TProtectedRouteProps = {
+    children: ReactNode;
+    exact?: boolean;
+    path: string;
+}
+export const ProtectedRoute: FC<TProtectedRouteProps> = ({ children, ...rest }) => {
     const user = useSelector(store => store.user.user);
     const location = useLocation();
     return (

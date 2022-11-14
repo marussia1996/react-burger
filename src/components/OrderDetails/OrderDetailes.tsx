@@ -1,6 +1,5 @@
 import styles from './OrderDetails.module.css'
 import image from '../../images/done.png'
-import PropTypes from "prop-types";
 import { FC } from 'react';
 
 export const OrderDetails: FC<{order: number}> = ({order}) => {
@@ -35,6 +34,3 @@ export const OrderDetails: FC<{order: number}> = ({order}) => {
     
     )
 }
-// OrderDetails.propTypes = {
-//     order: PropTypes.number,
-// }

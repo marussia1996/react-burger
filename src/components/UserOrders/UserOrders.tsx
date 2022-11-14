@@ -2,13 +2,13 @@ import styles from './UserOrders.module.css'
 import { Scrollbars } from 'react-custom-scrollbars'
 import { CardOrder } from '../CardOrder/CardOrder'
 import { NavProfile } from '../NavProfile/NavProfile';
-import { useDispatch } from 'react-redux';
-import { useEffect, useMemo } from 'react';
+import { FC, useEffect, useMemo } from 'react';
 import { wsConnectionClosedUserOrders, wsConnectionOpenUserOrders } from '../../services/actions/wsUserOrders';
-import { useSelector } from 'react-redux';
-import PropTypes from "prop-types";
-
-export const UserOrders = ({openModalOrderInfo}) =>{
+import { useDispatch, useSelector } from '../../services/hooks';
+type TUserOrdersProps ={
+    openModalOrderInfo: ()=>void;
+}
+export const UserOrders: FC<TUserOrdersProps> = ({openModalOrderInfo}) =>{
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(wsConnectionOpenUserOrders())
@@ -44,6 +44,3 @@ export const UserOrders = ({openModalOrderInfo}) =>{
         </section>
     )
 }
-UserOrders.propTypes = {
-    openModalOrderInfo: PropTypes.func.isRequired,
-};

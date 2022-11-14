@@ -1,7 +1,7 @@
-import { useMemo } from 'react';
-import { useSelector } from 'react-redux'
+import { FC, useMemo } from 'react';
+import { useSelector } from '../../services/hooks';
 import styles from './WorkOrders.module.css'
-export const WorkOrders = () =>{
+export const WorkOrders: FC = () =>{
     const orders = useSelector(store=>store.wsAllOrders.orders);
     const total = useSelector(store=>store.wsAllOrders.total);
     const totalToday = useSelector(store=>store.wsAllOrders.totalToday);

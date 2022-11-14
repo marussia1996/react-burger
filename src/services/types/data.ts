@@ -11,6 +11,7 @@ export type TIngredient = {
     __v: number;
     _id: string;
     type: 'bun' | 'sauce' | 'main';
+    key: string;
 }
 export type TConstructorIngredient = {
     data: TIngredient;
@@ -59,13 +60,11 @@ export type TLocation = {
     search: string;
     state: object;
     from?: string;
-    // background: {
-    //     pathname: string;
-    //     search: string;
-    //     hash: string;
-    //     state: null;
-    //     key: string;
-    // }
-    // from: string;
-    // state?: object;
+    background: {
+        pathname: string;
+        search: string;
+        hash: string;
+        state: null;
+        key: string;
+    }
 };

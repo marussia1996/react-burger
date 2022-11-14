@@ -1,5 +1,6 @@
+import { FC } from "react"
 import { Profile } from "../components/Profile/Profile"
-export function ProfilePage() {
+export const ProfilePage:FC = () => {
     return (
         <Profile/>
     )

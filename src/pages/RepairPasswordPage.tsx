@@ -1,5 +1,6 @@
+import { FC } from 'react'
 import {ForgotPassword} from '../components/ForgotPassword/ForgotPassword'
-export function RepairPasswordPage() {
+export const RepairPasswordPage: FC = () => {
     return (
         <ForgotPassword/>
     )

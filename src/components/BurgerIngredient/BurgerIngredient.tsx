@@ -1,9 +1,7 @@
 import {Counter} from '@ya.praktikum/react-developer-burger-ui-components'
 import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
-import PropTypes from "prop-types";
 import styles from './BurgerIngredient.module.css'
 import { useDrag } from "react-dnd";
-import {dataType} from '../../utils/types'
 import { FC, useMemo} from "react"
 import { Link, useLocation } from 'react-router-dom';
 import { TIngredient } from '../../services/types/data';
@@ -53,7 +51,3 @@ export const BurgerIngredient: FC <TBurgerIngredientProps> = ({ingredient, openM
         </Link>
     );
 }
-// BurgerIngredient.propTypes = {
-//     ingredient: dataType.isRequired,
-//     openModalIngredient: PropTypes.func.isRequired,
-// };

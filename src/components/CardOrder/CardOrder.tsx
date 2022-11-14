@@ -1,21 +1,25 @@
 import styles from './CardOrder.module.css'
 import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import { Link, useLocation } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { useCallback, useMemo } from 'react'
+import { FC, useCallback, useMemo } from 'react'
 import { formatDate } from '../../utils/formatDate'
 import { statusName } from '../../utils/statusOrder'
-import PropTypes from "prop-types";
-import { orderType } from '../../utils/types'
 import uuid from 'react-uuid'
-export const CardOrder = ({openModalOrderInfo, status, order}) =>{
+import { TIngredient, TOrder } from '../../services/types/data'
+import { useSelector } from '../../services/hooks'
+type TCardOrderProps = {
+    openModalOrderInfo: ()=>void;
+    status: boolean;
+    order: TOrder;
+}
+export const CardOrder: FC<TCardOrderProps> = ({openModalOrderInfo, status, order}) =>{
     const location = useLocation();
     const orderIngredients = order.ingredients;
     const allIngredients = useSelector(store=>store.listIngredients.ingredients);
     //поиск необходимых ингредиентов
     const filterIngredients = useMemo(() =>{
         return orderIngredients.map((ingredient)=>{
-            return allIngredients.find((ingr) => ingredient === ingr._id)
+            return allIngredients.find((ingr) => ingredient._id === ingr._id)
         })
     },[orderIngredients, allIngredients]);
     //формирование массива объектов ингредиента
@@ -24,7 +28,7 @@ export const CardOrder = ({openModalOrderInfo, status, order}) =>{
     },[filterIngredients]);
     //проверка содержимого массива ингредиентов
     const validIngredients = useMemo(()=>{
-        const valideArr = [];
+        const valideArr: Array<TIngredient> = [];
         arrayIngredients.forEach((ingredient)=>{
             if(ingredient){
                 valideArr.push({...ingredient, key: uuid()});
@@ -33,8 +37,8 @@ export const CardOrder = ({openModalOrderInfo, status, order}) =>{
         return valideArr;
     },[arrayIngredients]);
     //виден ли последний элемент
-    let isVisibleCounter = false;
-    let deltaCounter = 0;
+    let isVisibleCounter: boolean = false;
+    let deltaCounter: number = 0;
     //видимые ингредиенты
     const visibleIngredients = useMemo(()=>{
         if(validIngredients.length > 6){
@@ -83,8 +87,3 @@ export const CardOrder = ({openModalOrderInfo, status, order}) =>{
         </Link>
     )
 }
-CardOrder.propTypes = {
-    openModalOrderInfo: PropTypes.func.isRequired,
-    status: PropTypes.bool.isRequired,
-    order: orderType.isRequired,
-};

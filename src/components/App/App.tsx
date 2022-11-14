@@ -8,8 +8,7 @@ import { RepairPasswordPage } from '../../pages/RepairPasswordPage'
 import { ResetPasswordPage } from '../../pages/ResetPasswordPage';
 import { ProfilePage } from '../../pages/ProfilePage';
 import { ProtectedRoute } from '../ProtectedRoute/ProtectedRoute';
-import {useEffect, useCallback} from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import {useEffect, useCallback, FC} from 'react'
 import { getCookie } from '../../utils/cookie';
 import { exit, getUser, updateToken } from '../../services/actions/user';
 import { NotFound404Page } from '../../pages/NotFound404Page';
@@ -26,7 +25,9 @@ import { OrderInfoPage } from '../../pages/OrderInfoPage';
 import { UserOrdersPage } from '../../pages/UserOrdersPage';
 import { CLOSE_MODAL, OPEN_MODAL } from '../../services/actions/modal';
 import { OrderInfoModal } from '../OrderInfoModal/OrderInfoModal';
-export const App = () => {
+import { useDispatch, useSelector } from '../../services/hooks';
+import { TIngredient, TLocation } from '../../services/types/data';
+export const App:FC = () => {
 	const user = useSelector(store => store.user.user);
     const dispatch = useDispatch();
 	const authToken = getCookie('authToken');
@@ -60,7 +61,7 @@ export const App = () => {
 	},[dispatch, expiredToken, userFailed, tokenFailed])
 	
 	//для открытия модальных окон
-	const location = useLocation();
+	const location = useLocation<TLocation>();
 	const history = useHistory();
 	const background = location.state && location.state?.background;
 	const order = useSelector(store=>store.order.order);
@@ -73,7 +74,7 @@ export const App = () => {
 
 	
 	//открытие && закрытие модального окна ингредиента
-	const openModalIngredient = (ingredient) => {
+	const openModalIngredient = (ingredient: TIngredient) => {
 		dispatch({type: GET_INGREDIENT, payload: ingredient})
 		dispatch({type: OPEN_MODAL});
 	}
@@ -84,7 +85,7 @@ export const App = () => {
 	};
 	//взятие всех Id выбранных ингредиентов
 	const getIdIngredients = useCallback(() =>{
-		return currentIngredients.map((ingredient)=>ingredient.data._id).concat(currentBun._id).concat(currentBun._id).reverse()
+		return currentBun && currentIngredients.map((ingredient)=>ingredient.data._id).concat(currentBun._id).concat(currentBun._id).reverse()
 	}, [currentBun, currentIngredients]);
 	//открытие && закрытие модального окна заказа
 	const openModalOrder = () => {

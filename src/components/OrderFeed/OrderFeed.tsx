@@ -1,11 +1,13 @@
-import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { FC, useEffect } from 'react'
 import { wsConnectionClosedAllOrders, wsConnectionOpenAllOrders } from '../../services/actions/wsAllOrders'
 import { ListOrders } from '../ListOrders/ListOrders'
 import { WorkOrders } from '../WorkOrders/WorkOrders'
 import styles from './OrderFeed.module.css'
-import PropTypes from "prop-types";
-export const OrderFeed = ({openModalOrderInfo}) =>{
+import { useDispatch } from '../../services/hooks'
+type TOrderFeedProps = {
+    openModalOrderInfo: ()=>void;
+}
+export const OrderFeed: FC<TOrderFeedProps> = ({openModalOrderInfo}) =>{
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(wsConnectionOpenAllOrders())
@@ -23,6 +25,3 @@ export const OrderFeed = ({openModalOrderInfo}) =>{
         </section>
     )
 }
-OrderFeed.propTypes = {
-    openModalOrderInfo: PropTypes.func.isRequired,
-};

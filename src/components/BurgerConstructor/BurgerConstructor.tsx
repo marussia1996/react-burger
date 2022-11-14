@@ -2,10 +2,8 @@ import {Button} from '@ya.praktikum/react-developer-burger-ui-components'
 import {ConstructorElement} from '@ya.praktikum/react-developer-burger-ui-components'
 import { Scrollbars } from 'react-custom-scrollbars'
 import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
-import PropTypes from "prop-types";
 import styles from './BurgerConstructor.module.css'
 import { useCallback, useMemo } from 'react'
-// import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
 import {ADD_BUN, ADD_INGREDIENT} from '../../services/actions/currentIngredients';
 import image from '../../images/bun.png'
@@ -131,7 +129,4 @@ export const BurgerConstructor: FC<TBurgerConstructorProps> = ({openModalOrder})
       </section>
     );
   };
-// BurgerConstructor.propTypes = {
-//     openModalOrder: PropTypes.func.isRequired,
-// };
 
