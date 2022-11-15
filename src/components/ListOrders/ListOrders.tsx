@@ -2,7 +2,7 @@ import styles from './ListOrders.module.css'
 import { Scrollbars } from 'react-custom-scrollbars'
 import { CardOrder } from '../CardOrder/CardOrder'
 import { FC, useMemo } from 'react'
-import { useSelector } from '../../services/hooks';
+import { useSelector } from '../../services/hooks/useDispatch&Selector';
 
 type TListOrdersProps = {
     openModalOrderInfo: ()=>void;

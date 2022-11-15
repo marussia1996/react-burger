@@ -2,7 +2,7 @@ import styles from './NavProfile.module.css'
 import { NavLink } from 'react-router-dom'
 import { exit } from '../../services/actions/user';
 import { deleteCookie } from '../../utils/cookie';
-import { useDispatch } from '../../services/hooks';
+import { useDispatch } from '../../services/hooks/useDispatch&Selector';
 import { FC } from 'react';
 
 export const NavProfile: FC = () =>{

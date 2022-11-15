@@ -6,7 +6,7 @@ import { formatDate } from '../../utils/formatDate'
 import { statusName } from '../../utils/statusOrder'
 import uuid from 'react-uuid'
 import { TIngredient, TOrder } from '../../services/types/data'
-import { useSelector } from '../../services/hooks'
+import { useSelector } from '../../services/hooks/useDispatch&Selector'
 type TCardOrderProps = {
     openModalOrderInfo: ()=>void;
     status: boolean;

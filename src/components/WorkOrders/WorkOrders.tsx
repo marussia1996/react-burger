@@ -1,5 +1,5 @@
 import { FC, useMemo } from 'react';
-import { useSelector } from '../../services/hooks';
+import { useSelector } from '../../services/hooks/useDispatch&Selector';
 import styles from './WorkOrders.module.css'
 export const WorkOrders: FC = () =>{
     const orders = useSelector(store=>store.wsAllOrders.orders);

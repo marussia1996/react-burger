@@ -5,7 +5,7 @@ import { useDrag } from "react-dnd";
 import { FC, useMemo} from "react"
 import { Link, useLocation } from 'react-router-dom';
 import { TIngredient } from '../../services/types/data';
-import { useSelector } from '../../services/hooks';
+import { useSelector } from '../../services/hooks/useDispatch&Selector';
 export type TBurgerIngredientProps = {
     ingredient: TIngredient;
     openModalIngredient: (ingredient: TIngredient) => void;

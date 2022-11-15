@@ -9,7 +9,7 @@ import {ADD_BUN, ADD_INGREDIENT} from '../../services/actions/currentIngredients
 import image from '../../images/bun.png'
 import {ConstructorIngredient} from '../ConstructorIngredient/ConstructorIngredient'
 import { FC } from 'react';
-import { useDispatch, useSelector } from '../../services/hooks';
+import { useDispatch, useSelector } from '../../services/hooks/useDispatch&Selector';
 import { TIngredient } from '../../services/types/data';
 
 type TBurgerConstructorProps = {

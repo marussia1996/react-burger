@@ -5,7 +5,7 @@ import { useInView } from "react-intersection-observer";
 import styles from './BurgerIngredients.module.css'
 import {SET_CURRENT_TAB} from '../../services/actions/listIngredients'
 import { BurgerIngredient } from '../BurgerIngredient/BurgerIngredient'
-import { useDispatch, useSelector } from '../../services/hooks';
+import { useDispatch, useSelector } from '../../services/hooks/useDispatch&Selector';
 import { FC } from 'react';
 import { TIngredient } from '../../services/types/data';
 export type TBurgerIngredientsProps = {

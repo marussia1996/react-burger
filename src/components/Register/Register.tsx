@@ -1,30 +1,22 @@
 import styles from './Register.module.css'
 import { Button, PasswordInput, Input } from '@ya.praktikum/react-developer-burger-ui-components'
-import { ChangeEvent, FC, FormEvent, useState } from "react"
+import { FC, FormEvent } from "react"
 import {Link, Redirect} from 'react-router-dom';
 import { registerUser } from '../../services/actions/user';
-import { useDispatch, useSelector } from '../../services/hooks';
+import { useDispatch, useSelector } from '../../services/hooks/useDispatch&Selector';
+import { useForm } from '../../services/hooks/useForm';
 
 export const Register: FC = () =>{
-    const [state, setState] = useState({
+    const {values, handleChange} = useForm({
         name: '',
-        email: '',
+        email: "",
         password: '',
-      });
+    });
     const user = useSelector(store=>store.user.user);
     const dispatch = useDispatch();
-    const onChangeInputs = (e: ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        const name = e.target.name;
-        // Применяем вычисляемые имена свойств
-        setState({
-        ...state,
-        [name]: value,
-        });
-    }
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        dispatch(registerUser(state.email, state.password, state.name));
+        dispatch(registerUser(values.email, values.password, values.name));
     }
     if(user){
         return (
@@ -40,8 +32,8 @@ export const Register: FC = () =>{
                         placeholder="Имя"
                         name="name"
                         type="text"
-                        onChange={onChangeInputs}
-                        value={state.name}
+                        onChange={handleChange}
+                        value={values.name}
                         error={false}
                         errorText="Ошибка"
                         size="default"
@@ -52,17 +44,17 @@ export const Register: FC = () =>{
                         placeholder="Email"
                         name="email"
                         type="email"
-                        onChange={onChangeInputs}
-                        value={state.email}
+                        onChange={handleChange}
+                        value={values.email}
                         error={false}
                         errorText="Ошибка"
                         size="default"
                     />
                 </div>
                 <div className={`${styles.input} mt-6 mb-6`}>
-                    <PasswordInput onChange={onChangeInputs} value={state.password} name={'password'} />
+                    <PasswordInput onChange={handleChange} value={values.password} name={'password'} />
                 </div>
-                <Button htmlType='submit' disabled={!(state.email && state.password)} type="primary" size="medium">Зарегистрироваться</Button>
+                <Button htmlType='submit' disabled={!(values.email && values.password)} type="primary" size="medium">Зарегистрироваться</Button>
             </form>
             <p className={`text text_type_main-default text_color_inactive mt-20`}>Уже зарегистрированы? <Link to='/login' className={`${styles.link}`}>Войти</Link></p>
         </div>

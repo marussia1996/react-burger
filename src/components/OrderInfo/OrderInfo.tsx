@@ -8,7 +8,7 @@ import { FC, useCallback, useEffect, useMemo } from 'react'
 import { wsConnectionClosedAllOrders, wsConnectionOpenAllOrders } from "../../services/actions/wsAllOrders";
 import { wsConnectionClosedUserOrders, wsConnectionOpenUserOrders } from "../../services/actions/wsUserOrders";
 import { TIngredient, TLocation } from '../../services/types/data'
-import { useDispatch, useSelector } from '../../services/hooks'
+import { useDispatch, useSelector } from '../../services/hooks/useDispatch&Selector'
 
 export const OrderInfo: FC = () => {
     const {id} = useParams<{id: string}>();

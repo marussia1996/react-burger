@@ -1,30 +1,22 @@
 import styles from './ResetPassword.module.css'
 import { Button, PasswordInput, Input } from '@ya.praktikum/react-developer-burger-ui-components'
-import { ChangeEvent, FC, FormEvent, useState } from "react"
+import { FC, FormEvent } from "react"
 import {Link, Redirect, useLocation} from 'react-router-dom';
 import { resetPswUser } from '../../services/actions/user';
-import { useDispatch, useSelector } from '../../services/hooks';
+import { useDispatch, useSelector } from '../../services/hooks/useDispatch&Selector';
 import { TLocation } from '../../services/types/data';
+import { useForm } from '../../services/hooks/useForm';
 
 export const ResetPassword: FC = () =>{
-    const [state, setState] = useState({
+    const {values, handleChange} = useForm({
         password: '',
         token: ''
-      });
+    });
     const dispatch = useDispatch();
     const resetSuccess = useSelector(store=>store.user.resetPswSuccess);
-    const onChangeInputs = (e: ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        const name = e.target.name;
-        // Применяем вычисляемые имена свойств
-        setState({
-        ...state,
-        [name]: value,
-        });
-    }
     const handleSubmit = (e:FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        dispatch(resetPswUser(state.password, state.token));
+        dispatch(resetPswUser(values.password, values.token));
     }
     const location = useLocation<TLocation>();
     if(location.state?.from !== '/forgot-password'){
@@ -42,21 +34,21 @@ export const ResetPassword: FC = () =>{
             <h1 className={`${styles.title} text text_type_main-medium`}>Восстановление пароля</h1>
             <form className={`${styles.form}`} onSubmit={handleSubmit}>
                 <div className={`${styles.input} mt-6`}>
-                    <PasswordInput  placeholder="Введите новый пароль" onChange={onChangeInputs} value={state.password} name={'password'} />
+                    <PasswordInput  placeholder="Введите новый пароль" onChange={handleChange} value={values.password} name={'password'} />
                 </div>
                 <div className={`${styles.input} mt-6 mb-6`}>
                     <Input
                         placeholder="Введите код из письма"
                         name="token"
                         type="text"
-                        onChange={onChangeInputs}
-                        value={state.token}
+                        onChange={handleChange}
+                        value={values.token}
                         error={false}
                         errorText="Ошибка"
                         size="default"
                     />
                 </div>
-                <Button htmlType='submit' disabled={!(state.token && state.password)} type="primary" size="medium">Сохранить</Button>
+                <Button htmlType='submit' disabled={!(values.token && values.password)} type="primary" size="medium">Сохранить</Button>
             </form>
             <p className={`text text_type_main-default text_color_inactive mt-20`}>Вспомнили пароль? <Link to='/login' className={`${styles.link}`}>Войти</Link></p>
         </div>

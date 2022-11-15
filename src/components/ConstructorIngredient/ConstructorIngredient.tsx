@@ -2,10 +2,10 @@ import {DragIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import {ConstructorElement} from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './ConstructorIngredient.module.css'
 import {DELETE_INGREDIENT, SWAP_INGREDIENT} from '../../services/actions/currentIngredients'
-import { useDispatch } from 'react-redux';
 import { useDrop, useDrag } from 'react-dnd';
 import {FC, useRef} from 'react'
 import { TConstructorIngredient } from '../../services/types/data';
+import { useDispatch } from '../../services/hooks/useDispatch&Selector';
 
 type TConstructorIngredientProps = {
     ingredient: TConstructorIngredient;

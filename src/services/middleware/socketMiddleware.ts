@@ -1,9 +1,10 @@
 import { getCookie } from "../../utils/cookie";
 import { Middleware, MiddlewareAPI } from 'redux';
 import { TWsAllOrdersActions, TWsUserOrdersActions } from "../store";
+import { AppDispatch, RootState } from "../types";
 
 export const socketMiddleware = (wsUrl: string, wsActions: TWsUserOrdersActions | TWsAllOrdersActions): Middleware => {
-  return (store: MiddlewareAPI) => {
+  return (store: MiddlewareAPI<AppDispatch, RootState>) => {
     let socket: WebSocket | null = null;
 
     return (next) => (action) => {

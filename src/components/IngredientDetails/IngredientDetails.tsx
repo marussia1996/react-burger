@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { useParams } from 'react-router-dom';
-import { useSelector } from '../../services/hooks';
+import { useSelector } from '../../services/hooks/useDispatch&Selector';
 import styles from './IngredientDetails.module.css'
 
 export const IngredientDetails: FC = () => {

@@ -13,7 +13,7 @@ type TMModalProps ={
 }
 export const Modal: FC<TMModalProps> = ({handleClose, title, styleTitle, children }) =>{
     useEffect(() => {
-        const handleEsc = (e: {key: string}) => {
+        const handleEsc = (e: KeyboardEvent) => {
             if(e.key === "Escape"){
                 handleClose();
             }

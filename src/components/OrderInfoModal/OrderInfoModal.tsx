@@ -5,7 +5,7 @@ import { FC, useEffect } from 'react';
 import { wsConnectionClosedAllOrders, wsConnectionOpenAllOrders } from "../../services/actions/wsAllOrders";
 import { wsConnectionClosedUserOrders, wsConnectionOpenUserOrders } from "../../services/actions/wsUserOrders";
 import { TLocation } from "../../services/types/data";
-import { useDispatch, useSelector } from "../../services/hooks";
+import { useDispatch, useSelector } from "../../services/hooks/useDispatch&Selector";
 type TOrderInfoModalProps = {
     closeModalOrderInfo: ()=>void;
 }

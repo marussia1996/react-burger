@@ -3,7 +3,7 @@ import {BurgerIngredients} from '../components/BurgerIngredients/BurgerIngredien
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { FC } from 'react';
-import { useSelector } from '../services/hooks';
+import { useSelector } from '../services/hooks/useDispatch&Selector';
 import { TIngredient } from '../services/types/data';
 type THomePageProps = {
 	openModalIngredient: (ingredient:TIngredient)=>void;

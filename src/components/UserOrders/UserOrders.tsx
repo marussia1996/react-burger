@@ -4,7 +4,7 @@ import { CardOrder } from '../CardOrder/CardOrder'
 import { NavProfile } from '../NavProfile/NavProfile';
 import { FC, useEffect, useMemo } from 'react';
 import { wsConnectionClosedUserOrders, wsConnectionOpenUserOrders } from '../../services/actions/wsUserOrders';
-import { useDispatch, useSelector } from '../../services/hooks';
+import { useDispatch, useSelector } from '../../services/hooks/useDispatch&Selector';
 type TUserOrdersProps ={
     openModalOrderInfo: ()=>void;
 }

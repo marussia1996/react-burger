@@ -1,31 +1,23 @@
 import styles from './Login.module.css'
 import { Button, PasswordInput, Input } from '@ya.praktikum/react-developer-burger-ui-components'
-import { ChangeEvent, FC, FormEvent, useState } from "react"
+import { FC, FormEvent } from "react"
 import {Link, Redirect, useLocation} from 'react-router-dom';
 import { authUser } from '../../services/actions/user';
-import { useDispatch, useSelector } from '../../services/hooks';
+import { useDispatch, useSelector } from '../../services/hooks/useDispatch&Selector';
 import { TLocation } from '../../services/types/data';
+import { useForm } from '../../services/hooks/useForm';
 
 export const Login: FC = () =>{
-    const [state, setState] = useState({
+    const {values, handleChange} = useForm({
         email: "",
         password: '',
       });
-    const onChangeInputs = (e: ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        const name = e.target.name;
-        // Применяем вычисляемые имена свойств
-        setState({
-        ...state,
-        [name]: value,
-        });
-    }
     const dispatch = useDispatch();
     const user = useSelector(store=>store.user.user);
     const exitRequest = useSelector(store=>store.user.exitRequest);
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        dispatch(authUser(state.email, state.password));
+        dispatch(authUser(values.email, values.password));
     }
     const location = useLocation<TLocation>();
     if(user && !exitRequest){
@@ -42,17 +34,17 @@ export const Login: FC = () =>{
                         placeholder="Email"
                         name="email"
                         type="email"
-                        onChange={onChangeInputs}
-                        value={state.email}
+                        onChange={handleChange}
+                        value={values.email}
                         error={false}
                         errorText="Ошибка"
                         size="default"
                     />
                 </div>
                 <div className={`${styles.input} mt-6 mb-6`}>
-                    <PasswordInput onChange={onChangeInputs} value={state.password} name={'password'} />
+                    <PasswordInput onChange={handleChange} value={values.password} name={'password'} />
                 </div>
-                <Button htmlType='submit' disabled={!(state.email && state.password)} type="primary" size="medium">Войти</Button>
+                <Button htmlType='submit' disabled={!(values.email && values.password)} type="primary" size="medium">Войти</Button>
             </form>
             <p className={`text text_type_main-default text_color_inactive mt-20 mb-4`}>Вы — новый пользователь? <Link to='/register' className={`${styles.link}`}>Зарегистрироваться</Link></p>
             <p className={`text text_type_main-default text_color_inactive`}>Забыли пароль? <Link to={{ pathname: "/forgot-password", state: { from: location.pathname } }} className={`${styles.link}`}>Восстановить пароль</Link></p>

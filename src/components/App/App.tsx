@@ -25,7 +25,7 @@ import { OrderInfoPage } from '../../pages/OrderInfoPage';
 import { UserOrdersPage } from '../../pages/UserOrdersPage';
 import { CLOSE_MODAL, OPEN_MODAL } from '../../services/actions/modal';
 import { OrderInfoModal } from '../OrderInfoModal/OrderInfoModal';
-import { useDispatch, useSelector } from '../../services/hooks';
+import { useDispatch, useSelector } from '../../services/hooks/useDispatch&Selector';
 import { TIngredient, TLocation } from '../../services/types/data';
 export const App:FC = () => {
 	const user = useSelector(store => store.user.user);

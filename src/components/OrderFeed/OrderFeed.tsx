@@ -3,7 +3,7 @@ import { wsConnectionClosedAllOrders, wsConnectionOpenAllOrders } from '../../se
 import { ListOrders } from '../ListOrders/ListOrders'
 import { WorkOrders } from '../WorkOrders/WorkOrders'
 import styles from './OrderFeed.module.css'
-import { useDispatch } from '../../services/hooks'
+import { useDispatch } from '../../services/hooks/useDispatch&Selector'
 type TOrderFeedProps = {
     openModalOrderInfo: ()=>void;
 }
